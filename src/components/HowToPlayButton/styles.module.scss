@@ -1,0 +1,30 @@
+@import '@/styles/abstracts/variables';
+
+.button {
+    width: 100%;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 15px;
+    background: linear-gradient(86.37deg, #d062ff 2.96%, #7bb0ff 99.68%), linear-gradient(90deg, #ed6ea0 0%, #ec8c69 100%);
+    box-shadow: 0 5px 15px rgba(201, 85, 255, 0.5019607843);
+    border-radius: 10px;
+    padding: 0px 20px;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.label {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium;
+}
+
+.description {
+    font-size: $font-size-small;
+    font-weight: $font-weight-regular;
+}

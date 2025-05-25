@@ -1,0 +1,32 @@
+@import '@/styles/abstracts/variables';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border-bottom: 1px solid rgba($white, 0.1);
+}
+
+.logo {
+    font-size: $font-size-large;
+    font-weight: $font-weight-medium;
+    letter-spacing: 2px;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+}
+
+.nav {
+    display: flex;
+    gap: 15px;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}

@@ -1,0 +1,98 @@
+@import '@/styles/abstracts/variables';
+
+.dropdown {
+  position: relative;
+}
+
+.trigger {
+  cursor: pointer;
+  user-select: none;
+}
+
+.content {
+  position: absolute;
+  min-width: 200px;
+  background-color: $main-blue;
+  border: 1px solid rgba($white, 0.1);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba($black, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  
+  max-height: 300px;
+  overflow-y: auto;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba($white, 0.05);
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba($white, 0.2);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba($white, 0.3);
+  }
+}
+
+.bottomLeft {
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  transform-origin: top left;
+}
+
+.bottomRight {
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  transform-origin: top right;
+}
+
+.topLeft {
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 8px;
+  transform-origin: bottom left;
+}
+
+.topRight {
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 8px;
+  transform-origin: bottom right;
+}
+
+.item {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: rgba($white, 0.05);
+  }
+  
+  &.active {
+    background-color: rgba($white, 0.1);
+  }
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba($white, 0.05);
+  }
+}
+
+.header {
+  padding: 10px 16px;
+  font-weight: $font-weight-medium;
+  border-bottom: 1px solid rgba($white, 0.1);
+}
+
+.footer {
+  padding: 10px 16px;
+  border-top: 1px solid rgba($white, 0.1);
+}

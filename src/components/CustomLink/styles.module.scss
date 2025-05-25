@@ -1,0 +1,124 @@
+@import '@/styles/abstracts/variables';
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: $main-font;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+.default {
+  color: $white;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.primary {
+  color: $white;
+  font-weight: $font-weight-medium;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: $white;
+    transition: width 0.3s ease;
+  }
+  
+  &:hover:after {
+    width: 100%;
+  }
+}
+
+.secondary {
+  color: rgba($white, 0.7);
+  
+  &:hover {
+    color: $white;
+  }
+}
+
+.nav {
+  color: $white;
+  font-weight: $font-weight-medium;
+  padding: 8px 16px;
+  border-radius: 4px;
+  
+  &:hover {
+    background-color: rgba($white, 0.1);
+  }
+}
+
+.button {
+  color: $white;
+  background-color: transparent;
+  border: 1px solid $white;
+  border-radius: 4px;
+  padding: 8px 16px;
+  text-align: center;
+  justify-content: center;
+  
+  &:hover {
+    background-color: $white;
+    color: $main-blue;
+  }
+}
+
+.small {
+  font-size: $font-size-small;
+  padding: 4px 8px;
+}
+
+.medium {
+  font-size: $font-size-medium;
+  padding: 8px 16px;
+}
+
+.large {
+  font-size: $font-size-large;
+  padding: 12px 24px;
+}
+
+.active {
+  font-weight: $font-weight-bold;
+  
+  &.nav {
+    background-color: rgba($white, 0.15);
+  }
+  
+  &.primary:after {
+    width: 100%;
+  }
+}
+
+.iconLeft {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.iconRight {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  display: inline-block;
+}

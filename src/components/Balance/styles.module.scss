@@ -1,0 +1,125 @@
+@import '@/styles/abstracts/variables';
+
+.balance {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.label {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium;
+    color: $white;
+}
+
+.value {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium;
+    color: $white;
+
+    &.real {
+        color: $green;
+    }
+
+    &.demo {
+        color: $yellow;
+    }
+}
+
+.trigger {
+    color: $yellow;
+}
+
+.dropdownContent {
+    padding: 10px;
+    min-width: 240px;
+}
+
+.balanceOptions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.balanceItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: rgba($white, 0.05);
+    }
+
+    &.active {
+        background-color: rgba($white, 0.1);
+      }
+}
+
+.balanceItemLeft {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid $white;
+}
+
+.activeCircle {
+    border: 2px solid $green;
+    position: relative;
+
+    &:after {
+        content: '';
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: $green;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.balanceValue {
+    font-weight: bold;
+    font-size: 18px;
+
+    &.real {
+        color: $green;
+    }
+
+    &.demo {
+        color: $yellow;
+    }
+}
+
+.arrow {
+    transition: transform 0.2s;
+}
+
+.open {
+    transform: rotate(180deg);
+}

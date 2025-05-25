@@ -1,0 +1,31 @@
+{
+  "translation": {
+    "game": "Game",
+    "leaders": "Leaders",
+    "rules": "Rules",
+    "balance": "Balance",
+    "cash": "Cash",
+    "real": "Real",
+    "realBalance": "Real balance",
+    "demo": "Demo",
+    "login": "Login",
+    "topPlayers": "Top players",
+    "motivateBest": "Motivate the best",
+    "howToPlay": "How to play",
+    "instructions": "Instructions",
+    "play": "Play",
+    "information": "Information",
+    "privacyPolicy": "Privacy policy",
+    "generalPosition": "General position",
+    "affiliateProgram": "Affiliate program",
+    "chat": "Chat",
+    "support": "Support",
+    "allRightReserved": "All rights reserved",
+    "live": "Live",
+    "players": "Players",
+    "name": "Name",
+    "spent": "Spent",
+    "numberOfBombs": "Number of bombs",
+    "prize": "Prize"
+  }
+}

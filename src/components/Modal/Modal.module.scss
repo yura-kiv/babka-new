@@ -1,0 +1,65 @@
+@import '@/styles/abstracts/variables';
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($black, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background-color: $main-blue;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba($black, 0.3);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba($white, 0.1);
+}
+
+.title {
+  margin: 0;
+  font-size: $font-size-large;
+  font-weight: $font-weight-medium;
+  color: $white;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: rgba($white, 0.7);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  
+  &:hover {
+    color: $white;
+  }
+}
+
+.content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
