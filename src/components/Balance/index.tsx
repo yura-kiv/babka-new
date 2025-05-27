@@ -84,7 +84,7 @@ const Balance: React.FC = () => {
           renderContent={renderContent}
         />
       </div>
-      <Button variant="secondary" to={Pages.Balance}>
+      <Button variant="yellow" to={Pages.Cash} padding={{ px: '25px' }}>
         {t('cash')}
       </Button>
     </div>

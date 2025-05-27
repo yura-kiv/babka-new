@@ -8,6 +8,10 @@ import Game from '../pages/Game';
 import Profile from '../pages/Profile';
 import Auth from '../pages/Auth';
 import NotFound from '../pages/NotFound';
+import Leaders from '../pages/Leaders';
+import Rules from '../pages/Rules';
+import Cash from '../pages/Cash';
+import { Pages } from '@/constants';
 
 export const router = createBrowserRouter([
   {
@@ -19,11 +23,11 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'game',
+        path: Pages.Game,
         element: <Game />,
       },
       {
-        path: 'profile',
+        path: Pages.Profile,
         element: <AuthLayout requireAuth={true} />,
         children: [
           {
@@ -33,17 +37,29 @@ export const router = createBrowserRouter([
         ],
       },
       {
+        path: Pages.Leaders,
+        element: <Leaders />,
+      },
+      {
+        path: Pages.Rules,
+        element: <Rules />,
+      },
+      {
+        path: Pages.Cash,
+        element: <Cash />,
+      },
+      {
         path: '*',
         element: <NotFound />,
       },
     ],
   },
   {
-    path: '/auth',
+    path: Pages.Auth,
     element: <AuthLayout requireAuth={false} />,
     children: [
       {
-        path: 'login',
+        index: true,
         element: <Auth />,
       },
     ],

@@ -1,5 +1,32 @@
 @import '@/styles/abstracts/variables';
 
+@keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes coinBounce {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(5deg);
+    }
+}
+
+@keyframes moneyWave {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
 .button {
     width: 100%;
     padding: 0px 20px;
@@ -9,11 +36,47 @@
     color: $black;
     position: relative;
     border-radius: 10px;
-    background-image: linear-gradient(283.27deg, #ffb800 0%, #fff173 138.82%);
-    box-shadow: 0 5px 15px rgba(255, 217, 19, 0.4);
-
+    background-image: linear-gradient(280deg, $yellow 30%, $yellow-light 130%);
+    box-shadow: 0 5px 15px rgba($yellow, 0.4);
+    transition: all 0.3s ease;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        background-size: 200% 100%;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
     &:hover {
         color: $black;
+        box-shadow: 0 8px 20px rgba(255, 217, 19, 0.6);
+        
+        &::before {
+            opacity: 1;
+            animation: shimmer 2s infinite;
+        }
+        
+        .coin {
+            animation: coinBounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 5px 8px $black-lighter) drop-shadow(-2px 0 10px $yellow-light);
+        }
+        
+        .money {
+            animation: moneyWave 2s ease-in-out infinite;
+        }
     }
 }
 
@@ -36,7 +99,8 @@
     position: absolute;
     top: 0px;
     left: -10px;
-    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.21)) drop-shadow(-1px 0 6px rgba(251, 226, 147, 0.6));
+    filter: drop-shadow(0 3px 6px $black-lighter) drop-shadow(-1px 0 6px $yellow-light);
+    transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .money {
@@ -50,4 +114,6 @@
     bottom: 0;
     border-bottom-right-radius: 10px;
     background-image: url('/imgs/money.png');
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
 }

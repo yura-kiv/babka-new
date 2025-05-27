@@ -1,5 +1,41 @@
 @import '@/styles/abstracts/variables';
 
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+        background-size: 100% 100%;
+    }
+    50% {
+        background-position: 100% 50%;
+        background-size: 150% 150%;
+    }
+    100% {
+        background-position: 0% 50%;
+        background-size: 100% 100%;
+    }
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 5px 15px rgba(201, 85, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 8px 25px rgba(201, 85, 255, 0.7), 0 0 15px rgba(123, 176, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 5px 15px rgba(201, 85, 255, 0.5);
+    }
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+    50% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
 .button {
     width: 100%;
     height: 55px;
@@ -8,9 +44,44 @@
     position: relative;
     gap: 15px;
     background: linear-gradient(86.37deg, #d062ff 2.96%, #7bb0ff 99.68%), linear-gradient(90deg, #ed6ea0 0%, #ec8c69 100%);
-    box-shadow: 0 5px 15px rgba(201, 85, 255, 0.5019607843);
+    background-size: 200% 200%;
+    background-position: 0% 0%;
+    box-shadow: 0 5px 15px rgba(201, 85, 255, 0.5);
     border-radius: 10px;
     padding: 0px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+        opacity: 0;
+        transform: scale(0.5);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    &:hover {
+        animation: gradientFlow 3s ease infinite, pulseGlow 2s infinite;
+        
+        &::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .label, .description {
+            animation: textGlow 2s infinite;
+        }
+    }
+    
+    &:active {
+        animation: none;
+        box-shadow: 0 3px 10px rgba(201, 85, 255, 0.4);
+    }
 }
 
 .text {

@@ -3,8 +3,7 @@ export enum Pages {
     Game = '/game',
     Profile = '/profile',
     Auth = '/auth',
+    Rules = '/rules',   
     Leaders = '/leaders',
-    Rules = '/rules',
-    Balance = '/balance',
-    TopPlayers = '/top-players',
+    Cash = '/cash',
 }

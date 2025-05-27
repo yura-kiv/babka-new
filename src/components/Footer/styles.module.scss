@@ -1,0 +1,22 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.footer {
+    margin-top: 20px;
+    padding-bottom: 75px;
+}
+
+.supportWrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: $blue;
+    padding: 10px;
+    border-top: 1px solid $border;
+}
+
+.support {
+    @include flex(row, space-between, center);
+}

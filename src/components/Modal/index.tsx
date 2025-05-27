@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { FaTimes } from 'react-icons/fa';
+import Button from '@/components/Button';
+import classNames from 'classnames';
 import s from './Modal.module.scss';
 
 export interface ModalProps {
@@ -42,12 +44,12 @@ const Modal: React.FC<ModalProps> = ({
 
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+      document.body.style.overflow = 'hidden';
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = ''; // Restore scrolling when modal is closed
+      document.body.style.overflow = '';
     };
   }, [isOpen, onClose, closeOnEscape]);
 
@@ -102,7 +104,7 @@ const Modal: React.FC<ModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className={`${s.overlay} ${overlayClassName}`}
+          className={classNames(s.overlay, overlayClassName)}
           variants={overlayVariants}
           initial="hidden"
           animate="visible"
@@ -110,7 +112,7 @@ const Modal: React.FC<ModalProps> = ({
           onClick={handleOverlayClick}
         >
           <motion.div
-            className={`${s.modal} ${className}`}
+            className={classNames(s.modal, className)}
             variants={getAnimationVariants()}
             initial="hidden"
             animate="visible"
@@ -121,13 +123,17 @@ const Modal: React.FC<ModalProps> = ({
               <div className={s.header}>
                 {title && <h2 className={s.title}>{title}</h2>}
                 {showCloseButton && (
-                  <button className={s.closeButton} onClick={onClose} aria-label="Close">
-                    <FaTimes />
-                  </button>
+                  <Button
+                    variant="text"
+                    textColor="white"
+                    className={s.closeButton}
+                    onClick={onClose}
+                    leftIcon={<FaTimes />}
+                  />
                 )}
               </div>
             )}
-            <div className={`${s.content} ${contentClassName}`}>{children}</div>
+            <div className={classNames(s.content, contentClassName)}>{children}</div>
           </motion.div>
         </motion.div>
       )}

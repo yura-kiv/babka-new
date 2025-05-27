@@ -4,11 +4,22 @@ import { Link } from 'react-router-dom';
 import type { LinkProps } from 'react-router-dom';
 import classNames from 'classnames';
 import { FaSpinner } from 'react-icons/fa';
-import styles from './Button.module.scss';
+import s from './Button.module.scss';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success' | 'text';
+export type ButtonVariant = 'outline' | 'ghost' | 'red' | 'green' | 'yellow' | 'text';
 export type TextButtonColor = 'white' | 'black' | 'green' | 'yellow' | 'red' | 'blue';
 export type ButtonSize = 'small' | 'medium' | 'large';
+export type BorderRadiusType = 'small' | 'large' | 'none';
+
+export type PaddingProps = {
+  pt?: string | number;
+  pr?: string | number;
+  pb?: string | number;
+  pl?: string | number;
+  px?: string | number;
+  py?: string | number;
+  p?: string | number;
+};
 
 type BaseButtonProps = {
   variant?: ButtonVariant;
@@ -21,6 +32,8 @@ type BaseButtonProps = {
   className?: string;
   children?: ReactNode;
   as?: ElementType;
+  borderRadius?: BorderRadiusType;
+  padding?: PaddingProps;
 };
 
 type ButtonAsButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -41,7 +54,7 @@ export type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps | ButtonAsAnch
 
 const Button: React.FC<ButtonProps> = (props) => {
   const {
-    variant = 'primary',
+    variant = 'green',
     size = 'medium',
     textColor = 'white',
     leftIcon,
@@ -53,32 +66,42 @@ const Button: React.FC<ButtonProps> = (props) => {
     to,
     as: Component = 'button',
     external = false,
+    borderRadius = 'large',
+    padding,
     ...rest
   } = props;
   
   const disabled = 'disabled' in rest ? rest.disabled : false;
   const buttonClasses = classNames(
-    styles.button,
-    styles[variant],
-    styles[size],
+    s.button,
+    s[variant],
+    s[size],
+    s[`radius-${borderRadius}`],
     {
-      [styles.fullWidth]: fullWidth,
-      [styles[textColor]]: variant === 'text',
+      [s.fullWidth]: fullWidth,
+      [s[textColor]]: variant === 'text',
     },
     className
   );
+  
+  const customStyle = padding ? {
+    paddingTop: padding.pt || padding.py || padding.p,
+    paddingRight: padding.pr || padding.px || padding.p,
+    paddingBottom: padding.pb || padding.py || padding.p,
+    paddingLeft: padding.pl || padding.px || padding.p
+  } : {};
 
   const buttonContent = (
     <>
       {isLoading && (
-        <div className={styles.loading}>
+        <div className={s.loading}>
           <FaSpinner size={size === 'small' ? 14 : size === 'medium' ? 18 : 22} />
         </div>
       )}
-      <div style={{ opacity: isLoading ? 0 : 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
-        {leftIcon && <span className={styles.icon}>{leftIcon}</span>}
+      <div className={s.content}>
+        {leftIcon && <span className={s.icon}>{leftIcon}</span>}
         {children}
-        {rightIcon && <span className={styles.icon}>{rightIcon}</span>}
+        {rightIcon && <span className={s.icon}>{rightIcon}</span>}
       </div>
     </>
   );
@@ -89,6 +112,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       <Link
         to={to}
         className={buttonClasses}
+        style={customStyle}
         {...linkProps}
       >
         {buttonContent}
@@ -102,6 +126,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       <a
         href={to}
         className={buttonClasses}
+        style={customStyle}
         target="_blank"
         rel="noopener noreferrer"
         {...anchorProps}
@@ -115,6 +140,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     return (
       <Component
         className={buttonClasses}
+        style={customStyle}
         disabled={disabled || isLoading}
         {...rest}
       >
@@ -127,6 +153,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   return (
     <button
       className={buttonClasses}
+      style={customStyle}
       disabled={disabled || isLoading}
       {...buttonProps}
     >
