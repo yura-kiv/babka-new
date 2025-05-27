@@ -7,6 +7,7 @@ import Balance from '@/components/Balance';
 import CustomLink from '@/components/CustomLink';
 import { FaDoorOpen } from 'react-icons/fa';
 import s from './styles.module.scss'
+import WidthWrapper from '@/components/WidthWrapper';
 
 const navigation = [
   {
@@ -29,30 +30,32 @@ const DesctopHeader: React.FC = () => {
 
   return (
     <header className={s.header}>
-      <div className={s.left}>
-        <CustomLink to={Pages.Home} variant="default" className={s.logo}>
-          GMSPLAY.PRO
-        </CustomLink>
-        <LanguageSwitcher />
-      </div>
-      <nav className={s.nav}>
-        {navigation.map((item) => (
-          <CustomLink
-            key={item.path}
-            to={item.path}
-            variant="primary"
-            isActive={location.pathname === item.path}
-          >
-            {t(item.name)}
+      <WidthWrapper className={s.wrapper}>
+        <div className={s.left}>
+          <CustomLink to={Pages.Home} variant="default" className={s.logo}>
+            GMSPLAY.PRO
           </CustomLink>
-        ))}
-      </nav>
-      <div className={s.right}>
-        <Balance />
-        <CustomLink to={Pages.Auth} variant="default" icon={<FaDoorOpen />}>
-          {t('login')}
-        </CustomLink>
-      </div>
+          <LanguageSwitcher />
+        </div>
+        <nav className={s.nav}>
+          {navigation.map((item) => (
+            <CustomLink
+              key={item.path}
+              to={item.path}
+              variant="primary"
+              isActive={location.pathname === item.path}
+            >
+              {t(item.name)}
+            </CustomLink>
+          ))}
+        </nav>
+        <div className={s.right}>
+          <Balance />
+          <CustomLink to={Pages.Auth} variant="default" icon={<FaDoorOpen />}>
+            {t('login')}
+          </CustomLink>
+        </div>
+      </WidthWrapper>
     </header>
   );
 };

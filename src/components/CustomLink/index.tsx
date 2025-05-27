@@ -9,6 +9,7 @@ interface CustomLinkProps extends Omit<RouterLinkProps, 'className'> {
   variant?: 'default' | 'primary' | 'secondary' | 'nav' | 'button';
   size?: 'small' | 'medium' | 'large';
   isActive?: boolean;
+  fullWidth?: boolean;
   className?: string;
   icon?: ReactNode;
   iconPosition?: 'left' | 'right';
@@ -20,6 +21,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({
   variant = 'default',
   size = 'medium',
   isActive = false,
+  fullWidth = false,
   className = '',
   icon,
   iconPosition = 'left',
@@ -31,6 +33,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({
     styles[variant],
     styles[size],
     isActive ? styles.active : '',
+    fullWidth ? styles.fullWidth : '',
     className
   ].filter(Boolean).join(' ');
 

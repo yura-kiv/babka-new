@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Dropdown from '@/components/Dropdown';
+import Dropdown, { type DropdownProps } from '@/components/Dropdown';
 import Button from '@/components/Button';
 import classNames from 'classnames';
 import { FaChevronDown } from 'react-icons/fa';
@@ -35,7 +35,11 @@ const languages: Language[] = [
   },
 ];
 
-const LanguageSwitcher: React.FC = () => {
+type Props = {
+  dropdownProps?: DropdownProps;
+}
+
+const LanguageSwitcher: React.FC<Props> = ({ dropdownProps }) => {
   const { i18n } = useTranslation();
 
   const currentLanguage = i18n.language || 'en';
@@ -79,6 +83,7 @@ const LanguageSwitcher: React.FC = () => {
       contentClassName={s.dropdownContent}
       renderTrigger={renderTrigger}
       renderContent={renderContent}
+      {...dropdownProps}
     />
   );
 };

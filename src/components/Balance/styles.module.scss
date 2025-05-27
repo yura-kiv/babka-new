@@ -39,10 +39,6 @@
     }
 }
 
-.trigger {
-    color: $yellow;
-}
-
 .dropdownContent {
     padding: 10px;
     min-width: 240px;
@@ -65,11 +61,11 @@
     transition: background-color 0.2s;
 
     &:hover {
-        background-color: rgba($white, 0.05);
+        background-color: $white-background-hover;
     }
 
     &.active {
-        background-color: rgba($white, 0.1);
+        background-color: $white-background-active;
       }
 }
 
@@ -93,8 +89,8 @@
     &:after {
         content: '';
         position: absolute;
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         background-color: $green;
         top: 50%;

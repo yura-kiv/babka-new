@@ -1,12 +1,35 @@
-$main-blue: #090F1E;
 $white: #ffffff;
+$white-light: rgba($white, 0.7);
+$white-lighter: rgba($white, 0.5);
+
 $black: #000000;
+$black-light: rgba($black, 0.7);
+$black-lighter: rgba($black, 0.5);
 
 $green: #44BB41;
 $green-dark: #329136;
+$green-light: rgba($green, 0.7);
+$green-lighter: rgba($green, 0.5);
+
 $yellow: #FFB800;
 $yellow-dark: #cf8a00;
+$yellow-light: rgba($yellow, 0.7);
+$yellow-lighter: rgba($yellow, 0.5);
+
 $red: #FF4B4B;
+$red-dark: #cf4a4a;
+$red-light: rgba($red, 0.7);
+$red-lighter: rgba($red, 0.5);
+
+$blue: #090F1E;
+$blue-dark: #060c19;
+$blue-light: rgba($blue, 0.7);
+$blue-lighter: rgba($blue, 0.5);
+
+$border: rgba($white, 0.1);
+
+$white-background-hover: rgba($white, 0.05);
+$white-background-active: rgba($white, 0.1);
 
 $main-font: 'Oswald', sans-serif;
 
@@ -25,3 +48,5 @@ $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
+
+$max-content-width: 1440px;

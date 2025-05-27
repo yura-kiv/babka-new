@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import classNames from 'classnames';
 import styles from './styles.module.scss';
 
-interface DropdownProps {
+export interface DropdownProps {
   trigger?: ReactNode;
   children?: ReactNode;
   className?: string;
@@ -24,7 +25,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   contentClassName = '',
   triggerClassName = '',
   placement = 'bottom-left',
-  offset = 8,
+  offset = 10,
   closeOnClickOutside = true,
   onOpen,
   onClose,
@@ -131,7 +132,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     ? renderTrigger({ isOpen, toggle })
     : (
         <div 
-          className={`${styles.trigger} ${triggerClassName}`} 
+          className={classNames(styles.trigger, triggerClassName)} 
           onClick={toggle}
         >
           {trigger}
@@ -143,13 +144,12 @@ const Dropdown: React.FC<DropdownProps> = ({
     : children;
   
   return (
-    <div className={`${styles.dropdown} ${className}`} ref={dropdownRef}>
+    <div className={classNames(styles.dropdown, className)} ref={dropdownRef}>
       {triggerElement}
-      
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className={`${styles.content} ${getPlacementClass()} ${contentClassName}`}
+            className={classNames(styles.content, getPlacementClass(), contentClassName)}
             initial="hidden"
             animate="visible"
             exit="hidden"

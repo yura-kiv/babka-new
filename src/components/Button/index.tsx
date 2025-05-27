@@ -7,11 +7,13 @@ import { FaSpinner } from 'react-icons/fa';
 import styles from './Button.module.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success' | 'text';
+export type TextButtonColor = 'white' | 'black' | 'green' | 'yellow' | 'red' | 'blue';
 export type ButtonSize = 'small' | 'medium' | 'large';
 
 type BaseButtonProps = {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  textColor?: TextButtonColor;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   isLoading?: boolean;
@@ -41,6 +43,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   const {
     variant = 'primary',
     size = 'medium',
+    textColor = 'white',
     leftIcon,
     rightIcon,
     isLoading = false,
@@ -60,6 +63,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     styles[size],
     {
       [styles.fullWidth]: fullWidth,
+      [styles[textColor]]: variant === 'text',
     },
     className
   );

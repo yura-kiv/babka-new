@@ -1,12 +1,15 @@
 @import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border-bottom: 1px solid $border;
+    padding: 20px 0px;
+    margin-bottom: 20px
+}
+
+.wrapper {
+    @include flex(row, space-between, center);
     gap: 20px;
-    padding: 20px;
-    border-bottom: 1px solid rgba($white, 0.1);
 }
 
 .logo {

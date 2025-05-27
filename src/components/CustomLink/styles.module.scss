@@ -57,11 +57,11 @@
 .nav {
   color: $white;
   font-weight: $font-weight-medium;
-  padding: 8px 16px;
+  padding: 10px 15px;
   border-radius: 4px;
   
   &:hover {
-    background-color: rgba($white, 0.1);
+    background-color: $white-background-hover;
   }
 }
 
@@ -70,36 +70,36 @@
   background-color: transparent;
   border: 1px solid $white;
   border-radius: 4px;
-  padding: 8px 16px;
+  padding: 10px 15px;
   text-align: center;
   justify-content: center;
   
   &:hover {
-    background-color: $white;
-    color: $main-blue;
+    background-color: $white-background-hover;
+    color: $blue;
   }
 }
 
 .small {
   font-size: $font-size-small;
-  padding: 4px 8px;
+  padding: 5px 10px;
 }
 
 .medium {
   font-size: $font-size-medium;
-  padding: 8px 16px;
+  padding: 10px 15px;
 }
 
 .large {
   font-size: $font-size-large;
-  padding: 12px 24px;
+  padding: 10px 25px;
 }
 
 .active {
   font-weight: $font-weight-bold;
   
   &.nav {
-    background-color: rgba($white, 0.15);
+    background-color: $white-background-hover;
   }
   
   &.primary:after {
@@ -108,17 +108,22 @@
 }
 
 .iconLeft {
-  margin-right: 8px;
+  margin-right: 10px;
   display: flex;
   align-items: center;
 }
 
 .iconRight {
-  margin-left: 8px;
+  margin-left: 10px;
   display: flex;
   align-items: center;
 }
 
 .text {
   display: inline-block;
+}
+
+.fullWidth {
+  width: 100%;
+  justify-content: flex-start;
 }

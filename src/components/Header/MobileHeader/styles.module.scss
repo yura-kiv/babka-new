@@ -1,0 +1,123 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.header {
+  position: relative;
+  width: 100%;
+  background-color: $blue;
+  padding: 10px 16px;
+  z-index: 100;
+}
+
+.headerContent {
+  @include flex(row, space-between, center);
+  gap: 20px;
+  height: 60px;
+
+  @include respond-to(sm) {
+    @include flex(column, flex-start, start);
+    height: auto;
+    gap: 10px;
+  }
+
+  .leftSection {
+    .menuButton {
+      display: none;
+    }
+
+    @include respond-to(sm) {
+      @include flex(row, space-between, center);
+      width: 100%;
+
+      .menuButton {
+        display: flex;
+      }
+    }
+  }
+
+  .rightSection {
+    @include respond-to(sm) {
+      @include flex(row, end, center);
+      width: 100%;
+
+      .menuButton {
+        display: none;
+      }
+    }
+  }
+}
+
+.logo {
+  font-size: $font-size-large;
+  font-weight: $font-weight-bold;
+  padding: 0;
+}
+
+.rightSection {
+  @include flex(row, flex-end, center);
+  flex-grow: 1;
+  gap: 20px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $black-light;
+  z-index: 101;
+}
+
+.sideMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background-color: $blue;
+  z-index: 102;
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  
+  @include respond-to(sm) {
+    width: 100%;
+  }
+}
+
+.menuHeader {
+  @include flex(row, space-between, center);
+  padding: 20px;
+  border-bottom: 1px solid $border;
+}
+
+.menuContent {
+  @include flex(column, space-between, stretch);
+  height: 100%;
+  padding: 25px 20px;
+  overflow-y: auto;
+}
+
+.navigation {
+  @include flex(column, flex-start, start);
+  margin-bottom: 30px;
+  gap: 15px;
+}
+
+.navigationLink {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.menuFooter {
+  @include flex(column, flex-start, start);
+  gap: 25px;
+  margin-top: auto;
+  padding-top: 25px;
+  border-top: 1px solid $border;
+}
+
+.loginLink {
+  @include flex(row, center, center);
+}
