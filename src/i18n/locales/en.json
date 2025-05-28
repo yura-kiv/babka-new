@@ -26,6 +26,103 @@
     "name": "Name",
     "spent": "Spent",
     "numberOfBombs": "Number of bombs",
-    "prize": "Prize"
+    "prize": "Prize",
+    
+    "privacyPolicy.introduction.title": "1. Introduction",
+    "privacyPolicy.introduction.content": "This Privacy Policy defines how GMS Play (hereinafter referred to as the \"Site,\" \"we,\" \"us,\" \"our\") collects, uses, stores, and protects the personal information of users who register on our site and participate in gambling activities (hereinafter referred to as \"Users\"). We strive to ensure a high level of protection for personal data and comply with applicable data protection laws.",
+    
+    "privacyPolicy.collection.title": "2. Information Collection",
+    "privacyPolicy.collection.content": "We may collect and process the following categories of data:",
+    "privacyPolicy.collection.items.0": "Identification data: Name, surname, date of birth, gender, citizenship, residential address, passport number, or other identification document.",
+    "privacyPolicy.collection.items.1": "Contact data: Email, phone number, residential address.",
+    "privacyPolicy.collection.items.2": "Financial data: Transaction history, deposits, withdrawals, and winnings.",
+    "privacyPolicy.collection.items.3": "Technical data: IP address, browser and device information, operating system, language settings, page visit data.",
+    "privacyPolicy.collection.items.4": "Site activity data: Betting history, game participation, gaming preferences, bonuses, promotions.",
+    "privacyPolicy.collection.items.5": "Interaction with support data: Records of communications with our support service, including email and chat correspondence.",
+    
+    "privacyPolicy.use.title": "3. Use of Information",
+    "privacyPolicy.use.content": "The collected information is used for:",
+    "privacyPolicy.use.items.0": "Providing services: Ensuring access to our games and other services, processing bets, and conducting transactions.",
+    "privacyPolicy.use.items.1": "Supporting fair gameplay: Verifying identity, ensuring responsible gaming compliance, fraud prevention, and anti-money laundering.",
+    "privacyPolicy.use.items.2": "Marketing and advertising: Providing Users with information about new games, promotions, bonuses, and other offers based on their preferences and gaming history.",
+    "privacyPolicy.use.items.3": "Service analysis and improvement: Optimizing the site, developing new features, and enhancing service quality.",
+    "privacyPolicy.use.items.4": "Legal purposes: Compliance with laws and regulatory requirements, responding to requests from law enforcement and government agencies.",
+    
+    "privacyPolicy.sharing.title": "4. Sharing Information with Third Parties",
+    "privacyPolicy.sharing.content": "We may share Users' personal information with the following third parties:",
+    "privacyPolicy.sharing.items.0": "Payment providers and financial institutions: For processing deposits and withdrawals.",
+    "privacyPolicy.sharing.items.1": "Marketing partners: Third-party companies that help us conduct advertising campaigns, based on User consent.",
+    "privacyPolicy.sharing.items.2": "Analytical and advertising services: Companies providing analytics, targeted advertising, and marketing research services.",
+    "privacyPolicy.sharing.items.3": "Law enforcement and regulatory authorities: In cases prescribed by law, and to protect our rights and interests.",
+    
+    "privacyPolicy.protection.title": "5. Data Protection",
+    "privacyPolicy.protection.content": "We take all necessary technical and organizational measures to protect Users' data from loss, unauthorized access, alteration, or disclosure. These measures include data encryption, password protection, access control, and regular security audits.",
+    
+    "privacyPolicy.cookies.title": "6. Use of Cookies",
+    "privacyPolicy.cookies.content": "We use cookies and similar technologies to improve our site's performance, ensure security, and provide personalized content. Cookies help us understand how Users interact with our site and can be used to display targeted advertising. Users can manage cookie settings through their browser settings, although this may limit some functionalities of our site.",
+    
+    "privacyPolicy.gaming.title": "7. Responsible Gaming",
+    "privacyPolicy.gaming.content": "We adhere to responsible gaming principles and have implemented measures aimed at preventing gambling addiction. Personal information may be used to detect signs of problematic behavior and provide appropriate assistance to Users.",
+    
+    "privacyPolicy.rights.title": "8. User Rights",
+    "privacyPolicy.rights.content": "Users have the right to:",
+    "privacyPolicy.rights.items.0": "Request access to their personal information.",
+    "privacyPolicy.rights.items.1": "Request correction of inaccurate data.",
+    "privacyPolicy.rights.items.2": "Request deletion of data in cases provided by law.",
+    "privacyPolicy.rights.items.3": "Restrict the processing of their data in certain situations.",
+    "privacyPolicy.rights.items.4": "Object to data processing for marketing purposes.",
+    "privacyPolicy.rights.items.5": "Transfer their data to another service provider.",
+    "privacyPolicy.rights.contact": "To exercise their rights, Users can contact us using the contact information provided below.",
+    
+    "privacyPolicy.changes.title": "9. Changes to the Privacy Policy",
+    "privacyPolicy.changes.content": "We reserve the right to make changes to this Privacy Policy at any time.",
+    
+    "terms.introduction.title": "1. Introduction",
+    "terms.introduction.content": "Welcome to GMS Play! These General Terms and Conditions (hereinafter referred to as the \"Rules\") govern the use of the website [https://www.gmsplay.pro/](https://www.gmsplay.pro/) (hereinafter referred to as the \"Site\", \"we\", \"us\", \"our\") and the services provided on it. Please read these Rules carefully before using the Site. By using the Site, you agree to comply with these Rules. If you disagree with any of the points, please discontinue using the Site.",
+    
+    "terms.participation.title": "2. Participation Conditions",
+    "terms.participation.age.title": "2.1. Age Restrictions",
+    "terms.participation.age.content": "To participate in games and use the services provided on our Site, Users must be over 18 years of age or have reached the age of majority in their jurisdiction if it exceeds 18 years. We reserve the right to request documents verifying the User's age and block access to the Site if age requirements are not met.",
+    "terms.participation.legal.title": "2.2. Legal Responsibility",
+    "terms.participation.legal.content": "Users agree to use the Site strictly within the laws of their jurisdiction. The User is solely responsible for complying with all applicable laws and regulations. We are not responsible for any illegal or improper use of the Site by Users.",
+    
+    "terms.account.title": "3. Account Registration",
+    "terms.account.registration.title": "3.1. Registration Process",
+    "terms.account.registration.content": "To participate in games on the Site, you must create a personal account. During registration, the User is required to provide accurate and up-to-date information requested by the Site. We reserve the right to refuse registration or close an account if false data is provided.",
+    "terms.account.confidentiality.title": "3.2. Data Confidentiality",
+    "terms.account.confidentiality.content": "The User is responsible for maintaining the confidentiality of their account login details. Any actions carried out using the User's account are considered to be performed by the User. In case of suspected unauthorized access, the User must notify us immediately.",
+    
+    "terms.games.title": "4. Games and Bets",
+    "terms.games.bets.title": "4.1. Bet Acceptance",
+    "terms.games.bets.content": "The Site allows Users to place real money bets. We reserve the right to limit, cancel, or reject any bets at our discretion if we suspect or have evidence of hacking or exploitation of site bugs/errors.",
+    "terms.games.results.title": "4.2. Game Results",
+    "terms.games.results.content": "Game results are determined randomly using a certified random number generator (RNG). Users acknowledge that the results of all games on the Site are final and not subject to change.",
+    "terms.games.responsible.title": "4.3. Responsible Gaming",
+    "terms.games.responsible.content": "We support responsible gambling and offer various tools to help Users control their gaming habits, such as bet and playtime limits. If you need help managing your gameplay, you can use these tools or contact our support team.",
+    
+    "terms.financial.title": "5. Financial Transactions",
+    "terms.financial.transactions.title": "5.1. Deposits and Withdrawals",
+    "terms.financial.transactions.content": "Users can deposit funds into their gaming account using the payment methods available on the Site. Withdrawals can only be made using the method used for the deposit, subject to meeting all account verification and wagering requirements. Please note that minimum and maximum deposit and withdrawal amounts may vary depending on the payment method.",
+    "terms.financial.fees.title": "5.2. Fees and Charges",
+    "terms.financial.fees.content": "We may charge a fee for processing transactions depending on the payment method used. Information about applicable fees will be available to the User before completing the transaction. The User is responsible for paying any fees charged by banks or other financial institutions.",
+    "terms.financial.blocking.title": "5.3. Blocking and Confiscation of Funds",
+    "terms.financial.blocking.content": "We reserve the right to block or confiscate funds in the User's gaming account in cases of suspected fraud, money laundering, violations of these Rules, or other unlawful actions.",
+    
+    "terms.bonuses.title": "6. Bonuses and Promotions",
+    "terms.bonuses.conditions.title": "6.1. Bonus Conditions",
+    "terms.bonuses.conditions.content": "The Site may offer various bonuses and promotions to its Users. The conditions for receiving and using bonuses will be specified in the description of each specific promotion. Bonuses may be provided in the form of free bets, additional funds in the gaming account, or other privileges.",
+    "terms.bonuses.wagering.title": "6.2. Bonus Wagering Requirements",
+    "terms.bonuses.wagering.content": "All bonuses are subject to certain wagering requirements, which must be met before bonus funds or winnings obtained with their use can be withdrawn. Users are required to familiarize themselves with these conditions before activating the bonus.",
+    
+    "terms.liability.title": "7. Limitation of Liability",
+    "terms.liability.content": "We are not responsible for any damages, data loss, income, profit, or other assets that may arise as a result of using the Site. The User agrees that the use of the Site is at their own risk.",
+    
+    "terms.changes.title": "8. Changes to the Rules",
+    "terms.changes.content": "We reserve the right to make changes to these Rules at any time. Updated versions of the Rules will be published on the Site with the date of the last changes. Continuing to use the Site after changes indicates the User's acceptance of the new terms.",
+    
+    "terms.contact.title": "9. Contact Information",
+    "terms.contact.content": "If you have any questions about these Rules or other aspects of our Site's operation, please contact us: gmsplaypro@gmail.com",
+  
+    "leaders.subTitle": "Top players of the month"
   }
 }

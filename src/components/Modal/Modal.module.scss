@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 100;
   padding: 20px;
 }
 
@@ -19,7 +19,7 @@
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba($black, 0.3);
   width: 100%;
-  max-width: 500px;
+  max-width: 778px;
   max-height: 90vh;
   overflow: hidden;
   display: flex;
@@ -39,23 +39,6 @@
   font-size: $font-size-large;
   font-weight: $font-weight-medium;
   color: $white;
-}
-
-.closeButton {
-  background: none;
-  border: none;
-  color: rgba($white, 0.7);
-  font-size: 20px;
-  cursor: pointer;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
-  
-  &:hover {
-    color: $white;
-  }
 }
 
 .content {

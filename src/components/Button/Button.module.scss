@@ -13,7 +13,6 @@
   position: relative;
   overflow: hidden;
   text-transform: uppercase;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   flex-shrink: 0;
 
   &:disabled {
@@ -44,6 +43,26 @@
     }
   }
 
+  .content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: $main-font;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  
+  &:focus {
+    outline: none;
+  }
+  
   .content {
     display: flex;
     align-items: center;
@@ -120,6 +139,7 @@
   background-color: $red;
   color: $white;
   border-bottom: 3px solid $red-dark;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
@@ -138,6 +158,7 @@
   background-color: $green;
   color: $white;
   border-bottom: 3px solid $green-dark;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
@@ -156,6 +177,7 @@
   background-color: $yellow;
   color: $white;
   border-bottom: 3px solid $yellow-dark;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
@@ -260,6 +282,147 @@
       color: $white-light;
     }
   }
+}
+
+.simple {
+  color: $white;
+  
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  
+  @media (hover: none) {
+    &:active {
+      opacity: 0.8;
+    }
+  }
+}
+
+.underline {
+  color: $white;
+  font-weight: $font-weight-medium;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: $white;
+    transition: width 0.3s ease;
+  }
+  
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.8;
+    }
+    
+    &:hover:after {
+      width: 100%;
+    }
+  }
+  
+  @media (hover: none) {
+    &:active {
+      opacity: 0.8;
+    }
+    
+    &:active:after {
+      width: 100%;
+    }
+  }
+}
+
+.subtle {
+  color: rgba($white, 0.7);
+  
+  @media (hover: hover) {
+    &:hover {
+      color: $white;
+    }
+  }
+  
+  @media (hover: none) {
+    &:active {
+      color: $white;
+    }
+  }
+}
+
+.tab {
+  color: $white;
+  font-weight: $font-weight-medium;
+  padding: 10px 15px;
+  border-radius: 4px;
+  
+  @media (hover: hover) {
+    &:hover {
+      background-color: $white-background-hover;
+    }
+  }
+  
+  @media (hover: none) {
+    &:active {
+      background-color: $white-background-hover;
+    }
+  }
+}
+
+.bordered {
+  color: $white;
+  background-color: transparent;
+  border: 1px solid $white;
+  border-radius: 4px;
+  padding: 10px 15px;
+  text-align: center;
+  justify-content: center;
+  
+  @media (hover: hover) {
+    &:hover {
+      background-color: $white-background-hover;
+      color: $blue;
+    }
+  }
+  
+  @media (hover: none) {
+    &:active {
+      background-color: $white-background-hover;
+      color: $blue;
+    }
+    
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+.active {
+  &.tab {
+    background-color: $white-background-hover;
+  }
+  
+  &.underline:after {
+    width: 100%;
+  }
+}
+
+.iconLeft {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.iconRight {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  display: inline-block;
 }
 
 @keyframes spin {

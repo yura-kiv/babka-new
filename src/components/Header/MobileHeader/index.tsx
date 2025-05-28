@@ -6,7 +6,6 @@ import { FaBars, FaTimes, FaDoorOpen } from 'react-icons/fa';
 import { Pages } from '@/constants';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import Balance from '@/components/Balance';
-import CustomLink from '@/components/CustomLink';
 import Button from '@/components/Button';
 
 import s from './styles.module.scss';
@@ -57,12 +56,12 @@ const MobileHeader: React.FC = () => {
     textColor="white"
     className={s.menuButton}
     onClick={toggleMenu}
-    leftIcon={<FaBars size={24} />}
+    icon={<FaBars size={24} />}
   />
 
-  const logo = <CustomLink to={Pages.Home} variant="default" size='large' className={s.logo}>
+  const logo = <Button to={Pages.Home} variant="simple" size='large' className={s.logo}>
     GMSPLAY.PRO
-  </CustomLink>
+  </Button>
 
   return (
     <header className={s.header}>
@@ -101,23 +100,23 @@ const MobileHeader: React.FC = () => {
                   textColor="white"
                   className={s.closeButton}
                   onClick={toggleMenu}
-                  leftIcon={<FaTimes size={24} />}
+                  icon={<FaTimes size={24} />}
                 />
               </div>
               <div className={s.menuContent}>
                 <nav className={s.navigation}>
                   {navigation.map((item) => (
-                    <CustomLink
+                    <Button
                       key={item.path}
                       to={item.path}
-                      variant="primary"
-                      size="large"
+                      variant="underline"
                       fullWidth
-                      className={s.navigationLink}
                       isActive={location.pathname === item.path}
+                      padding={{ p: 0 }}
+                      size='large'
                     >
                       {t(item.name)}
-                    </CustomLink>
+                    </Button>
                   ))}
                 </nav>
                 <div className={s.menuFooter}>
@@ -126,15 +125,16 @@ const MobileHeader: React.FC = () => {
                       placement: 'top-left',
                     }}
                   />
-                  <CustomLink
+                  <Button
                     to={Pages.Auth}
-                    variant="default"
+                    variant="simple"
                     icon={<FaDoorOpen />}
                     className={s.loginLink}
                     fullWidth
+                    size='large'
                   >
                     {t('login')}
-                  </CustomLink>
+                  </Button>
                 </div>
               </div>
             </motion.div>

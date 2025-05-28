@@ -1,0 +1,62 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.pageTitle {
+  margin-bottom: 24px;
+  
+  &.left {
+    text-align: left;
+  }
+  
+  &.center {
+    text-align: center;
+  }
+  
+  &.right {
+    text-align: right;
+  }
+  
+  &.small {
+    .title {
+      font-size: $font-size-large;
+    }
+    
+    .subtitle {
+      font-size: $font-size-small;
+    }
+  }
+  
+  &.medium {
+    .title {
+      font-size: $font-size-xlarge;
+    }
+    
+    .subtitle {
+      font-size: $font-size-medium;
+    }
+  }
+  
+  &.large {
+    .title {
+      font-size: $font-size-xlarge;
+    }
+    
+    .subtitle {
+      font-size: $font-size-large;
+    }
+  }
+}
+
+.title {
+  color: $white;
+  font-weight: $font-weight-bold;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: $white-light;
+  font-weight: $font-weight-regular;
+  line-height: 1.5;
+  margin-top: 0;
+}

@@ -8,6 +8,7 @@ export interface DividerProps {
   color?: string;
   thickness?: number;
   margin?: number | string;
+  noMargin?: boolean;
   style?: React.CSSProperties;
 }
 
@@ -17,6 +18,7 @@ const Divider: React.FC<DividerProps> = ({
   color,
   thickness,
   margin,
+  noMargin = false,
   style = {},
 }) => {
   const dividerStyle: React.CSSProperties = {
@@ -31,7 +33,9 @@ const Divider: React.FC<DividerProps> = ({
     dividerStyle[direction === 'horizontal' ? 'height' : 'width'] = `${thickness}px`;
   }
 
-  if (margin) {
+  if (noMargin) {
+    dividerStyle.margin = '0';
+  } else if (margin) {
     if (typeof margin === 'number') {
       dividerStyle.margin = `${margin}px 0`;
     } else {
@@ -45,7 +49,8 @@ const Divider: React.FC<DividerProps> = ({
         s.divider, 
         { 
           [s.horizontal]: direction === 'horizontal',
-          [s.vertical]: direction === 'vertical'
+          [s.vertical]: direction === 'vertical',
+          [s.noMargin]: noMargin
         },
         className
       )}

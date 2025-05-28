@@ -6,7 +6,22 @@ import classNames from 'classnames';
 import { FaSpinner } from 'react-icons/fa';
 import s from './Button.module.scss';
 
-export type ButtonVariant = 'outline' | 'ghost' | 'red' | 'green' | 'yellow' | 'text';
+export type ButtonVariant = 
+  // Solid colored buttons
+  'green' | 'yellow' | 'red' |
+  
+  // Transparent buttons
+  'outline' | 'ghost' |
+  
+  // Text-only buttons
+  'text' |
+  
+  // Link-like styles
+  'simple' | // Basic link with hover opacity
+  'underline' | // Link with underline animation
+  'subtle' | // Subtle link with color change
+  'tab' | // Tab-like navigation link
+  'bordered'; // Bordered link
 export type TextButtonColor = 'white' | 'black' | 'green' | 'yellow' | 'red' | 'blue';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type BorderRadiusType = 'small' | 'large' | 'none';
@@ -25,8 +40,6 @@ type BaseButtonProps = {
   variant?: ButtonVariant;
   size?: ButtonSize;
   textColor?: TextButtonColor;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
   isLoading?: boolean;
   fullWidth?: boolean;
   className?: string;
@@ -34,6 +47,9 @@ type BaseButtonProps = {
   as?: ElementType;
   borderRadius?: BorderRadiusType;
   padding?: PaddingProps;
+  icon?: ReactNode;
+  iconPosition?: 'left' | 'right';
+  isActive?: boolean;
 };
 
 type ButtonAsButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -57,8 +73,6 @@ const Button: React.FC<ButtonProps> = (props) => {
     variant = 'green',
     size = 'medium',
     textColor = 'white',
-    leftIcon,
-    rightIcon,
     isLoading = false,
     fullWidth = false,
     className = '',
@@ -68,18 +82,24 @@ const Button: React.FC<ButtonProps> = (props) => {
     external = false,
     borderRadius = 'large',
     padding,
+    icon,
+    iconPosition = 'left',
+    isActive = false,
     ...rest
   } = props;
   
   const disabled = 'disabled' in rest ? rest.disabled : false;
+  const isLinkStyle = ['simple', 'underline', 'subtle', 'tab', 'bordered'].includes(variant);
+  
   const buttonClasses = classNames(
-    s.button,
+    isLinkStyle ? s.link : s.button,
     s[variant],
     s[size],
-    s[`radius-${borderRadius}`],
+    !isLinkStyle && s[`radius-${borderRadius}`],
     {
       [s.fullWidth]: fullWidth,
       [s[textColor]]: variant === 'text',
+      [s.active]: isActive,
     },
     className
   );
@@ -99,9 +119,9 @@ const Button: React.FC<ButtonProps> = (props) => {
         </div>
       )}
       <div className={s.content}>
-        {leftIcon && <span className={s.icon}>{leftIcon}</span>}
+        {iconPosition === 'left' && icon && <span className={s.icon}>{icon}</span>}
         {children}
-        {rightIcon && <span className={s.icon}>{rightIcon}</span>}
+        {iconPosition === 'right' && icon && <span className={s.icon}>{icon}</span>}
       </div>
     </>
   );

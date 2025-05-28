@@ -40,7 +40,8 @@ const Balance: React.FC = () => {
       size="small"
       textColor="yellow"
       onClick={toggle}
-      rightIcon={<FaChevronDown className={classNames(s.arrow, { [s.open]: isOpen })} size={12} />}
+      icon={<FaChevronDown className={classNames(s.arrow, { [s.open]: isOpen })} size={12} />}
+      iconPosition="right"
     >
       {t('real')}
     </Button>

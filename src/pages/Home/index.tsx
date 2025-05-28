@@ -5,6 +5,7 @@ import HowToPlayButton from '@/components/HowToPlayButton';
 import PlayButton from '@/components/PlayButton';
 import s from './styles.module.scss'
 import WidthWrapper from '@/components/WidthWrapper';
+import ActivePlayersTable from '@/components/ActivePlayersTable';
 
 const Home: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const Home: React.FC = () => {
         <HowToPlayButton />
       </div>
       <PlayButton />
+      <ActivePlayersTable />
     </WidthWrapper>
   );
 };

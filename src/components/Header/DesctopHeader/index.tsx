@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Pages } from '@/constants';
 import Balance from '@/components/Balance';
-import CustomLink from '@/components/CustomLink';
 import { FaDoorOpen } from 'react-icons/fa';
 import s from './styles.module.scss'
 import WidthWrapper from '@/components/WidthWrapper';
+import Button from '@/components/Button';
 
 const navigation = [
   {
@@ -32,28 +32,29 @@ const DesctopHeader: React.FC = () => {
     <header className={s.header}>
       <WidthWrapper className={s.wrapper}>
         <div className={s.left}>
-          <CustomLink to={Pages.Home} variant="default" className={s.logo}>
+          <Button to={Pages.Home} variant="simple" className={s.logo}>
             GMSPLAY.PRO
-          </CustomLink>
+          </Button>
           <LanguageSwitcher />
         </div>
         <nav className={s.nav}>
           {navigation.map((item) => (
-            <CustomLink
+            <Button
+              size='large'
               key={item.path}
               to={item.path}
-              variant="primary"
+              variant="underline"
               isActive={location.pathname === item.path}
             >
               {t(item.name)}
-            </CustomLink>
+            </Button>
           ))}
         </nav>
         <div className={s.right}>
           <Balance />
-          <CustomLink to={Pages.Auth} variant="default" icon={<FaDoorOpen />}>
+          <Button size='large' to={Pages.Auth} variant="simple" icon={<FaDoorOpen />}>
             {t('login')}
-          </CustomLink>
+          </Button>
         </div>
       </WidthWrapper>
     </header>

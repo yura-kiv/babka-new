@@ -1,0 +1,216 @@
+@import '@/styles/abstracts/variables';
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 10px;
+  background: rgba($blue, 0.4);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  
+  &.fullWidth {
+    width: 100%;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: $main-font;
+  color: $white;
+  
+  &.bordered {
+    border: 1px solid $border;
+    
+    td, th {
+      border: 1px solid $border;
+    }
+  }
+  
+  &.striped {
+    tbody tr:nth-child(odd) {
+      background-color: rgba($white, 0.03);
+    }
+  }
+  
+  &.hoverable {
+    tbody tr:not(.disabledRow) {
+      @media (hover: hover) {
+        &:hover {
+          background-color: rgba($white, 0.07);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+          transition: all 0.2s ease;
+        }
+      }
+    }
+  }
+}
+
+.small {
+  font-size: $font-size-small;
+  
+  td, th {
+    padding: 10px 15px;
+  }
+}
+
+.medium {
+  font-size: $font-size-regular;
+  
+  td, th {
+    padding: 10px 15px;
+  }
+}
+
+.large {
+  font-size: $font-size-medium;
+  
+  td, th {
+    padding: 20px 20px;
+  }
+}
+
+.default {
+  background-color: transparent;
+}
+
+.dark {
+  background-color: rgba($blue-dark, 0.7);
+  
+  .tableHeader {
+    background-color: rgba($blue-dark, 0.9);
+  }
+}
+
+.tableHeader {
+  text-transform: uppercase;
+  font-weight: $font-weight-bold;
+  background-color: rgba($blue-dark, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  
+  th {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 2px solid $border;
+    transition: background-color 0.2s ease;
+    
+    &:first-child {
+      border-top-left-radius: 10px;
+    }
+    
+    &:last-child {
+      border-top-right-radius: 10px;
+    }
+  }
+}
+
+.header-default {
+  background-color: rgba($blue-dark, 0.5);
+}
+
+.header-dark {
+  background-color: rgba($blue-dark, 0.9);
+}
+
+.tableBody {
+  tr {
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:last-child td {
+      border-bottom: none;
+      
+      &:first-child {
+        border-bottom-left-radius: 10px;
+      }
+      
+      &:last-child {
+        border-bottom-right-radius: 10px;
+      }
+    }
+  }
+}
+
+.tableRow {
+  &.activeRow {
+    background-color: rgba($green, 0.1) !important;
+    font-weight: $font-weight-medium;
+  }
+  
+  &.disabledRow {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  &.clickableRow {
+    cursor: pointer;
+  }
+}
+
+.tableCell {
+  padding: 10px 15px;
+  border-bottom: 1px solid $border;
+  transition: all 0.2s ease;
+  
+  &.align-left {
+    text-align: left;
+  }
+  
+  &.align-center {
+    text-align: center;
+  }
+  
+  &.align-right {
+    text-align: right;
+  }
+}
+
+.loadingCell, .emptyCell {
+  padding: 40px !important;
+  text-align: center;
+  color: $white-light;
+}
+
+.loadingIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba($white, 0.1);
+  border-top-color: $green;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .tableWrapper {
+    border-radius: 10px;
+  }
+  
+  .small, .medium, .large {
+    font-size: $font-size-small;
+    
+    td, th {
+      padding: 10px 15px;
+    }
+  }
+}

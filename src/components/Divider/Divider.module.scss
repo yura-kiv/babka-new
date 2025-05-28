@@ -17,3 +17,10 @@
   background-color: $border;
   margin: 0 10px;
 }
+
+.noMargin {
+  &.horizontal,
+  &.vertical {
+    margin: 0;
+  }
+}

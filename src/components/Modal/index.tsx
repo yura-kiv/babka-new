@@ -126,9 +126,9 @@ const Modal: React.FC<ModalProps> = ({
                   <Button
                     variant="text"
                     textColor="white"
-                    className={s.closeButton}
+                    size="large"
                     onClick={onClose}
-                    leftIcon={<FaTimes />}
+                    icon={<FaTimes size={24} />}
                   />
                 )}
               </div>

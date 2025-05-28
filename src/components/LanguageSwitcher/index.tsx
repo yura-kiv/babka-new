@@ -54,7 +54,8 @@ const LanguageSwitcher: React.FC<Props> = ({ dropdownProps }) => {
       variant="ghost"
       size="small"
       onClick={toggle}
-      rightIcon={<FaChevronDown className={classNames(s.arrow, { [s.open]: isOpen })} size={12} />}
+      icon={<FaChevronDown className={classNames(s.arrow, { [s.open]: isOpen })} size={12} />}
+      iconPosition='right'
     >
       <img src={currentLang.flag} className={s.flagIcon} alt={`${currentLang.code} flag`} />
       <span>{currentLang.name}</span>
