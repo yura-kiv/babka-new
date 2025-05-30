@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from "react-i18next";
-import WidthWrapper from "@/components/WidthWrapper";
-import PageTitle from "@/components/PageTitle";
-import Table from "@/components/Table";
-import UserAvatar from "@/components/UserAvatar";
+import WidthWrapper from "@/components/ui/WidthWrapper";
+import PageTitle from "@/components/ui/PageTitle";
+import Table from "@/components/ui/Table";
+import UserAvatar from "@/components/ui/UserAvatar";
 import { userNames, userAvatars } from '@/constants';
 import s from './Leaders.module.scss';
 

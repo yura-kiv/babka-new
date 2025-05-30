@@ -1,6 +1,6 @@
-import ActivePlayersTable from '@/components/ActivePlayersTable';
-import NumberInput from '@/components/NumberInput';
-import WidthWrapper from '@/components/WidthWrapper';
+import ActivePlayersTable from '@/components/shared/ActivePlayersTable';
+import NumberInput from '@/components/ui/NumberInput';
+import WidthWrapper from '@/components/ui/WidthWrapper';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

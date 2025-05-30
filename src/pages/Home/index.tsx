@@ -1,11 +1,11 @@
 import React from 'react';
-import HomeSwiper from '@/components/HomeSwiper';
-import TopPlayersButton from '@/components/TopPlayersButton';
-import HowToPlayButton from '@/components/HowToPlayButton';
-import PlayButton from '@/components/PlayButton';
+import HomeSwiper from '@/components/shared/HomeSwiper';
+import TopPlayersButton from '@/components/shared/TopPlayersButton';
+import HowToPlayButton from '@/components/shared/HowToPlayButton';
+import PlayButton from '@/components/shared/PlayButton';
 import s from './styles.module.scss'
-import WidthWrapper from '@/components/WidthWrapper';
-import ActivePlayersTable from '@/components/ActivePlayersTable';
+import WidthWrapper from '@/components/ui/WidthWrapper';
+import ActivePlayersTable from '@/components/shared/ActivePlayersTable';
 
 const Home: React.FC = () => {
   return (
