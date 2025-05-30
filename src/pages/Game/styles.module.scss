@@ -1,0 +1,93 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.wrapper {
+  position: relative;
+}
+
+.top {
+  @include flex(row, space-between, center);
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid $border;
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 40px;
+
+  .label {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium;
+    color: $white;
+  }
+
+  .bombCount {
+    @include flex(row, start, center);
+    gap: 10px;
+
+    .count {
+      font-size: $font-size-xlarge;
+      font-weight: $font-weight-medium;
+      color: $white;
+    }
+
+    .bomb {
+      height: 50px;
+    }
+  }
+
+  .left {
+    @include flex(column, start, start);
+    width: 30%;
+    gap: 10px;
+  }
+}
+
+.rows {
+  @include flex(column, start, start);
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.grandma {}
+
+.prize {
+  @include flex(row, space-between, center);
+  padding: 0 15px;
+  margin-bottom: 20px;
+
+  .left {
+    @include flex(row, space-between, center);
+    gap: 20px;
+
+    .chest {
+      width: 112px;
+    }
+
+    .prizeValue {
+      @include flex(column, start, start);
+
+      .label {
+        font-size: $font-size-medium;
+        font-weight: $font-weight-medium;
+        color: $green;
+      }
+
+      .value {
+        font-size: $font-size-large;
+        font-weight: $font-weight-medium;
+        color: $white;
+      }
+    }
+  }
+}
+
+.settings {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  gap: 20px;
+  border: 1px solid $border;
+  padding: 15px;
+  border-radius: 20px;
+}
+

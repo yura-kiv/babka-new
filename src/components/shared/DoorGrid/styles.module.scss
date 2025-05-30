@@ -1,0 +1,100 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.grid {
+  @include flex(column, start, start);
+  margin: 0 auto;
+  gap: 40px;
+  width: 100%;
+}
+
+.row {
+  @include flex(row, space-around, center);
+  gap: 20px;
+  width: 100%;
+  opacity: 0.6;
+  position: relative;
+
+  &.active {
+    opacity: 1;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 0px;
+      right: 0px;
+      bottom: 10px;
+      border-radius: 15px;
+      background-color: $white-background-hover;
+    }
+
+    .door {
+      cursor: pointer;
+
+      &:hover {
+        .doorOverlay {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.door {
+  position: relative;
+  height: 120px;
+  width: 90px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+
+  .doorImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  .doorOverlay {
+    width: 125px;
+    max-width: unset;
+    opacity: 0.6;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .lock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $white;
+    z-index: 3;
+  }
+
+  .prizeImage {
+    width: 60%;
+    max-width: unset;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+  }
+
+  .bombImage {
+    width: 100%;
+    max-width: unset;
+    position: absolute;
+    top: 65%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+  }
+}

@@ -91,7 +91,7 @@
 }
 
 .coin {
-    background-image: url('/imgs/coin.png');
+    background-image: url('/imgs/topPlayersButton/coin.png');
     width: 26px;
     height: 29px;
     background-repeat: no-repeat;
@@ -113,7 +113,7 @@
     right: 0;
     bottom: 0;
     border-bottom-right-radius: 10px;
-    background-image: url('/imgs/money.png');
+    background-image: url('/imgs/topPlayersButton/money.png');
     transform-origin: bottom right;
     transition: transform 0.3s ease;
 }

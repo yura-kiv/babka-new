@@ -1,0 +1,55 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.dropdown {
+  width: 100%;
+}
+
+.trigger {
+  height: 54px;
+
+  .label {
+    white-space: nowrap;
+  }
+
+  &.open {
+    border: 1px solid $yellow;
+    background-color: $white-background-hover;
+
+    .chevron {
+      rotate: 180deg;
+    }
+  }
+
+  .chevron {
+    flex-shrink: 0;
+    transition: rotate 0.2s ease;
+  }
+}
+
+.bomb {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+}
+
+.content {
+  width: 100%;
+}
+
+.option {
+  @include flex(row, start, center);
+  padding: 10px 15px;
+  gap: 15px;
+  cursor: pointer;
+  font-size: $font-size-medium;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: $white-background-hover;
+  }
+  
+  &.active {
+    background-color: $white-background-active;
+  }
+}

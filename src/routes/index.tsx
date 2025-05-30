@@ -1,16 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import MainLayout from '../components/shared/MainLayout';
-import AuthLayout from '../components/AuthLayout';
+import MainLayout from '@/components/layouts/MainLayout';
+import AuthLayout from '@/components/layouts/AuthLayout';
 
-import Home from '../pages/Home';
-import Game from '../pages/Game';
-import Profile from '../pages/Profile';
-import Auth from '../pages/Auth';
-import NotFound from '../pages/NotFound';
-import Leaders from '../pages/Leaders';
-import Rules from '../pages/Rules';
-import Cash from '../pages/Cash';
+import Home from '@/pages/Home';
+import Game from '@/pages/Game';
+import Profile from '@/pages/Profile';
+import Auth from '@/pages/Auth';
+import NotFound from '@/pages/NotFound';
+import Leaders from '@/pages/Leaders';
+import Rules from '@/pages/Rules';
+import Cash from '@/pages/Cash';
 import { Pages } from '@/constants';
 
 export const router = createBrowserRouter([

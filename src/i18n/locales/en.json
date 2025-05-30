@@ -26,7 +26,12 @@
     "name": "Name",
     "spent": "Spent",
     "numberOfBombs": "Number of bombs",
+    "bombsSelection": "Number of bombs: {{count}}",
     "prize": "Prize",
+    "maximumPrize": "Maximum prize",
+    "gameRules": "Game rules",
+    "generalRules": "General rules of the game and the site",
+
     
     "privacyPolicy.introduction.title": "1. Introduction",
     "privacyPolicy.introduction.content": "This Privacy Policy defines how GMS Play (hereinafter referred to as the \"Site,\" \"we,\" \"us,\" \"our\") collects, uses, stores, and protects the personal information of users who register on our site and participate in gambling activities (hereinafter referred to as \"Users\"). We strive to ensure a high level of protection for personal data and comply with applicable data protection laws.",

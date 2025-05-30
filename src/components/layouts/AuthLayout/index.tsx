@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { AppRootState } from '@/store';
+import { Pages } from '@/constants';
 
 interface AuthLayoutProps {
   requireAuth?: boolean;
@@ -12,11 +13,11 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ requireAuth = true }) => {
   const { isAuthenticated } = useSelector((state: AppRootState) => state.user);
 
   if (requireAuth && !isAuthenticated) {
-    return <Navigate to="/auth/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to={Pages.Auth} state={{ from: location.pathname }} replace />;
   }
 
-  if (isAuthenticated && location.pathname.startsWith('/auth')) {
-    return <Navigate to="/" replace />;
+  if (isAuthenticated && location.pathname.startsWith(Pages.Auth)) {
+    return <Navigate to={Pages.Home} replace />;
   }
 
   return <Outlet />;

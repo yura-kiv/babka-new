@@ -6,6 +6,7 @@ import PlayButton from '@/components/shared/PlayButton';
 import s from './styles.module.scss'
 import WidthWrapper from '@/components/ui/WidthWrapper';
 import ActivePlayersTable from '@/components/shared/ActivePlayersTable';
+import { Pages } from '@/constants';
 
 const Home: React.FC = () => {
   return (
@@ -15,7 +16,7 @@ const Home: React.FC = () => {
         <TopPlayersButton />
         <HowToPlayButton />
       </div>
-      <PlayButton />
+      <PlayButton to={Pages.Game} />
       <ActivePlayersTable />
     </WidthWrapper>
   );

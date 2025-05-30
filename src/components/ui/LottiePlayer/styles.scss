@@ -1,0 +1,10 @@
+.lottie-player-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  dotlottie-player {
+    display: block;
+    overflow: hidden;
+  }
+}
