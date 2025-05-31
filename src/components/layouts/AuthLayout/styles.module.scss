@@ -1,0 +1,60 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.wrapper {
+    @include flex(column, start, stretch);
+    height: 100dvh;
+    gap: 20px;
+}
+
+.header {
+    @include flex(row, space-between, center);
+    border-bottom: 1px solid $border;
+    padding: 10px 0;
+}
+
+.footer {
+    @include flex(row, center, center);
+    border-top: 1px solid $border;
+    padding: 20px 0;
+}
+
+.rights {
+    @include flex(row, center, bottom);
+    gap: 10px;
+    font-size: $font-size-small;
+    color: $white;
+}
+
+.logo {
+    font-size: $font-size-large;
+    font-weight: $font-weight-medium;
+    letter-spacing: 2px;
+}
+
+.content {
+    @include flex(row, space-between, start);
+    flex: 1 1 0;
+    gap: 20px;
+}
+
+.left {
+    flex: 1 1 0;
+    @include flex(column, center, center);
+    align-self: center;
+
+    @include respond-to(md) {
+        display: none;
+    }
+}
+
+.img {
+    height: 60dvh;
+    filter: drop-shadow(0 0 10px rgba($white, 0.2));
+}
+
+.right {
+    @include flex(column, start, stretch);
+    flex: 1 1 0;
+    height: 100%;
+}

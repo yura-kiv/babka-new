@@ -23,6 +23,10 @@ const navigation = [
     name: 'rules',
     path: Pages.Rules,
   },
+  {
+    name: 'comics',
+    path: Pages.Comics,
+  },
 ];
 
 const MobileHeader: React.FC = () => {

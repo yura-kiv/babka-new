@@ -13,6 +13,8 @@ import BombDropdown from './components/BombDropdown';
 import ProgressBar from '@/components/ui/ProgressBar';
 import DoorGrid from '@/components/shared/DoorGrid';
 import type { DoorState } from '@/components/shared/DoorGrid';
+import { ANIMATIONS } from '@/constants';
+import HowToPlayModal from '@/components/modals/HowToPlayModal';
 
 const bomb = 'imgs/game/bombHappy.svg';
 const chest = 'imgs/game/chest.svg';
@@ -22,12 +24,6 @@ const DOOR_GRID: number[][] = [
   [5, 6, 7, 8],
   [1, 2, 3, 4]
 ];
-
-const ANIMATIONS = {
-  GRANDMA: 'https://lottie.host/ede8a463-190f-48c8-8888-8c163fe393b0/8DFN7sP0za.json',
-  LOSER: 'https://lottie.host/1d78b59a-d4ac-4439-8670-de3656a6e2a5/efm6X6xQf7.json',
-  PRIZE: 'https://lottie.host/d54aa7cf-dc80-465c-8175-871edb269141/zdqnzQUoyp.json'
-};
 
 const Game: React.FC = () => {
   const { t } = useTranslation();
@@ -87,7 +83,7 @@ const Game: React.FC = () => {
           {DOOR_GRID.map((row, rowIndex) => (
             <DoorGrid.Row 
               key={`row-${rowIndex}`}
-              isActive={rowIndex === activeRow}
+              state={rowIndex === activeRow ? 'active' : 'disabled'}
             >
               {row.map((cellId) => {
                 let doorState: DoorState = 'closed';
@@ -106,7 +102,6 @@ const Game: React.FC = () => {
                   <DoorGrid.Door 
                     key={`cell-${cellId}`}
                     state={doorState}
-                    isActive={rowIndex === activeRow && cellId === activeCell}
                     onClick={() => {
                       console.log(`Клік на двері ${cellId} в рядку ${rowIndex}`);
                     }}
@@ -169,6 +164,7 @@ const Game: React.FC = () => {
         </div>
       </WidthWrapper>
       <ActivePlayersTable />
+      <HowToPlayModal />
     </WidthWrapper>
   );
 };

@@ -1,0 +1,30 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+}
+
+.termsLabel {
+  display: inline-flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.link {
+  color: $yellow;
+  text-decoration: underline;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: lighten($yellow, 10%);
+  }
+}
+
+.submitButton {
+  margin-top: 15px;
+}
+

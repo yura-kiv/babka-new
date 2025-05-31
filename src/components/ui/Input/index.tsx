@@ -3,6 +3,7 @@ import type { InputHTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import s from './styles.module.scss';
+import Button from '../Button';
 
 export type InputVariant = 'default' | 'success' | 'warning' | 'error';
 export type InputSize = 'small' | 'medium' | 'large';
@@ -14,6 +15,8 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
   rightIcon?: ReactNode;
   errorMessage?: string;
   wrapperClassName?: string;
+  label?: string;
+  labelClassName?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
   placeholder?: string;
@@ -28,6 +31,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>((
     errorMessage,
     className,
     wrapperClassName,
+    label,
+    labelClassName,
     disabled,
     onChange,
     value,
@@ -52,19 +57,27 @@ const Input = forwardRef<HTMLInputElement, InputProps>((
   
   return (
     <div className={classNames(s.inputWrapper, wrapperClassName)}>
-      {leftIcon && <div className={classNames(s.icon, s.left)}>{leftIcon}</div>}
+      {label && (
+        <label className={classNames(s.label, labelClassName)}>
+          {label}
+        </label>
+      )}
       
-      <input
-        ref={ref}
-        className={inputClasses}
-        disabled={disabled}
-        onChange={onChange}
-        value={value}
-        placeholder={placeholder}
-        {...rest}
-      />
-      
-      {rightIcon && <div className={classNames(s.icon, s.right)}>{rightIcon}</div>}
+      <div className={s.inputContainer}>
+        {leftIcon && <div className={classNames(s.icon, s.left)}>{leftIcon}</div>}
+        
+        <input
+          ref={ref}
+          className={inputClasses}
+          disabled={disabled}
+          onChange={onChange}
+          value={value}
+          placeholder={placeholder}
+          {...rest}
+        />
+        
+        {rightIcon && <div className={classNames(s.icon, s.right)}>{rightIcon}</div>}
+      </div>
       
       {errorMessage && <div className={s.errorMessage}>{errorMessage}</div>}
     </div>
@@ -86,9 +99,13 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((
   };
   
   const PasswordToggleIcon = showPassword ? (
-    <FaEye size={20} className={s.passwordIcon} onClick={togglePasswordVisibility} />
+    <Button variant="simple" size="medium" onClick={togglePasswordVisibility} padding={{ p: 0 }} type="button">
+      <FaEye />
+    </Button>
   ) : (
-    <FaEyeSlash size={20} className={s.passwordIcon} onClick={togglePasswordVisibility} />
+    <Button variant="simple" size="medium" onClick={togglePasswordVisibility} padding={{ p: 0 }} type="button">
+      <FaEyeSlash />
+    </Button>
   );
   
   return (

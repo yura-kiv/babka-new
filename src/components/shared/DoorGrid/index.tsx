@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { FaLock } from "react-icons/fa";
 import s from './styles.module.scss';
 
+export type RowState = 'active' | 'disabled' | 'demo';
 export type DoorState = 'closed' | 'open' | 'prize' | 'bomb' | 'locked';
 
 interface DoorGridProps {
@@ -25,12 +26,12 @@ const DoorGrid: React.FC<DoorGridProps> & {
 interface RowProps {
   children: ReactNode;
   className?: string;
-  isActive?: boolean;
+  state?: RowState;
 }
 
-const Row: React.FC<RowProps> = ({ children, isActive, className }) => {
+const Row: React.FC<RowProps> = ({ children, className, state = 'active' }) => {
   return (
-    <div className={classNames(s.row, isActive && s.active, className)}>
+    <div className={classNames(s.row, className, s[state])}>
       {children}
     </div>
   );
@@ -39,19 +40,17 @@ const Row: React.FC<RowProps> = ({ children, isActive, className }) => {
 interface DoorProps {
   state: DoorState;
   className?: string;
-  isActive?: boolean;
   onClick?: () => void;
 }
 
 const Door: React.FC<DoorProps> = ({
   state,
   className,
-  isActive,
   onClick,
 }) => {
   return (
     <div 
-      className={classNames(s.door, isActive && s.active, className)} 
+      className={classNames(s.door, className)} 
       onClick={onClick}
     >
       <img src="/imgs/game/doorOverlay.svg" alt="doorOverlay" className={s.doorOverlay} />

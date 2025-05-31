@@ -8,6 +8,7 @@ import { FaDoorOpen } from 'react-icons/fa';
 import s from './styles.module.scss'
 import WidthWrapper from '@/components/ui/WidthWrapper';
 import Button from '@/components/ui/Button';
+import classNames from 'classnames';
 
 const navigation = [
   {
@@ -21,6 +22,10 @@ const navigation = [
   {
     name: 'rules',
     path: Pages.Rules,
+  },
+  {
+    name: 'comics',
+    path: Pages.Comics,
   },
 ]
 

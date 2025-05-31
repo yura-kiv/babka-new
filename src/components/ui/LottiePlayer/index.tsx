@@ -45,8 +45,8 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
     className = '',
     background = 'transparent',
     speed = 1,
-    loop = true,
-    autoplay = true,
+    loop = false,
+    autoplay = false,
     width = '300px',
     height = '300px',
     id,
@@ -130,6 +130,10 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
 
   const handleReady = () => {
     if (onReady) onReady();
+    
+    if (autoplay && playerRef.current && playerRef.current.play) {
+      playerRef.current.play();
+    }
   };
 
   const play = () => {
@@ -150,7 +154,6 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
     }
   };
   
-  // Робимо методи доступними через ref
   useImperativeHandle(ref, () => ({
     play,
     pause,

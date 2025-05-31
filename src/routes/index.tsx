@@ -11,6 +11,7 @@ import NotFound from '@/pages/NotFound';
 import Leaders from '@/pages/Leaders';
 import Rules from '@/pages/Rules';
 import Cash from '@/pages/Cash';
+import Comics from '@/pages/Comics';
 import { Pages } from '@/constants';
 
 export const router = createBrowserRouter([
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
       {
         path: Pages.Cash,
         element: <Cash />,
+      },
+      {
+        path: Pages.Comics,
+        element: <Comics />,
       },
       {
         path: '*',

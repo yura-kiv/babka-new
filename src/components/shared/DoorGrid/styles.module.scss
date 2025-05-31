@@ -12,11 +12,9 @@
   @include flex(row, space-around, center);
   gap: 20px;
   width: 100%;
-  opacity: 0.6;
   position: relative;
 
   &.active {
-    opacity: 1;
     position: relative;
 
     &:before {
@@ -39,6 +37,15 @@
         }
       }
     }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.demo {
+    opacity: 1;
   }
 }
 

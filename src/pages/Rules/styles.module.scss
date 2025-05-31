@@ -1,0 +1,12 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.rules {
+    @include flex(column, center, center);
+    gap: 20px;
+
+    p {
+        text-align: center;
+        font-size: $font-size-medium;
+    }
+}

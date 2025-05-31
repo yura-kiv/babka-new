@@ -3,6 +3,7 @@
     "game": "Game",
     "leaders": "Leaders",
     "rules": "Rules",
+    "comics": "Comics",
     "balance": "Balance",
     "cash": "Cash",
     "real": "Real",
@@ -30,8 +31,7 @@
     "prize": "Prize",
     "maximumPrize": "Maximum prize",
     "gameRules": "Game rules",
-    "generalRules": "General rules of the game and the site",
-
+    "generalRules": "General rules of the game",
     
     "privacyPolicy.introduction.title": "1. Introduction",
     "privacyPolicy.introduction.content": "This Privacy Policy defines how GMS Play (hereinafter referred to as the \"Site,\" \"we,\" \"us,\" \"our\") collects, uses, stores, and protects the personal information of users who register on our site and participate in gambling activities (hereinafter referred to as \"Users\"). We strive to ensure a high level of protection for personal data and comply with applicable data protection laws.",
@@ -128,6 +128,28 @@
     "terms.contact.title": "9. Contact Information",
     "terms.contact.content": "If you have any questions about these Rules or other aspects of our Site's operation, please contact us: gmsplaypro@gmail.com",
   
-    "leaders.subTitle": "Top players of the month"
+    "leaders.subTitle": "Top players of the month",
+
+    "auth.registration": "Registration",
+    "auth.login": "Login",
+    "auth.username": "User name",
+    "auth.email": "Your email",
+    "auth.password": "Password",
+    "auth.repeatPassword": "Repeat Password",
+    "auth.agreeToTerms": "By registering you agree to our",
+    "auth.privacyPolicy": "privacy policy",
+    
+    "validation.required": "This field is required",
+    "validation.minLength": "Must be at least {{count}} characters",
+    "validation.email": "Invalid email address",
+    "validation.passwordMatch": "Passwords do not match",
+    "validation.agreeToTerms": "You must agree to the privacy policy",
+
+    "rules.content1": "There are 3 lines in front of you, after each line you can withdraw funds! Watch out! Behind the door are traps, the number of which you can adjust. This is influenced by the amount of winnings.",
+    "rules.content2": "The player can choose from 1 to 3 bombs sprive, place a bet sprive, and depending on the number of chosen bombs, receive a maximum winning multiplier. The player can play both with demo money and real money. Demo money can be refreshed after completion, allowing the player to understand the game mechanics before playing with real money.",
+    "rules.content3": "To play with real money, click on the \"Cashier\" cass button, select a suitable deposit option, and follow the instructions. As a result, you will see a second account by clicking on the value under your cass balance. Here you can switch the account you wish to play on.",
+    "rules.content4": "After selecting the account, the number of bombs behind the doors, and placing the bet, you will see the \"maximum prize\" cass if you pass all three lines. The prize can be withdrawn after each completed line by clicking the \"Withdraw\" button to avoid risk. However, those who do not take risks do not become champions. If you hit a bomb, your bet and all winnings up to that point will be lost. You will need to place a new bet, choose the number of bombs behind the doors, and aim for the maximum prize.",
+    
+    "doNotShowAgain": "Do not show again"
   }
 }

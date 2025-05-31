@@ -1,0 +1,113 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.tabSwitch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tabsContainer {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid rgba($border, 0.5);
+  justify-content: center;
+}
+
+.tabItem {
+  position: relative;
+  font-family: $main-font;
+  cursor: pointer;
+  color: $white-light;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: $font-weight-bold;
+  font-size: 32px;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 7;
+  }
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: $white;
+    transition: width 0.3s ease;
+  }
+  
+  &.active {
+    color: $white;
+    opacity: 1;
+    
+    &:after {
+      width: 100%;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover:not(.active) {
+      color: $white-light;
+    }
+  }
+}
+
+.small {
+  .tabItem {
+    padding: 10px 20px;
+    font-size: $font-size-small;
+  }
+}
+
+.medium {
+  .tabItem {
+    padding: 15px 25px;
+    font-size: $font-size-medium;
+  }
+}
+
+.large {
+  .tabItem {
+    padding: 15px 30px;
+    font-size: $font-size-large;
+  }
+}
+
+.default {
+  .tabItem {
+    &.active {
+      color: $white;
+    }
+  }
+}
+
+.accent {
+  .tabItem {
+    &.active {
+      color: $yellow;
+      
+      &:after {
+        background-color: $yellow;
+      }
+    }
+  }
+}
+
+.fullWidth {
+  width: 100%;
+  
+  .tabsContainer {
+    justify-content: space-between;
+  }
+  
+  .tabItem {
+    flex: 1;
+  }
+}

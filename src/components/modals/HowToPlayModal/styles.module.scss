@@ -1,0 +1,18 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.container {
+    @include flex(column, center, center);
+    width: 70%;
+    gap: 15px;
+    margin: 0 auto;
+}
+
+.checkbox {
+    width: fit-content;
+}
+
+.text {
+    font-size: $font-size-medium;
+    text-align: center;
+}
