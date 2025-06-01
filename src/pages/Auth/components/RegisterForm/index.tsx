@@ -53,7 +53,6 @@ const RegisterForm: React.FC = () => {
             label={t('auth.username')}
             placeholder={t('auth.username')}
             leftIcon={<FaUser />}
-            variant={errors.username ? 'error' : 'default'}
             errorMessage={errors.username?.message}
             size="medium"
           />
@@ -76,7 +75,6 @@ const RegisterForm: React.FC = () => {
             label={t('auth.email')}
             placeholder={t('auth.email')}
             leftIcon={<FaEnvelope />}
-            variant={errors.email ? 'error' : 'default'}
             errorMessage={errors.email?.message}
             size="medium"
             type="email"
@@ -100,7 +98,6 @@ const RegisterForm: React.FC = () => {
             label={t('auth.password')}
             placeholder={t('auth.password')}
             leftIcon={<FaLock />}
-            variant={errors.password ? 'error' : 'default'}
             errorMessage={errors.password?.message}
             size="medium"
           />
@@ -121,7 +118,6 @@ const RegisterForm: React.FC = () => {
             label={t('auth.repeatPassword')}
             placeholder={t('auth.repeatPassword')}
             leftIcon={<FaLock />}
-            variant={errors.confirmPassword ? 'error' : 'default'}
             errorMessage={errors.confirmPassword?.message}
             size="medium"
           />

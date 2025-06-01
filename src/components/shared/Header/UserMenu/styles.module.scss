@@ -1,0 +1,49 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.userMenu {
+  @include flex(row, center, center);
+  gap: 10px;
+
+  @include respond-to(md) {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.profileButton {
+  &:hover {
+    .username {
+      color: $white-light;
+    }
+  }
+}
+
+.userInfo {
+  @include flex(row, center, center);
+  gap: 10px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid $border;
+
+  @include respond-to(md) {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+.username {
+  font-weight: $font-weight-medium;
+  transition: color 0.2s ease;
+}
+
+.loginButton {
+  @include respond-to(md) {
+    width: 100%;
+  }
+}

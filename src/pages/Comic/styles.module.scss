@@ -1,0 +1,13 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.cards {
+  @include flex(column, start, stretch);
+  gap: 30px;
+}
+
+.playButton {
+  margin: 0 auto;
+  margin-top: 60px;
+  max-width: 480px;
+}

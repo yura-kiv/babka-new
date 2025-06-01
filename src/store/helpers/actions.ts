@@ -1,20 +1,26 @@
 import { store } from "@/store";
+
 import { 
   loginUser, 
   updateUserProfile, 
-  logout 
+  logout,
+  setSelectedBalance
 } from "@/store/slices/userSlice";
+
 import { fetchMultipliers } from "@/store/slices/multipliersSlice";
+
 import {
   startGame,
   openCell,
   stopGame,
   resetGame,
 } from "@/store/slices/gameSlice";
+
 import type { 
   LoginCredentials, 
   UpdateProfileData, 
-  StartGamePayload 
+  StartGamePayload,
+  BalanceType 
 } from "@/types/store";
 
 // --- AUTH & USER ---
@@ -41,3 +47,8 @@ export const cashOut = (lvl: number) =>
 
 export const resetGameState = () => 
   store.dispatch(resetGame());
+
+// -- BALANCE --
+export const changeSelectedBalance = (balance: BalanceType) => 
+  store.dispatch(setSelectedBalance(balance));
+

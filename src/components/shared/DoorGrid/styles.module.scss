@@ -2,7 +2,7 @@
 @import '@/styles/abstracts/mixins';
 
 .grid {
-  @include flex(column, start, start);
+  @include flex(column-reverse, start, start);
   margin: 0 auto;
   gap: 40px;
   width: 100%;
@@ -54,7 +54,11 @@
   height: 120px;
   width: 90px;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+
+  @include respond-to(sm) {
+    width: 60px;
+    height: 80px;
+  }
 
   .doorImage {
     position: absolute;
@@ -65,7 +69,7 @@
   }
 
   .doorOverlay {
-    width: 125px;
+    width: 150%;
     max-width: unset;
     opacity: 0.6;
     position: absolute;

@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { LoginCredentials, UpdateProfileData, UserState } from "@/types/store";
 
 const API_BASE = "http://localhost:3000";
 
-// Async thunk for login
 export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password, lang }: LoginCredentials, { rejectWithValue }) => {
@@ -21,7 +21,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// Async thunk for updating profile
 export const updateUserProfile = createAsyncThunk(
   "user/updateProfile",
   async ({ username, avatarFile }: UpdateProfileData, { getState, rejectWithValue }) => {
@@ -59,6 +58,9 @@ const initialUserState: UserState = {
   avatarUrl: null,
   status: "idle",
   error: null,
+  // demo balance
+  selectedBalance: 'real',
+  demoBalance: 1000,
 };
 
 const userSlice = createSlice({
@@ -66,6 +68,9 @@ const userSlice = createSlice({
   initialState: initialUserState,
   reducers: {
     logout: () => initialUserState,
+    setSelectedBalance: (state, action: PayloadAction<'real' | 'demo'>) => {
+      state.selectedBalance = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -108,5 +113,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, setSelectedBalance } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,7 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import { Pages } from '@/constants';
+
 import MainLayout from '@/components/layouts/MainLayout';
 import AuthLayout from '@/components/layouts/AuthLayout';
+import AuthGuard from '@/components/layouts/AuthGuard';
 
 import Home from '@/pages/Home';
 import Game from '@/pages/Game';
@@ -11,8 +14,9 @@ import NotFound from '@/pages/NotFound';
 import Leaders from '@/pages/Leaders';
 import Rules from '@/pages/Rules';
 import Cash from '@/pages/Cash';
-import Comics from '@/pages/Comics';
-import { Pages } from '@/constants';
+import Comic from '@/pages/Comic';
+import ForgotPassword from '@/pages/ForgotPassword';
+import ResetPassword from '@/pages/ResetPassword';
 
 export const router = createBrowserRouter([
   {
@@ -28,16 +32,6 @@ export const router = createBrowserRouter([
         element: <Game />,
       },
       {
-        path: Pages.Profile,
-        element: <AuthLayout requireAuth={true} />,
-        children: [
-          {
-            index: true,
-            element: <Profile />,
-          },
-        ],
-      },
-      {
         path: Pages.Leaders,
         element: <Leaders />,
       },
@@ -46,31 +40,53 @@ export const router = createBrowserRouter([
         element: <Rules />,
       },
       {
-        path: Pages.Cash,
-        element: <Cash />,
+        path: Pages.Comic,
+        element: <Comic />,
       },
       {
-        path: Pages.Comics,
-        element: <Comics />,
+        element: <AuthGuard requireAuth={false} />,
+        children: [
+          {
+            path: Pages.Profile,
+            element: <Profile />,
+          },
+          {
+            path: Pages.Cash,
+            element: <Cash />,
+          },
+        ],
       },
+    ],
+  },
+  {
+    element: <AuthLayout />,
+    children: [
+      {
+        element: <AuthGuard requireAuth={false} />,
+        children: [
+          {
+            path: Pages.Auth,
+            element: <Auth />,
+          },
+          {
+            path: Pages.ForgotPassword,
+            element: <ForgotPassword />,
+          },
+          {
+            path: Pages.ResetPassword,
+            element: <ResetPassword />,
+          },  
+        ],
+      },
+    ],  
+  },
+  {
+    element: <AuthLayout />,
+    children: [
       {
         path: '*',
         element: <NotFound />,
       },
     ],
-  },
-  {
-    path: Pages.Auth,
-    element: <AuthLayout requireAuth={false} />,
-    children: [
-      {
-        index: true,
-        element: <Auth />,
-      },
-    ],
-  },
-  {
-    path: '*',
-    element: <NotFound />,
-  },
+  }
 ]);

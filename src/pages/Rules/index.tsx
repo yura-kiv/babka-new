@@ -10,7 +10,7 @@ const Rules: React.FC = () => {
 
     return (
         <WidthWrapper>
-            <PageTitle title={t('gameRules')} subtitle={t('generalRules')} />
+            <PageTitle title={t('gameRules')} subtitle={t('generalRules')} as="h1" className={s.title}/>
 
             <RulesGameAnimation />
 

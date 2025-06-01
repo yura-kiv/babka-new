@@ -9,8 +9,9 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+
 import storage from "redux-persist/lib/storage";
-// Now using TypeScript files
+
 import userReducer from "@/store/slices/userSlice";
 import gameReducer from "@/store/slices/gameSlice";
 import multipliersReducer from "@/store/slices/multipliersSlice";
@@ -44,7 +45,6 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-// Export types
 export type AppDispatch = typeof store.dispatch;
 export type AppRootState = ReturnType<typeof store.getState>;
 

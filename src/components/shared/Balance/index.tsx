@@ -4,31 +4,35 @@ import { useTranslation } from "react-i18next";
 import Dropdown from "@/components/ui/Dropdown";
 import classNames from "classnames";
 import { FaChevronDown } from "react-icons/fa";
-
+import { getUserData } from '@/store/helpers/selectors'
+import { changeSelectedBalance } from '@/store/helpers/actions'
 import s from './styles.module.scss'
+import { useSelector, useDispatch } from "react-redux";
 
 interface BalanceOption {
-  id: string;
+  id: 'real' | 'demo';
   name: string;
-  value: string;
-  isActive?: boolean;
+  value: number;
+  isActive: boolean;
 }
 
 const Balance: React.FC = () => {
   const { t } = useTranslation();
+  const user = useSelector(getUserData);
+  const dispatch = useDispatch();
 
   const balanceOptions: BalanceOption[] = [
     {
       id: 'real',
       name: t('realBalance'),
-      value: '12000$',
-      isActive: true
+      value: user.balance,
+      isActive: user.selectedBalance === 'real',
     },
     {
       id: 'demo',
       name: t('demo'),
-      value: '1000$',
-      isActive: false
+      value: user.demoBalance,
+      isActive: user.selectedBalance === 'demo',
     }
   ];
 
@@ -43,7 +47,7 @@ const Balance: React.FC = () => {
       icon={<FaChevronDown className={classNames(s.arrow, { [s.open]: isOpen })} size={12} />}
       iconPosition="right"
     >
-      {t('real')}
+      {t(currentOption.id)}
     </Button>
   );
 
@@ -57,6 +61,7 @@ const Balance: React.FC = () => {
           })}
           onClick={() => {
             close();
+            dispatch(changeSelectedBalance(option.id));
           }}
         >
           <div className={s.balanceItemLeft}>
@@ -71,12 +76,16 @@ const Balance: React.FC = () => {
     </div>
   );
 
+  if (!user.isAuthenticated) {
+    return null;
+  }
+
   return (
     <div className={s.balance}>
       <div className={s.right}>
         <div className={s.top}>
           <div className={s.label}>{t('balance')}:</div>
-          <div className={classNames(s.value, s[currentOption.id])}>{currentOption.value}</div>
+          <div className={classNames(s.value, s[currentOption.id])}>{currentOption.value}$</div>
         </div>
         <Dropdown
           placement="bottom-right"
@@ -85,7 +94,7 @@ const Balance: React.FC = () => {
           renderContent={renderContent}
         />
       </div>
-      <Button variant="yellow" to={Pages.Cash} padding={{ px: '25px' }}>
+      <Button variant="yellow" to={Pages.Cash} padding={{ px: '25px' }} size="medium">
         {t('cash')}
       </Button>
     </div>

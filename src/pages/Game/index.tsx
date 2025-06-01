@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button';
 import LottiePlayer from '@/components/ui/LottiePlayer';
 import type { LottiePlayerMethods } from '@/components/ui/LottiePlayer';
 import WidthWrapper from '@/components/ui/WidthWrapper';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import s from './styles.module.scss'
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
@@ -15,25 +15,34 @@ import DoorGrid from '@/components/shared/DoorGrid';
 import type { DoorState } from '@/components/shared/DoorGrid';
 import { ANIMATIONS } from '@/constants';
 import HowToPlayModal from '@/components/modals/HowToPlayModal';
+import FlyingBomb from '@/components/shared/FlyingBomb';
+
 
 const bomb = 'imgs/game/bombHappy.svg';
 const chest = 'imgs/game/chest.svg';
 
 const DOOR_GRID: number[][] = [
-  [9, 10, 11, 12],
+  [1, 2, 3, 4],
   [5, 6, 7, 8],
-  [1, 2, 3, 4]
+  [9, 10, 11, 12]
 ];
 
 const Game: React.FC = () => {
   const { t } = useTranslation();
   const [value, setValue] = useState(0);
-  const [currentAnimation, setCurrentAnimation] = useState<keyof typeof ANIMATIONS>('GRANDMA');
   const [progress, setProgress] = useState(30);
   const [isVolume, setIsVolume] = useState(true);
   const [bombCount, setBombCount] = useState(0);
-
+  const [currentAnimation, setCurrentAnimation] = useState<keyof typeof ANIMATIONS>('GRANDMA');
+  
+  const [bombAnimation, setBombAnimation] = useState<{
+    isActive: boolean;
+    startPosition: { x: number; y: number };
+    targetPosition: { x: number; y: number };
+  } | null>(null);
+  
   const lottieRef = useRef<LottiePlayerMethods>(null);
+  const grandmaRef = useRef<HTMLDivElement>(null);
 
   const playGrandma = () => {
     setCurrentAnimation('GRANDMA');
@@ -62,7 +71,29 @@ const Game: React.FC = () => {
     }, 100);
   };
 
-  const activeRow = 2;
+  const launchBomb = useCallback((doorElement: HTMLElement) => {
+    if (!grandmaRef.current) return;
+    
+    const grandmaRect = grandmaRef.current.getBoundingClientRect();
+    const grandmaCenter = {
+      x: grandmaRect.left + grandmaRect.width / 2,
+      y: grandmaRect.top + grandmaRect.height / 2
+    };
+    
+    const doorRect = doorElement.getBoundingClientRect();
+    const doorBottom = {
+      x: doorRect.left + doorRect.width / 2,
+      y: doorRect.top + doorRect.height - 20,
+    };
+    
+    setBombAnimation({
+      isActive: true,
+      startPosition: grandmaCenter,
+      targetPosition: doorBottom
+    });
+  }, []);
+
+  const activeRow = 0;
   const activeCell = 2;
 
   return (
@@ -81,13 +112,13 @@ const Game: React.FC = () => {
 
         <DoorGrid>
           {DOOR_GRID.map((row, rowIndex) => (
-            <DoorGrid.Row 
+            <DoorGrid.Row
               key={`row-${rowIndex}`}
               state={rowIndex === activeRow ? 'active' : 'disabled'}
             >
               {row.map((cellId) => {
                 let doorState: DoorState = 'closed';
-                
+
                 if (rowIndex < activeRow || rowIndex > activeRow) {
                   doorState = 'locked';
                 } else if (rowIndex === activeRow) {
@@ -97,13 +128,14 @@ const Game: React.FC = () => {
                     doorState = 'closed';
                   }
                 }
-                
+
                 return (
-                  <DoorGrid.Door 
+                  <DoorGrid.Door
                     key={`cell-${cellId}`}
                     state={doorState}
-                    onClick={() => {
+                    onClick={(e) => {
                       console.log(`Клік на двері ${cellId} в рядку ${rowIndex}`);
+                      launchBomb(e.currentTarget);
                     }}
                   />
                 );
@@ -112,7 +144,7 @@ const Game: React.FC = () => {
           ))}
         </DoorGrid>
 
-        <div className={s.grandma}>
+        <div className={s.grandma} ref={grandmaRef}>
           <LottiePlayer
             ref={lottieRef}
             src={ANIMATIONS.GRANDMA}
@@ -120,6 +152,16 @@ const Game: React.FC = () => {
             height="200px"
           />
         </div>
+        
+        {bombAnimation && bombAnimation.isActive && (
+          <FlyingBomb
+            startPosition={bombAnimation.startPosition}
+            targetPosition={bombAnimation.targetPosition}
+            onAnimationComplete={() => {
+              setBombAnimation(null);
+            }}
+          />
+        )}
 
         <div className={s.prize}>
           <div className={s.left}>
@@ -155,10 +197,9 @@ const Game: React.FC = () => {
           />
           <PlayButton
             size='medium'
+            disabled={value === 0 || bombCount === 0}
             onClick={() => {
-              if (value > 0) {
-                playGrandma();
-              }
+              playGrandma();
             }}
           />
         </div>

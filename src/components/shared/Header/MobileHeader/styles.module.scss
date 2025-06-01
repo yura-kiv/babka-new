@@ -41,6 +41,10 @@
       @include flex(row, end, center);
       width: 100%;
 
+      &.notAuthenticated {
+        display: none;
+      }
+
       .menuButton {
         display: none;
       }
@@ -98,12 +102,16 @@
   height: 100%;
   padding: 25px 20px;
   overflow-y: auto;
-}
+}  
 
 .navigation {
   @include flex(column, flex-start, start);
   margin-bottom: 30px;
   gap: 15px;
+
+  a {
+    justify-content: start
+  }
 }
 
 .menuFooter {
@@ -112,8 +120,4 @@
   margin-top: auto;
   padding-top: 25px;
   border-top: 1px solid $border;
-}
-
-.loginLink {
-  @include flex(row, center, center);
 }

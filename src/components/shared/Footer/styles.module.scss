@@ -2,7 +2,7 @@
 @import '@/styles/abstracts/mixins';
 
 .footer {
-    margin-top: 20px;
+    margin-top: 80px;
     padding-bottom: 75px;
 }
 
@@ -35,7 +35,11 @@
     .actions {
         @include flex(row, space-around, center);
         width: 100%;
-        gap: 30px;
+        gap: 20px;
+
+        @include respond-to(sm) {
+            @include flex(column, center, stretch);
+        }
     }
 }
 
@@ -44,7 +48,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: 1;
     background-color: $blue;
     padding: 10px;
     border-top: 1px solid $border;

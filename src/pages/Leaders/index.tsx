@@ -35,38 +35,37 @@ const Leaders: React.FC = () => {
     }, []);
 
     return (
-        <div className={s.leadersPage}>
-            <WidthWrapper>
-                <PageTitle title={t("leaders")} subtitle={t("leaders.subTitle")} />
-                <Table
-                    variant="dark"
-                    striped
-                    hoverable
-                >
-                    <Table.Header>
-                        <Table.Cell width='20%'>{t('name')}</Table.Cell>
-                        <Table.Cell align="center">{t('spent')}</Table.Cell>
-                        <Table.Cell align="center">{t('numberOfBombs')}</Table.Cell>
-                        <Table.Cell align="center">{t('prize')}</Table.Cell>
-                    </Table.Header>
-                    <Table.Body>
-                        {leaderData.map((leader) => (
-                            <Table.Row key={leader.id}>
-                                <Table.Cell>
-                                    <UserAvatar 
-                                        name={leader.name} 
-                                        avatar={leader.avatar} 
-                                    />
-                                </Table.Cell>
-                                <Table.Cell align="center">{leader.spent}</Table.Cell>
-                                <Table.Cell align="center">{leader.bombs}</Table.Cell>
-                                <Table.Cell align="center" className={s.prize}>{leader.prize}</Table.Cell>
-                            </Table.Row>
-                        ))}
-                    </Table.Body>
-                </Table>
-            </WidthWrapper>
-        </div>
+        <WidthWrapper>
+            <PageTitle title={t("leaders")} subtitle={t("leaders.subTitle")} as="h1"/>
+            <Table
+                variant="dark"
+                striped
+                hoverable
+                className={s.table}
+            >
+                <Table.Header>
+                    <Table.Cell width='20%'>{t('name')}</Table.Cell>
+                    <Table.Cell align="center">{t('spent')}</Table.Cell>
+                    <Table.Cell align="center">{t('numberOfBombs')}</Table.Cell>
+                    <Table.Cell align="center">{t('prize')}</Table.Cell>
+                </Table.Header>
+                <Table.Body>
+                    {leaderData.map((leader) => (
+                        <Table.Row key={leader.id}>
+                            <Table.Cell>
+                                <UserAvatar
+                                    name={leader.name}
+                                    avatar={leader.avatar}
+                                />
+                            </Table.Cell>
+                            <Table.Cell align="center">{leader.spent}</Table.Cell>
+                            <Table.Cell align="center">{leader.bombs}</Table.Cell>
+                            <Table.Cell align="center" className={s.prize}>{leader.prize}</Table.Cell>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
+            </Table>
+        </WidthWrapper>
     );
 };
 

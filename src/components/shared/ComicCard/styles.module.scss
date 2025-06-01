@@ -1,0 +1,84 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.card {
+  @include flex(row, space-between, center);
+  gap: 30px;
+  position: relative;
+  overflow: hidden;
+  
+  &.right {
+    flex-direction: row-reverse;
+  }
+  
+  &.center {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  @include respond-to(sm) {
+    flex-direction: column-reverse;
+    
+    &.right {
+      flex-direction: column-reverse;
+    }
+  }
+}
+
+.content {
+  @include flex(column, center, flex-start);
+  flex: 1;
+  
+  .right & {
+    align-items: flex-end;
+    text-align: right;
+  }
+  
+  .center & {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+  
+  @include respond-to(sm) {
+    width: 100%;
+    
+    .right &,
+    .center & {
+      align-items: center;
+      text-align: center;
+    }
+  }
+}
+
+.text {
+  font-size: $font-size-medium;
+  line-height: 1.5;
+  max-width: 600px;
+  
+  @include respond-to(sm) {
+    text-align: center;
+    max-width: 100%;
+  }
+}
+
+.imageContainer {
+  flex: 1;
+  @include flex(column, center, center);
+  height: 250px;
+  
+  @include respond-to(md) {
+    height: 200px;
+  }
+  
+  @include respond-to(sm) {
+    width: 100%;
+    height: 180px;
+  }
+}
+
+.image {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}

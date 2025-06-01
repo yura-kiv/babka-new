@@ -24,7 +24,7 @@ const languages: Language[] = [
     flag: ukFlagSrc,
   },
   {
-    code: 'ua',
+    code: 'uk',
     name: 'Ua',
     flag: uaFlagSrc,
   },

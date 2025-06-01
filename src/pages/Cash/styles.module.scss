@@ -1,0 +1,43 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.wrapper {
+    @include flex(column, start, stretch);
+    gap: 30px;
+}
+
+.variants {
+    @include flex(row, start, center);
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+
+    @include respond-to(sm) {
+        @include flex(column, start, start);
+        gap: 15px;
+
+        button {
+            width: 100%;
+        }
+    }
+}
+
+.variant {
+    .img {
+        height: 20px;
+    }
+}
+
+.tableWrapper {
+    margin-top: 20px;
+}
+
+.completed {
+    color: $green;
+    font-weight: $font-weight-medium;
+}
+
+.pending {
+    color: $yellow;
+    font-weight: $font-weight-medium;
+}

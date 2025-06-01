@@ -3,7 +3,7 @@
 .container {
   width: 100%;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .swiperContainer {
@@ -46,4 +46,35 @@
   display: flex;
   justify-content: center;
   z-index: 1;
+}
+
+.customPagination {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  background-color: $black-light;
+  padding: 10px;
+  border-radius: 20px;
+  z-index: 1;
+  
+  .paginationBullet {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: $white-light;
+    cursor: pointer;
+    @include transition(all, 0.2s, ease);
+    
+    &:hover {
+      background-color: $white;
+    }
+    
+    &.paginationBulletActive {
+      background-color: $white;
+      transform: scale(1.2);
+    }
+  }
 }

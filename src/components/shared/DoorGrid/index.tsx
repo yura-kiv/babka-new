@@ -40,7 +40,7 @@ const Row: React.FC<RowProps> = ({ children, className, state = 'active' }) => {
 interface DoorProps {
   state: DoorState;
   className?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const Door: React.FC<DoorProps> = ({
@@ -54,46 +54,38 @@ const Door: React.FC<DoorProps> = ({
       onClick={onClick}
     >
       <img src="/imgs/game/doorOverlay.svg" alt="doorOverlay" className={s.doorOverlay} />
-      {renderDoorContent(state)}
+      
+      <img 
+        src="/imgs/game/doorClose.png" 
+        alt="doorClose" 
+        className={s.doorImage} 
+        style={{ display: state === 'closed' || state === 'locked' ? 'block' : 'none' }} 
+      />
+      
+      <img 
+        src="/imgs/game/doorOpen.png" 
+        alt="doorOpen" 
+        className={s.doorImage} 
+        style={{ display: state === 'open' || state === 'prize' || state === 'bomb' ? 'block' : 'none' }} 
+      />
+      
+      <img 
+        src="/imgs/game/prize.svg" 
+        alt="prize" 
+        className={s.prizeImage} 
+        style={{ display: state === 'prize' ? 'block' : 'none' }} 
+      />
+      
+      <img 
+        src="/imgs/game/bombHappy.svg" 
+        alt="bomb" 
+        className={s.bombImage} 
+        style={{ display: state === 'bomb' ? 'block' : 'none' }} 
+      />
+      
+      {state === 'locked' && <FaLock size={20} className={s.lock} />}
     </div>
   );
-};
-
-function renderDoorContent(state: DoorState) {
-  switch (state) {
-    case 'closed':
-      return <img src="/imgs/game/doorClose.png" alt="door" className={s.doorImage} />;
-    
-    case 'open':
-      return <img src="/imgs/game/doorOpen.png" alt="door" className={s.doorImage} />;
-    
-    case 'prize':
-      return (
-        <>
-          <img src="/imgs/game/doorOpen.png" alt="door" className={s.doorImage} />
-          <img src="/imgs/game/prize.svg" alt="prize" className={s.prizeImage} />
-        </>
-      );
-    
-    case 'bomb':
-      return (
-        <>
-          <img src="/imgs/game/doorOpen.png" alt="door" className={s.doorImage} />
-          <img src="/imgs/game/bombHappy.svg" alt="bomb" className={s.bombImage} />
-        </>
-      );
-    
-    case 'locked':
-      return (
-        <>
-          <img src="/imgs/game/doorClose.png" alt="door" className={s.doorImage} />
-          <FaLock size={20} className={s.lock} />
-        </>
-      );
-    
-    default:
-      return <img src="/imgs/game/doorClose.png" alt="door" className={s.doorImage} />;
-  }
 }
 
 DoorGrid.Row = Row;

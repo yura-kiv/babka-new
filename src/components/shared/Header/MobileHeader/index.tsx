@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaDoorOpen } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { Pages } from '@/constants';
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher';
 import Balance from '@/components/shared/Balance';
 import Button from '@/components/ui/Button';
+import UserMenu from '@/components/shared/Header/UserMenu';
 import s from './styles.module.scss';
 import Divider from '@/components/ui/Divider';
+import { useSelector } from 'react-redux';
+import { isUserAuthenticated } from '@/store/helpers/selectors';
+import classNames from 'classnames';
 
 const navigation = [
   {
@@ -24,8 +28,8 @@ const navigation = [
     path: Pages.Rules,
   },
   {
-    name: 'comics',
-    path: Pages.Comics,
+    name: 'comic',
+    path: Pages.Comic,
   },
 ];
 
@@ -33,6 +37,7 @@ const MobileHeader: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const isAuthenticated = useSelector(isUserAuthenticated);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -73,8 +78,8 @@ const MobileHeader: React.FC = () => {
           {logo}
           {menuButton}
         </div>
-        <div className={s.rightSection}>
-          <Divider />
+        <div className={classNames(s.rightSection, { [s.notAuthenticated]: !isAuthenticated })}>
+          <Divider noMargin />
           <Balance />
           {menuButton}
         </div>
@@ -115,8 +120,9 @@ const MobileHeader: React.FC = () => {
                       variant="underline"
                       fullWidth
                       isActive={location.pathname === item.path}
-                      padding={{ p: 0 }}
+                      padding={{ py: '0px' }}
                       size='large'
+                      className={s.menuButton}
                     >
                       {t(item.name)}
                     </Button>
@@ -128,16 +134,7 @@ const MobileHeader: React.FC = () => {
                       placement: 'top-left',
                     }}
                   />
-                  <Button
-                    to={Pages.Auth}
-                    variant="simple"
-                    icon={<FaDoorOpen />}
-                    className={s.loginLink}
-                    fullWidth
-                    size='large'
-                  >
-                    {t('login')}
-                  </Button>
+                  <UserMenu />
                 </div>
               </div>
             </motion.div>

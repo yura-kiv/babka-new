@@ -6,6 +6,10 @@
     width: 70%;
     gap: 15px;
     margin: 0 auto;
+
+    @include respond-to(md) {
+        width: 100%;
+    }
 }
 
 .checkbox {

@@ -1,0 +1,123 @@
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useForm, Controller } from 'react-hook-form';
+import { FaLock } from 'react-icons/fa';
+import { PasswordInput } from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
+import PageTitle from '@/components/ui/PageTitle';
+import { Pages } from '@/constants';
+import s from './styles.module.scss';
+
+type FormData = {
+  password: string;
+  confirmPassword: string;
+};
+
+const ResetPassword: React.FC = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // In a real implementation, you would extract the token from the URL
+  // const token = new URLSearchParams(location.search).get('token');
+
+  const { control, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
+    defaultValues: {
+      password: '',
+      confirmPassword: ''
+    },
+    mode: 'onBlur'
+  });
+
+  const password = watch('password');
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      setIsSubmitting(true);
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      setTimeout(() => {
+        navigate(Pages.Auth);
+      }, 2000);
+    } catch (error) {
+      console.error('Error resetting password:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className={s.wrapper}>
+      <PageTitle 
+        title={t('resetPassword.title')} 
+        subtitle={t('resetPassword.description')} 
+        as="h1"
+      />
+      <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+        <Controller
+          name="password"
+          control={control}
+          rules={{
+            required: t('validation.required'),
+            minLength: {
+              value: 8,
+              message: t('validation.minLength', { count: 8 })
+            }
+          }}
+          render={({ field }) => (
+            <PasswordInput
+              {...field}
+              label={t('resetPassword.newPassword')}
+              placeholder={t('resetPassword.newPassword')}
+              leftIcon={<FaLock />}
+              errorMessage={errors.password?.message}
+              size="medium"
+            />
+          )}
+        />
+
+        <Controller
+          name="confirmPassword"
+          control={control}
+          rules={{
+            required: t('validation.required'),
+            validate: value => 
+              value === password || t('validation.passwordMatch')
+          }}
+          render={({ field }) => (
+            <PasswordInput
+              {...field}
+              label={t('resetPassword.confirmPassword')}
+              placeholder={t('resetPassword.confirmPassword')}
+              leftIcon={<FaLock />}
+              errorMessage={errors.confirmPassword?.message}
+              size="medium"
+            />
+          )}
+        />
+
+        <Button
+          type="submit"
+          variant="yellow"
+          fullWidth
+          size="large"
+          isLoading={isSubmitting}
+        >
+          {t('resetPassword.submit')}
+        </Button>
+
+        <Button
+          variant="subtle"
+          to={Pages.Auth}
+          className={s.backButton}
+        >
+          {t('resetPassword.backToLogin')}
+        </Button>
+      </form>
+    </div>
+  );
+};
+
+export default ResetPassword;

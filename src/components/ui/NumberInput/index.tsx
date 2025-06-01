@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import s from './NumberInput.module.scss';
 import { FaPlus, FaMinus } from "react-icons/fa";
 
@@ -21,21 +21,37 @@ const NumberInput: React.FC<NumberInputProps> = ({
   currency = '$',
   className = '',
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value === '' ? min : Math.max(min, parseFloat(e.target.value));
-    if (!isNaN(newValue) && newValue <= max) {
-      onChange(newValue);
+    const inputValue = e.target.value.replace(/[^0-9]/g, '');
+    
+    if (inputValue === '') {
+      onChange(min);
+      return;
+    }
+    
+    const numericValue = parseInt(inputValue, 10);
+    
+    if (!isNaN(numericValue)) {
+      const constrainedValue = Math.min(Math.max(numericValue, min), max);
+      onChange(constrainedValue);
     }
   }, [min, max, onChange]);
 
   const handleIncrement = useCallback(() => {
     const newValue = Math.min(max, value + step);
     onChange(newValue);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [value, max, step, onChange]);
 
   const handleDecrement = useCallback(() => {
     const newValue = Math.max(min, value - step);
     onChange(newValue);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [value, min, step, onChange]);
 
   return (
@@ -52,12 +68,12 @@ const NumberInput: React.FC<NumberInputProps> = ({
       
       <div className={s.inputWrapper}>
         <input
-          type="number"
+          ref={inputRef}
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           value={value}
           onChange={handleInputChange}
-          min={min}
-          max={max}
-          step={step}
           className={s.input}
         />
         <span className={s.currency}>{currency}</span>

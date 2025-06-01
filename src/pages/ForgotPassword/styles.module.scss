@@ -1,0 +1,18 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.wrapper {
+  flex: 1 1 0;
+  @include flex(column, center, stretch);
+  gap: 20px;
+}
+
+.form {
+  @include flex(column, center, stretch);
+  gap: 20px;
+}
+
+.backButton {
+  align-self: center;
+}
+

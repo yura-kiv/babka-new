@@ -6,7 +6,9 @@ export enum Pages {
     Rules = '/rules',   
     Leaders = '/leaders',
     Cash = '/cash',
-    Comics = '/comics'
+    Comic = '/comic',
+    ForgotPassword = '/forgot-password',
+    ResetPassword = '/reset-password'
 }
 
 export const ANIMATIONS = {

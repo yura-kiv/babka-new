@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FaUser, FaLock } from 'react-icons/fa';
+import { Pages } from '@/constants';
 import Input, { PasswordInput } from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import s from './styles.module.scss';
@@ -39,7 +40,6 @@ const LoginForm: React.FC = () => {
             label={t('auth.username')}
             placeholder={t('auth.username')}
             leftIcon={<FaUser />}
-            variant={errors.username ? 'error' : 'default'}
             errorMessage={errors.username?.message}
             size="medium"
           />
@@ -58,7 +58,6 @@ const LoginForm: React.FC = () => {
             label={t('auth.password')}
             placeholder={t('auth.password')}
             leftIcon={<FaLock />}
-            variant={errors.password ? 'error' : 'default'}
             errorMessage={errors.password?.message}
             size="medium"
           />
@@ -73,6 +72,10 @@ const LoginForm: React.FC = () => {
         className={s.submitButton}
       >
         {t('auth.login')}
+      </Button>
+
+      <Button variant="subtle" size="medium" to={Pages.ForgotPassword} className={s.forgotPassword}>
+        {t('auth.forgotPassword')}
       </Button>
     </form>
   );

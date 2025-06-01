@@ -10,6 +10,9 @@ export interface UserState {
   avatarUrl: string | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  // optional
+  selectedBalance: BalanceType;
+  demoBalance: number;
 }
 
 // Game State Types
@@ -74,3 +77,5 @@ export interface OpenCellPayload {
 export interface StopGamePayload {
   level: number;
 }
+
+export type BalanceType = 'real' | 'demo';

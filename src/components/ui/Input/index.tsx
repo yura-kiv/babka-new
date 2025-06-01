@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import s from './styles.module.scss';
 import Button from '../Button';
 
-export type InputVariant = 'default' | 'success' | 'warning' | 'error';
+export type InputVariant = 'default' | 'success' | 'warning';
 export type InputSize = 'small' | 'medium' | 'large';
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -41,14 +41,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>((
   },
   ref
 ) => {
-  const isError = variant === 'error' || !!errorMessage;
+  const isError = !!errorMessage;
   
   const inputClasses = classNames(
     s.input,
     s[size],
+    s[variant],
     {
       [s.error]: isError,
-      [s[variant]]: variant !== 'error',
       [s.hasLeftIcon]: !!leftIcon,
       [s.hasRightIcon]: !!rightIcon,
     },

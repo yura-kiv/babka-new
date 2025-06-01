@@ -1,14 +1,14 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LanguageSwitcher from '@/components/shared/LanguageSwitcher';
-import { Pages } from '@/constants';
-import Balance from '@/components/shared/Balance';
-import { FaDoorOpen } from 'react-icons/fa';
-import s from './styles.module.scss'
-import WidthWrapper from '@/components/ui/WidthWrapper';
+import { useLocation } from 'react-router-dom';
+
+import s from './styles.module.scss';
 import Button from '@/components/ui/Button';
-import classNames from 'classnames';
+import { Pages } from '@/constants';
+import WidthWrapper from '@/components/ui/WidthWrapper';
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher';
+import Balance from '@/components/shared/Balance';
+import UserMenu from '@/components/shared/Header/UserMenu';
 
 const navigation = [
   {
@@ -24,10 +24,10 @@ const navigation = [
     path: Pages.Rules,
   },
   {
-    name: 'comics',
-    path: Pages.Comics,
+    name: 'comic',
+    path: Pages.Comic,
   },
-]
+];
 
 const DesctopHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -37,7 +37,7 @@ const DesctopHeader: React.FC = () => {
     <header className={s.header}>
       <WidthWrapper className={s.wrapper}>
         <div className={s.left}>
-          <Button to={Pages.Home} variant="simple" className={s.logo}>
+          <Button to={Pages.Home} variant="simple" className={s.logo} padding={{ p: 0 }} size='large'>
             GMSPLAY.PRO
           </Button>
           <LanguageSwitcher />
@@ -50,6 +50,7 @@ const DesctopHeader: React.FC = () => {
               to={item.path}
               variant="underline"
               isActive={location.pathname === item.path}
+              padding={{ py: '0px' }}
             >
               {t(item.name)}
             </Button>
@@ -57,9 +58,7 @@ const DesctopHeader: React.FC = () => {
         </nav>
         <div className={s.right}>
           <Balance />
-          <Button size='large' to={Pages.Auth} variant="simple" icon={<FaDoorOpen />}>
-            {t('login')}
-          </Button>
+          <UserMenu />
         </div>
       </WidthWrapper>
     </header>
