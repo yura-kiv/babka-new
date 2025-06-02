@@ -6,6 +6,7 @@ import { Pages } from '@/constants';
 import Input, { PasswordInput } from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import s from './styles.module.scss';
+import { notificationService } from '@/services/notification';
 
 type FormData = {
   email: string;
@@ -28,6 +29,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+      <button type="button" onClick={() => notificationService.info('test')}>test</button>
       <Controller
         name="email"
         control={control}
