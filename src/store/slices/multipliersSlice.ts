@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import type { MultipliersState } from "@/types/store";
-
-const API_BASE = "http://localhost:3000";
+import { multipliersApi } from "@/api";
 
 export const fetchMultipliers = createAsyncThunk(
   "multipliers/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${API_BASE}/users/multipliers`);
+      const { data } = await multipliersApi.getMultipliers();
       return data.data; // { '1':1.1, '2':1.5, '3':1.9 }
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch multipliers");

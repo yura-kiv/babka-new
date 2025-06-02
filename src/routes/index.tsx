@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
         element: <Comic />,
       },
       {
-        element: <AuthGuard requireAuth={false} />,
+        element: <AuthGuard requireAuth={true} />,
         children: [
           {
             path: Pages.Profile,

@@ -32,7 +32,7 @@ const HowToPlayModal: React.FC = () => {
     };
 
     return (
-        <Modal title={t('howToPlay')} isOpen={isModalOpen} onClose={handleClose}>
+        <Modal title={t('howToPlay')} isOpen={isModalOpen} onClose={handleClose} maxWidth="780px">
             <RulesGameAnimation />
 
             <div className={s.container}>

@@ -42,8 +42,6 @@ const slides = [
   },
 ]
 
-const uniqueSlides = slides.slice(0, 3);
-
 const HomeSwiper: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [swiper, setSwiper] = useState<SwiperInstance | null>(null);
@@ -53,45 +51,6 @@ const HomeSwiper: React.FC = () => {
     const uniqueIndex = swiperInstance.realIndex % 3;
     setActiveSlide(uniqueIndex);
   };
-
-  useEffect(() => {
-    if (!paginationContainerRef.current || !swiper) return;
-
-    const paginationContainer = paginationContainerRef.current;
-    paginationContainer.innerHTML = '';
-
-    uniqueSlides.forEach((_, index) => {
-      const bullet = document.createElement('div');
-      bullet.className = `${s.paginationBullet} ${index === activeSlide ? s.paginationBulletActive : ''}`;
-      
-      bullet.addEventListener('click', () => {
-        const currentUniqueIndex = swiper.realIndex % 3;
-        const currentGroup = Math.floor(swiper.realIndex / 3);
-        
-        let targetIndex;
-        if (index === currentUniqueIndex) {
-          return;
-        } else {
-          targetIndex = currentGroup * 3 + index;
-          
-          if (Math.abs(index - currentUniqueIndex) > 1) {
-            if (index > currentUniqueIndex) {
-              targetIndex = (currentGroup - 1) * 3 + index;
-            } else {
-              targetIndex = (currentGroup + 1) * 3 + index;
-            }
-          }
-        }
-        
-        if (targetIndex < 0) targetIndex += slides.length;
-        if (targetIndex >= slides.length) targetIndex -= slides.length;
-        
-        swiper.slideToLoop(targetIndex);
-      });
-      
-      paginationContainer.appendChild(bullet);
-    });
-  }, [swiper, activeSlide]);
 
   return (
     <div className={s.container}>
@@ -124,7 +83,17 @@ const HomeSwiper: React.FC = () => {
           ))}
         </Swiper>
         
-        <div ref={paginationContainerRef} className={s.customPagination}></div>
+        <div ref={paginationContainerRef} className={s.customPagination}>
+          {[0, 1, 2].map((bullet) => (
+            <div
+              key={bullet}
+              onClick={() => swiper?.slideToLoop(bullet)}
+              className={classNames(s.paginationBullet, {
+                [s.paginationBulletActive]: (activeSlide % 3) === bullet,
+              })}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

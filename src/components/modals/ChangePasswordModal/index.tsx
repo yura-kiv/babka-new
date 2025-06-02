@@ -52,6 +52,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
       onClose={handleClose}
       title={t('changePassword.title')}
       animation="scale"
+      
     >
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <PasswordInput

@@ -1,39 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { GameState, StartGamePayload, OpenCellPayload, StopGamePayload } from "@/types/store";
 import { logout as logoutUser } from "@/store/slices/userSlice";
-
-const API_BASE_URL = "http://localhost:3030";
+import { gameApi } from "@/api";
 
 // Start game
 export const startGame = createAsyncThunk(
   "game/startGame",
-  async ({ bet, bombsCount }: StartGamePayload, { getState, rejectWithValue, dispatch }) => {
+  async (payload: StartGamePayload, { rejectWithValue, dispatch }) => {
     try {
-      const state = getState() as { user: { token: string } };
-      const token = state.user.token;
-      
-      const res = await fetch(`${API_BASE_URL}/game/start`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ bet, bombsCount }),
-      });
-      
-      if (res.status === 401) {
+      const { data } = await gameApi.startGame(payload);
+      return data;
+    } catch (error: any) {
+      if (error.response?.status === 401) {
         dispatch(logoutUser());
         return rejectWithValue("Not authenticated");
       }
-      
-      const data = await res.json();
-      if (!res.ok) {
-        return rejectWithValue(data.message || "Failed to start game");
-      }
-      
-      return data;
-    } catch (error: any) {
-      return rejectWithValue(error.message || "Failed to start game");
+      return rejectWithValue(error.response?.data?.message || "Failed to start game");
     }
   }
 );
@@ -41,25 +23,14 @@ export const startGame = createAsyncThunk(
 // Open cell
 export const openCell = createAsyncThunk(
   "game/openCell",
-  async ({ level, cellIndex }: OpenCellPayload, { getState, rejectWithValue }) => {
+  async ({ level, cellIndex }: OpenCellPayload, { rejectWithValue }) => {
     try {
-      const state = getState() as { user: { token: string } };
-      const token = state.user.token;
-      
-      const res = await fetch(`${API_BASE_URL}/game/open/${level}/${cellIndex}`, {
-        method: "PATCH",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      
-      const data = await res.json();
-      if (!res.ok) {
-        return rejectWithValue(data.message || "Failed to open cell");
-      }
+      const { data } = await gameApi.openCell(level, cellIndex);
       
       // Attach cellIndex for updating openedCells
       return { ...data, cellIndex };
     } catch (error: any) {
-      return rejectWithValue(error.message || "Failed to open cell");
+      return rejectWithValue(error.response?.data?.message || "Failed to open cell");
     }
   }
 );
@@ -67,29 +38,16 @@ export const openCell = createAsyncThunk(
 // Cash out (stop) game
 export const stopGame = createAsyncThunk(
   "game/stopGame",
-  async ({ level }: StopGamePayload, { getState, rejectWithValue, dispatch }) => {
+  async ({ level }: StopGamePayload, { rejectWithValue, dispatch }) => {
     try {
-      const state = getState() as { user: { token: string } };
-      const token = state.user.token;
-      
-      const res = await fetch(`${API_BASE_URL}/game/stop/${level}`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      
-      if (res.status === 401) {
+      const { data } = await gameApi.stopGame(level);
+      return data;
+    } catch (error: any) {
+      if (error.response?.status === 401) {
         dispatch(logoutUser());
         return rejectWithValue("Not authenticated");
       }
-      
-      const data = await res.json();
-      if (!res.ok) {
-        return rejectWithValue(data.message || "Failed to cash out");
-      }
-      
-      return data;
-    } catch (error: any) {
-      return rejectWithValue(error.message || "Failed to cash out");
+      return rejectWithValue(error.response?.data?.message || "Failed to cash out");
     }
   }
 );

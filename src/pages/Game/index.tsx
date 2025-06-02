@@ -34,13 +34,13 @@ const Game: React.FC = () => {
   const [isVolume, setIsVolume] = useState(true);
   const [bombCount, setBombCount] = useState(0);
   const [currentAnimation, setCurrentAnimation] = useState<keyof typeof ANIMATIONS>('GRANDMA');
-  
+
   const [bombAnimation, setBombAnimation] = useState<{
     isActive: boolean;
     startPosition: { x: number; y: number };
     targetPosition: { x: number; y: number };
   } | null>(null);
-  
+
   const lottieRef = useRef<LottiePlayerMethods>(null);
   const grandmaRef = useRef<HTMLDivElement>(null);
 
@@ -73,19 +73,21 @@ const Game: React.FC = () => {
 
   const launchBomb = useCallback((doorElement: HTMLElement) => {
     if (!grandmaRef.current) return;
-    
+
+    const scrollY = window.scrollY;
+
     const grandmaRect = grandmaRef.current.getBoundingClientRect();
     const grandmaCenter = {
       x: grandmaRect.left + grandmaRect.width / 2,
-      y: grandmaRect.top + grandmaRect.height / 2
+      y: grandmaRect.top + grandmaRect.height / 2 + scrollY
     };
-    
+
     const doorRect = doorElement.getBoundingClientRect();
     const doorBottom = {
       x: doorRect.left + doorRect.width / 2,
-      y: doorRect.top + doorRect.height - 20,
+      y: doorRect.top + doorRect.height - 20 + scrollY,
     };
-    
+
     setBombAnimation({
       isActive: true,
       startPosition: grandmaCenter,
@@ -144,15 +146,14 @@ const Game: React.FC = () => {
           ))}
         </DoorGrid>
 
-        <div className={s.grandma} ref={grandmaRef}>
-          <LottiePlayer
-            ref={lottieRef}
-            src={ANIMATIONS.GRANDMA}
-            width="200px"
-            height="200px"
-          />
-        </div>
-        
+        <LottiePlayer
+          lottieRef={lottieRef}
+          containerRef={grandmaRef}
+          src={ANIMATIONS.GRANDMA}
+          width="200px"
+          height="200px"
+        />
+
         {bombAnimation && bombAnimation.isActive && (
           <FlyingBomb
             startPosition={bombAnimation.startPosition}

@@ -1,4 +1,3 @@
-// User State Types
 export interface UserState {
   isAuthenticated: boolean;
   token: string;
@@ -15,7 +14,6 @@ export interface UserState {
   demoBalance: number;
 }
 
-// Game State Types
 export interface GameState {
   bet: number;
   bombsCount: number;
@@ -30,20 +28,18 @@ export interface GameState {
   error: string | null;
 }
 
-// Multipliers State Types
 export interface MultipliersState {
   values: Record<string, number>;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
 
-// UI State Types
 export interface UIState {
   isLoading: boolean;
   errorMessage: string | null;
+  isMuted: boolean;
 }
 
-// Root State Type
 export interface RootState {
   user: UserState;
   game: GameState;
@@ -51,11 +47,19 @@ export interface RootState {
   ui: UIState;
 }
 
-// Auth Types
 export interface LoginCredentials {
+  username?: string;
   email: string;
   password: string;
   lang?: string;
+}
+
+export interface RegisterCredentials {
+  email: string;
+  password: string;
+  username: string;
+  lang?: string;
+  agreeToTerms?: boolean;
 }
 
 export interface UpdateProfileData {
@@ -63,7 +67,6 @@ export interface UpdateProfileData {
   avatarFile?: File;
 }
 
-// Game Action Types
 export interface StartGamePayload {
   bet: number;
   bombsCount: number;

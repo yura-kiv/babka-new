@@ -18,6 +18,7 @@ export interface ModalProps {
   contentClassName?: string;
   overlayClassName?: string;
   animation?: 'fade' | 'scale' | 'slideUp' | 'slideDown';
+  maxWidth?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -32,6 +33,7 @@ const Modal: React.FC<ModalProps> = ({
   contentClassName = '',
   overlayClassName = '',
   animation = 'scale',
+  maxWidth = '600px'
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -113,6 +115,7 @@ const Modal: React.FC<ModalProps> = ({
         >
           <motion.div
             className={classNames(s.modal, className)}
+            style={{ maxWidth }}
             variants={getAnimationVariants()}
             initial="hidden"
             animate="visible"

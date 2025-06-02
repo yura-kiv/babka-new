@@ -15,17 +15,18 @@ const RulesGameAnimation = () => {
         targetPosition: { x: number; y: number };
     } | null>(null);
 
-    const lottieRef = useRef<LottiePlayerMethods>(null);
-    const grandmaRef = useRef<HTMLDivElement>(null);
+    const lottieRef = useRef<LottiePlayerMethods | null>(null);
+    const grandmaRef = useRef<HTMLDivElement | null>(null);
     const doorRefs = useRef<(HTMLDivElement | null)[]>([null, null, null, null]);
 
     const getGrandmaPosition = () => {
         const grandmaElement = grandmaRef.current;
         if (!grandmaElement) return null;
         const rect = grandmaElement.getBoundingClientRect();
+        const scrollY = window.scrollY;
         return {
             x: rect.left + rect.width / 2,
-            y: rect.top + rect.height / 2,
+            y: rect.top + rect.height / 2 + scrollY,
         };
     };
 
@@ -33,12 +34,13 @@ const RulesGameAnimation = () => {
         const doorElement = doorRefs.current[doorIndex];
         if (!doorElement) return null;
         const rect = doorElement.getBoundingClientRect();
+        const scrollY = window.scrollY;
         return {
             x: rect.left + rect.width / 2,
-            y: rect.top + rect.height - 20,
+            y: rect.top + rect.height - 20 + scrollY,
         };
     };
-    
+
     const handleGrandmaAnimationComplete = () => {
         setAnimationStep(1);
         setBombAnimation({
@@ -115,7 +117,7 @@ const RulesGameAnimation = () => {
             }, 2000);
         }
     }, [animationStep]);
-    
+
     return (
         <WidthWrapper maxWidth={992} noPadding className={s.wrapper}>
             <DoorGrid>
@@ -139,17 +141,17 @@ const RulesGameAnimation = () => {
                 ))}
             </DoorGrid>
 
-            <div className={s.grandma} ref={grandmaRef}>
-                <LottiePlayer
-                    ref={lottieRef}
-                    src={ANIMATIONS.GRANDMA}
-                    width="200px"
-                    height="200px"
-                    autoplay={true}
-                    loop={false}
-                    onComplete={handleGrandmaAnimationComplete}
-                />
-            </div>
+            <LottiePlayer
+                lottieRef={lottieRef}
+                containerRef={grandmaRef}
+                src={ANIMATIONS.GRANDMA}
+                width="200px"
+                height="200px"
+                autoplay={true}
+                loop={false}
+                onComplete={handleGrandmaAnimationComplete}
+            />
+
 
             {bombAnimation && (
                 <FlyingBomb

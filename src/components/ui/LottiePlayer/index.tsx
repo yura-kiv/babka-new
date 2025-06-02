@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle } from 'react';
 import './styles.scss';
 
 declare global {
@@ -37,9 +37,11 @@ interface LottiePlayerProps {
   id?: string;
   onComplete?: () => void;
   onReady?: () => void;
+  lottieRef?: React.RefObject<LottiePlayerMethods | null>;
+  containerRef?: React.RefObject<HTMLDivElement | null>;
 }
 
-const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, ref) => {
+const LottiePlayer: React.FC<LottiePlayerProps> = (props) => {
   const {
     src,
     className = '',
@@ -52,8 +54,10 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
     id,
     onComplete,
     onReady,
+    lottieRef,
+    containerRef,
   } = props;
-  
+
   const playerRef = useRef<HTMLElement & {
     src?: string;
     background?: string;
@@ -64,7 +68,7 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
     pause?: () => void;
     stop?: () => void;
   } | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!document.querySelector('script[src*="dotlottie-player"]')) {
@@ -86,10 +90,10 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
   }, [src]);
 
   const initializeLottie = () => {
-    if (!containerRef.current) return;
+    if (!ref.current) return;
 
-    if (containerRef.current.firstChild) {
-      containerRef.current.innerHTML = '';
+    if (ref.current.firstChild) {
+      ref.current.innerHTML = '';
     }
     const player = document.createElement('dotlottie-player') as HTMLElement & {
       src: string;
@@ -98,7 +102,7 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
       loop: boolean;
       autoplay: boolean;
     };
-    
+
     player.src = src;
     player.background = background;
     player.speed = speed.toString();
@@ -106,11 +110,11 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
     player.autoplay = autoplay;
     player.style.width = width;
     player.style.height = height;
-    
+
     if (id) {
       player.id = id;
     }
-    
+
     if (className) {
       className.split(' ').forEach((cls: string) => {
         if (cls) player.classList.add(cls);
@@ -120,7 +124,7 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
     player.addEventListener('complete', handleComplete);
     player.addEventListener('ready', handleReady);
 
-    containerRef.current.appendChild(player);
+    ref.current?.appendChild(player);
     playerRef.current = player;
   };
 
@@ -130,7 +134,7 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
 
   const handleReady = () => {
     if (onReady) onReady();
-    
+
     if (autoplay && playerRef.current && playerRef.current.play) {
       playerRef.current.play();
     }
@@ -153,14 +157,16 @@ const LottiePlayer = forwardRef<LottiePlayerMethods, LottiePlayerProps>((props, 
       playerRef.current.stop();
     }
   };
-  
-  useImperativeHandle(ref, () => ({
+
+  useImperativeHandle(lottieRef, () => ({
     play,
     pause,
     stop
   }));
 
-  return <div ref={containerRef} className="lottie-player-container" />;
-});
+  useImperativeHandle(containerRef, () => ref.current!);
+
+  return <div ref={ref} className="lottie-player-container" />;
+}
 
 export default LottiePlayer;

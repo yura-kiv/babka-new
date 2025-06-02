@@ -1,19 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
 import type { LoginCredentials, UpdateProfileData, UserState } from "@/types/store";
-
-const API_BASE = "http://localhost:3000";
+import { authApi, userApi } from "@/api";
 
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async ({ email, password, lang }: LoginCredentials, { rejectWithValue }) => {
+  async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${API_BASE}/auth/login`, {
-        email,
-        password,
-        lang,
-      });
+      const { data } = await authApi.login(credentials);
       return data;
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Login failed");
@@ -23,21 +17,9 @@ export const loginUser = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
   "user/updateProfile",
-  async ({ username, avatarFile }: UpdateProfileData, { getState, rejectWithValue }) => {
+  async (profileData: UpdateProfileData, { rejectWithValue }) => {
     try {
-      const state = getState() as { user: UserState };
-      const token = state.user.token;
-      
-      const formData = new FormData();
-      if (username) formData.append("username", username);
-      if (avatarFile) formData.append("avatar", avatarFile);
-      
-      const { data } = await axios.patch(`${API_BASE}/users/me`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const { data } = await userApi.updateProfile(profileData);
       return data.user;
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Profile update failed");
@@ -70,6 +52,9 @@ const userSlice = createSlice({
     logout: () => initialUserState,
     setSelectedBalance: (state, action: PayloadAction<'real' | 'demo'>) => {
       state.selectedBalance = action.payload;
+    },
+    updateToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -113,5 +98,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout, setSelectedBalance } = userSlice.actions;
+export const { logout, setSelectedBalance, updateToken } = userSlice.actions;
 export default userSlice.reducer;

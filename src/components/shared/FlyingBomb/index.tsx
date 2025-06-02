@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { createPortal } from 'react-dom';
 import s from './styles.module.scss'
 
 interface FlyingBombProps {
@@ -57,7 +58,7 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
   const explosionVariants = {
     initial: {
       x: targetPosition.x,
-      y: targetPosition.y + 40,
+      y: targetPosition.y + 60,
       opacity: 0,
       scale: 0.5
     },
@@ -87,7 +88,11 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
     }
   };
 
-  return (
+  const bombOverlayElement = document.getElementById('bombOverlay');
+  
+  if (!bombOverlayElement) return null;
+  
+  return createPortal(
     <>
       <motion.div
         className={s.wrapper}
@@ -95,6 +100,7 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
         animate="animate"
         variants={bombVariants}
         onAnimationComplete={handleBombAnimationComplete}
+        style={{ rotate: angle }}
       >
         <img 
           src="/imgs/game/bombIcon.svg" 
@@ -107,17 +113,18 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
         {explosion && explosion.isActive && (
           <motion.div
             className={s.explosion}
-            variants={explosionVariants}
             initial="initial"
             animate="animate"
             exit="exit"
+            variants={explosionVariants}
             onAnimationComplete={handleExplosionComplete}
           >
             <img src="/imgs/game/bum.svg" alt="Explosion" />
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </>,
+    bombOverlayElement
   );
 };
 

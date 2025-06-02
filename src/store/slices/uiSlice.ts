@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { UIState } from "@/types/store";
+import audioService from "@/services/audioService";
 
 const initialState: UIState = {
   isLoading: false,
   errorMessage: null,
+  isMuted: false,
 };
 
 const uiSlice = createSlice({
@@ -20,8 +22,21 @@ const uiSlice = createSlice({
     clearErrorMessage: (state) => {
       state.errorMessage = null;
     },
+    setMuted: (state, action: PayloadAction<boolean>) => {
+      state.isMuted = action.payload;
+      if (action.payload) {
+        audioService.mute();
+      } else {
+        audioService.unmute();
+      }
+    },
   },
 });
 
-export const { setLoading, setErrorMessage, clearErrorMessage } = uiSlice.actions;
+export const { 
+  setLoading, 
+  setErrorMessage, 
+  clearErrorMessage,
+  setMuted, 
+} = uiSlice.actions;
 export default uiSlice.reducer;

@@ -1,14 +1,14 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { FaUser, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { Pages } from '@/constants';
 import Input, { PasswordInput } from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import s from './styles.module.scss';
 
 type FormData = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -16,7 +16,7 @@ const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
     defaultValues: {
-      username: '',
+      email: '',
       password: ''
     },
     mode: 'onBlur'
@@ -29,19 +29,24 @@ const LoginForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
       <Controller
-        name="username"
+        name="email"
         control={control}
         rules={{
-          required: t('validation.required')
+          required: t('validation.required'),
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: t('validation.email')
+          }
         }}
         render={({ field }) => (
           <Input
             {...field}
-            label={t('auth.username')}
-            placeholder={t('auth.username')}
-            leftIcon={<FaUser />}
-            errorMessage={errors.username?.message}
+            label={t('auth.email')}
+            placeholder={t('auth.email')}
+            leftIcon={<FaEnvelope />}
+            errorMessage={errors.email?.message}
             size="medium"
+            type="email"
           />
         )}
       />
