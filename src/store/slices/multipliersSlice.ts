@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { MultipliersState } from "@/types/store";
+import type { MultipliersState } from "@/types";
 import { multipliersApi } from "@/api";
 
 export const fetchMultipliers = createAsyncThunk(

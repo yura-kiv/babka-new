@@ -1,8 +1,9 @@
 import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
 import { API_BASE } from '@/constants';
 import { store } from '@/store';
-import { logout, updateToken } from '@/store/slices/userSlice';
 import { authApi } from '@/api/auth';
+import i18n from '@/i18n/config';
+import { logoutUser, updateUserToken } from '@/store/helpers/actions';
 
 export const publicApi = axios.create({
   baseURL: API_BASE,
@@ -41,7 +42,7 @@ const refreshTokenAndRetry = async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
     
     if (!originalRequest || originalRequest._retry) {
-      store.dispatch(logout());
+      store.dispatch(logoutUser());
       return Promise.reject(error);
     }
     
@@ -64,16 +65,16 @@ const refreshTokenAndRetry = async (error: AxiosError) => {
         
         if (data && data.token) {
           const newToken = data.token;
-          store.dispatch(updateToken(newToken));
+          store.dispatch(updateUserToken(newToken));
           
           onRefreshed(newToken);
           resolve(newToken);
         } else {
-          store.dispatch(logout());
+          store.dispatch(logoutUser());
           reject(new Error('Failed to refresh token'));
         }
       } catch (refreshError) {
-        store.dispatch(logout());
+        store.dispatch(logoutUser());
         reject(refreshError);
       } finally {
         isRefreshing = false;
@@ -87,7 +88,7 @@ const refreshTokenAndRetry = async (error: AxiosError) => {
     
     return axios(originalRequest);
   } catch (refreshError) {
-    store.dispatch(logout());
+    store.dispatch(logoutUser());
     return Promise.reject(refreshError);
   }
 };
@@ -104,7 +105,7 @@ const errorInterceptor = async (error: AxiosError) => {
     if (!isAuthEndpoint) {
       return refreshTokenAndRetry(error);
     } else {
-      store.dispatch(logout());
+      store.dispatch(logoutUser());
     }
   }
   
@@ -125,8 +126,35 @@ const errorInterceptor = async (error: AxiosError) => {
   return Promise.reject(error);
 };
 
-publicApi.interceptors.response.use(responseInterceptor, errorInterceptor);
-privateApi.interceptors.response.use(responseInterceptor, errorInterceptor);
+const addLanguageToRequest = (config: InternalAxiosRequestConfig) => {
+  const currentLanguage = i18n.language;
+  config.headers['Accept-Language'] = currentLanguage;
+  
+  if (config.method !== 'get') {
+    config.data = config.data || {};
+    if (typeof config.data === 'string') {
+      try {
+        const data = JSON.parse(config.data);
+        config.data = JSON.stringify({ ...data, lang: currentLanguage });
+      } catch (e) {
+        console.error('Failed to parse request data:', e);
+      }
+    } else {
+      config.data.lang = currentLanguage;
+    }
+  } else if (config.params) {
+    config.params.lang = currentLanguage;
+  } else {
+    config.params = { lang: currentLanguage };
+  }
+  
+  return config;
+};
+
+publicApi.interceptors.request.use(
+  (config) => addLanguageToRequest(config),
+  (error) => Promise.reject(error)
+);
 
 privateApi.interceptors.request.use(
   (config) => {
@@ -136,11 +164,14 @@ privateApi.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
-    return config;
+    
+    return addLanguageToRequest(config);
   },
   (error) => Promise.reject(error)
 );
+
+publicApi.interceptors.response.use(responseInterceptor, errorInterceptor);
+privateApi.interceptors.response.use(responseInterceptor, errorInterceptor);
 
 export default {
   publicApi,

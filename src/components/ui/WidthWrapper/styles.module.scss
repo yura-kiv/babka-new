@@ -28,3 +28,7 @@
 .centered {
   @include flex(column, center, center);
 }
+
+.relative {
+  position: relative;
+}

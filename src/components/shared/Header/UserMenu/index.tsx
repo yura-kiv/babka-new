@@ -1,24 +1,23 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { FaDoorOpen, FaSignOutAlt } from 'react-icons/fa';
 import Button from '@/components/ui/Button';
 import { Pages } from '@/constants';
-import type { RootState } from '@/types/store';
-import type { AppDispatch } from '@/store';
-import { logout } from '@/store/slices/userSlice';
 import s from './styles.module.scss';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { getUserData } from '@/store/helpers/selectors';
+import { logoutUser } from '@/store/helpers/actions';
 
 const UserMenu: React.FC = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch<AppDispatch>();
-  const { isAuthenticated, username, avatarUrl } = useSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
+  const { username, avatarUrl, isAuthenticated } = useAppSelector(getUserData);
 
   const defaultAvatarUrl = '/imgs/grandma/avatar.svg';
   const displayAvatarUrl = avatarUrl || defaultAvatarUrl;
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
   };
 
   if (!isAuthenticated) {

@@ -47,7 +47,9 @@
   }
 }
 
-.grandma {}
+.grandma {
+  margin: 0 auto;
+}
 
 .prize {
   @include flex(row, space-between, center);

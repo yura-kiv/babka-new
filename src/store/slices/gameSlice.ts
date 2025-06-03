@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { GameState, StartGamePayload, OpenCellPayload, StopGamePayload } from "@/types/store";
+import type { GameState, StartGamePayload, OpenCellPayload, StopGamePayload } from "@/types";
 import { logout as logoutUser } from "@/store/slices/userSlice";
 import { gameApi } from "@/api";
 

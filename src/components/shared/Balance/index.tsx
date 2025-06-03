@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 import Dropdown from "@/components/ui/Dropdown";
 import classNames from "classnames";
 import { FaChevronDown } from "react-icons/fa";
+import s from './styles.module.scss'
+import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { getUserData } from '@/store/helpers/selectors'
 import { changeSelectedBalance } from '@/store/helpers/actions'
-import s from './styles.module.scss'
-import { useSelector, useDispatch } from "react-redux";
 
 interface BalanceOption {
   id: 'real' | 'demo';
@@ -18,8 +18,8 @@ interface BalanceOption {
 
 const Balance: React.FC = () => {
   const { t } = useTranslation();
-  const user = useSelector(getUserData);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(getUserData);
 
   const balanceOptions: BalanceOption[] = [
     {
@@ -69,14 +69,14 @@ const Balance: React.FC = () => {
             <span>{option.name}</span>
           </div>
           <span className={classNames(s.balanceValue, s[option.id])}>
-            {option.value}
+            {option.value}$
           </span>
         </div>
       ))}
     </div>
   );
 
-  if (!user.isAuthenticated) {
+  if (!user?.isAuthenticated) {
     return null;
   }
 

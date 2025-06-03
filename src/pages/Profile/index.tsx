@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import WidthWrapper from '@/components/ui/WidthWrapper';
 import PageTitle from '@/components/ui/PageTitle';
 import Button from '@/components/ui/Button';
 import ChangePasswordModal from '@/components/modals/ChangePasswordModal';
 import ChangeUsernameModal from '@/components/modals/ChangeUsernameModal';
 import UserAvatar from './components/UserAvatar';
-import type { RootState } from '@/types/store';
 import s from './styles.module.scss';
 import { FaLock, FaUser } from 'react-icons/fa';
+import { useAppSelector } from '@/store/hooks';
+import { getUserData } from '@/store/helpers/selectors';
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
   const [isChangeUsernameModalOpen, setIsChangeUsernameModalOpen] = useState(false);
 
-  const user = useSelector((state: RootState) => state.user);
+  const user = useAppSelector(getUserData);
 
   const openChangePasswordModal = () => {
     setIsChangePasswordModalOpen(true);
@@ -54,13 +54,13 @@ const Profile: React.FC = () => {
 
           <div className={s.infoRow}>
             <span className={s.infoLabel}>{t('profile.balance')}</span>
-            <span className={s.infoValue + ' ' + s.green}>12 000 $</span>
+            <span className={s.infoValue + ' ' + s.green}>{user.balance} $</span>
           </div>
 
-          <div className={s.infoRow}>
+          {/* <div className={s.infoRow}>
             <span className={s.infoLabel}>{t('profile.withdrawn')}</span>
-            <span className={s.infoValue + ' ' + s.green}>4 317 $</span>
-          </div>
+            <span className={s.infoValue + ' ' + s.green}>{user.withdrawn} $</span>
+          </div> */}
         </div>
       </WidthWrapper>
 

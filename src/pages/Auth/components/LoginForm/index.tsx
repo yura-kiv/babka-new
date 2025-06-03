@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import { Pages } from '@/constants';
 import Input, { PasswordInput } from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
-import s from './styles.module.scss';
 import { notificationService } from '@/services/notification';
+import s from './styles.module.scss';
+import { authApi } from '@/api/auth';
+import { setUserState } from '@/store/helpers/actions';
+import { useAppDispatch } from '@/store/hooks';
+import type { DecodedToken } from '@/types';
 
 type FormData = {
   email: string;
@@ -15,7 +21,11 @@ type FormData = {
 
 const LoginForm: React.FC = () => {
   const { t } = useTranslation();
-  const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { control, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
     defaultValues: {
       email: '',
       password: ''
@@ -23,13 +33,47 @@ const LoginForm: React.FC = () => {
     mode: 'onBlur'
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log('Login form submitted:', data);
+  const onSubmit = async (data: FormData) => {
+    try {
+      setIsLoading(true);
+      const res = await authApi.login(data);
+      const { data: { accessToken }, message, status, userData } = res.data;
+      let tokenData = {} as Partial<DecodedToken>;
+      
+      try {
+        tokenData = jwtDecode(accessToken) as DecodedToken;
+      } catch (decodeError) {
+        console.error('Error decoding token:', decodeError);
+      }
+
+      const { email, exp, iat, id, username } = tokenData;
+      
+      dispatch(setUserState({
+        isAuthenticated: true,
+        token: accessToken,
+        userId: id || null,
+        username: username || null,
+        email: email || null,
+        balance: Number(userData.balance) || 0,
+        avatarUrl: userData.avatar || null,
+        selectedBalance: 'real',
+        demoBalance: 1000,
+      }));
+      
+      reset();
+      notificationService.success(t(message || 'notifications.auth.loginSuccess'));
+      navigate(Pages.Home);
+    } catch (error: any) {
+      const message = error?.response?.data?.message || t('notifications.auth.loginError');
+      console.error('Login error:', error);
+      notificationService.error(message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
-      <button type="button" onClick={() => notificationService.info('test')}>test</button>
       <Controller
         name="email"
         control={control}
@@ -77,6 +121,8 @@ const LoginForm: React.FC = () => {
         fullWidth
         size="large"
         className={s.submitButton}
+        isLoading={isLoading}
+        disabled={isLoading}
       >
         {t('auth.login')}
       </Button>

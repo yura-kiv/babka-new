@@ -10,9 +10,9 @@ import Button from '@/components/ui/Button';
 import UserMenu from '@/components/shared/Header/UserMenu';
 import s from './styles.module.scss';
 import Divider from '@/components/ui/Divider';
-import { useSelector } from 'react-redux';
-import { isUserAuthenticated } from '@/store/helpers/selectors';
 import classNames from 'classnames';
+import { useAppSelector } from '@/store/hooks';
+import { isUserAuthenticated } from '@/store/helpers/selectors';
 
 const navigation = [
   {
@@ -37,7 +37,7 @@ const MobileHeader: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const isAuthenticated = useSelector(isUserAuthenticated);
+  const isAuthenticated = useAppSelector(isUserAuthenticated);
 
   useEffect(() => {
     setMenuOpen(false);

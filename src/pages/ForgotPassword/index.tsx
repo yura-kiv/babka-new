@@ -5,6 +5,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { FaEnvelope } from 'react-icons/fa';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import { authApi } from '@/api/auth';
+import { notificationService } from '@/services/notification';
 import s from './styles.module.scss';
 import { Pages } from '@/constants';
 import PageTitle from '@/components/ui/PageTitle';
@@ -28,13 +30,16 @@ const ForgotPassword: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     try {
       setIsSubmitting(true);
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
+      await authApi.forgotPassword(data.email);
+      
+      notificationService.success(t('notifications.auth.forgotPasswordSuccess'));
+      
       setTimeout(() => {
         navigate('/');
       }, 3000);
     } catch (error) {
       console.error('Error sending password reset request:', error);
+      notificationService.error(t('notifications.auth.forgotPasswordError'));
     } finally {
       setIsSubmitting(false);
     }

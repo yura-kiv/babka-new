@@ -2,38 +2,47 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import s from './styles.module.scss'
+import { useAudio } from '@/hooks/useAudio';
+
+export type FlyingBombCoords = {
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+}
 
 interface FlyingBombProps {
-  startPosition: { x: number; y: number };
-  targetPosition: { x: number; y: number };
+  coords: FlyingBombCoords;
+  withSound?: boolean;
   onAnimationComplete: () => void;
 }
 
 const FlyingBomb: React.FC<FlyingBombProps> = ({
-  startPosition,
-  targetPosition,
+  coords,
+  withSound = false,
   onAnimationComplete
 }) => {
+  const { isMuted, toggleMute, playSound, playBackgroundMusic, stopBackgroundMusic } = useAudio();
   const [explosion, setExplosion] = useState<{
     isActive: boolean;
     position: { x: number; y: number };
   } | null>(null);
 
-  const dx = targetPosition.x - startPosition.x;
-  const dy = targetPosition.y - startPosition.y;
+  const { from, to } = coords;
+
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
   const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-  
+
   const bombVariants = {
     initial: {
-      x: startPosition.x,
-      y: startPosition.y,
+      x: from.x,
+      y: from.y,
       rotate: angle,
       scale: 1,
       opacity: 1
     },
     animate: {
-      x: targetPosition.x,
-      y: targetPosition.y,
+      x: to.x,
+      y: to.y,
       rotate: angle,
       scale: [1, 1.2, 1, 1.2, 1],
       opacity: [1, 1, 1, 1, 0],
@@ -54,17 +63,21 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
       }
     }
   };
-  
+
+  useEffect(() => {
+    withSound && !isMuted && playSound('throwBomb');
+  }, []);
+
   const explosionVariants = {
     initial: {
-      x: targetPosition.x,
-      y: targetPosition.y + 60,
+      x: to.x,
+      y: to.y + 60,
       opacity: 0,
       scale: 0.5
     },
     animate: {
-      x: targetPosition.x,
-      y: targetPosition.y,
+      x: to.x,
+      y: to.y,
       opacity: 1,
       scale: 1.5,
       transition: {
@@ -75,9 +88,10 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
   };
 
   const handleBombAnimationComplete = () => {
+    withSound && !isMuted && playSound('bum');
     setExplosion({
       isActive: true,
-      position: targetPosition
+      position: to
     });
   };
 
@@ -89,9 +103,9 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
   };
 
   const bombOverlayElement = document.getElementById('bombOverlay');
-  
+
   if (!bombOverlayElement) return null;
-  
+
   return createPortal(
     <>
       <motion.div
@@ -102,9 +116,9 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
         onAnimationComplete={handleBombAnimationComplete}
         style={{ rotate: angle }}
       >
-        <img 
-          src="/imgs/game/bombIcon.svg" 
-          alt="Flying bomb" 
+        <img
+          src="/imgs/game/bombIcon.svg"
+          alt="Flying bomb"
           style={{ width: '100%', height: '100%' }}
         />
       </motion.div>

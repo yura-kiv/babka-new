@@ -1,5 +1,5 @@
 import { privateApi } from './axios';
-import type { UpdateProfileData } from '@/types/store';
+import type { UpdateProfileData } from "@/types";
 
 export const userApi = {
   updateProfile: (data: UpdateProfileData) => {

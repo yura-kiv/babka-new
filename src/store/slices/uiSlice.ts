@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { UIState } from "@/types/store";
+import type { UIState } from "@/types";
 import audioService from "@/services/audioService";
 
 const initialState: UIState = {
   isLoading: false,
-  errorMessage: null,
   isMuted: false,
 };
 
@@ -15,12 +14,6 @@ const uiSlice = createSlice({
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
-    },
-    setErrorMessage: (state, action: PayloadAction<string | null>) => {
-      state.errorMessage = action.payload;
-    },
-    clearErrorMessage: (state) => {
-      state.errorMessage = null;
     },
     setMuted: (state, action: PayloadAction<boolean>) => {
       state.isMuted = action.payload;
@@ -35,8 +28,6 @@ const uiSlice = createSlice({
 
 export const { 
   setLoading, 
-  setErrorMessage, 
-  clearErrorMessage,
   setMuted, 
 } = uiSlice.actions;
 export default uiSlice.reducer;

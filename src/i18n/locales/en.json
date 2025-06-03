@@ -1,5 +1,6 @@
 {
   "translation": {
+    "loading": "Loading...",
     "game": "Game",
     "leaders": "Leaders",
     "rules": "Rules",
@@ -33,10 +34,8 @@
     "maximumPrize": "Maximum prize",
     "gameRules": "Game rules",
     "generalRules": "General rules of the game",
-    
     "privacyPolicy.introduction.title": "1. Introduction",
     "privacyPolicy.introduction.content": "This Privacy Policy defines how GMS Play (hereinafter referred to as the \"Site,\" \"we,\" \"us,\" \"our\") collects, uses, stores, and protects the personal information of users who register on our site and participate in gambling activities (hereinafter referred to as \"Users\"). We strive to ensure a high level of protection for personal data and comply with applicable data protection laws.",
-    
     "privacyPolicy.collection.title": "2. Information Collection",
     "privacyPolicy.collection.content": "We may collect and process the following categories of data:",
     "privacyPolicy.collection.items.0": "Identification data: Name, surname, date of birth, gender, citizenship, residential address, passport number, or other identification document.",
@@ -45,7 +44,6 @@
     "privacyPolicy.collection.items.3": "Technical data: IP address, browser and device information, operating system, language settings, page visit data.",
     "privacyPolicy.collection.items.4": "Site activity data: Betting history, game participation, gaming preferences, bonuses, promotions.",
     "privacyPolicy.collection.items.5": "Interaction with support data: Records of communications with our support service, including email and chat correspondence.",
-    
     "privacyPolicy.use.title": "3. Use of Information",
     "privacyPolicy.use.content": "The collected information is used for:",
     "privacyPolicy.use.items.0": "Providing services: Ensuring access to our games and other services, processing bets, and conducting transactions.",
@@ -53,23 +51,18 @@
     "privacyPolicy.use.items.2": "Marketing and advertising: Providing Users with information about new games, promotions, bonuses, and other offers based on their preferences and gaming history.",
     "privacyPolicy.use.items.3": "Service analysis and improvement: Optimizing the site, developing new features, and enhancing service quality.",
     "privacyPolicy.use.items.4": "Legal purposes: Compliance with laws and regulatory requirements, responding to requests from law enforcement and government agencies.",
-    
     "privacyPolicy.sharing.title": "4. Sharing Information with Third Parties",
     "privacyPolicy.sharing.content": "We may share Users' personal information with the following third parties:",
     "privacyPolicy.sharing.items.0": "Payment providers and financial institutions: For processing deposits and withdrawals.",
     "privacyPolicy.sharing.items.1": "Marketing partners: Third-party companies that help us conduct advertising campaigns, based on User consent.",
     "privacyPolicy.sharing.items.2": "Analytical and advertising services: Companies providing analytics, targeted advertising, and marketing research services.",
     "privacyPolicy.sharing.items.3": "Law enforcement and regulatory authorities: In cases prescribed by law, and to protect our rights and interests.",
-    
     "privacyPolicy.protection.title": "5. Data Protection",
     "privacyPolicy.protection.content": "We take all necessary technical and organizational measures to protect Users' data from loss, unauthorized access, alteration, or disclosure. These measures include data encryption, password protection, access control, and regular security audits.",
-    
     "privacyPolicy.cookies.title": "6. Use of Cookies",
     "privacyPolicy.cookies.content": "We use cookies and similar technologies to improve our site's performance, ensure security, and provide personalized content. Cookies help us understand how Users interact with our site and can be used to display targeted advertising. Users can manage cookie settings through their browser settings, although this may limit some functionalities of our site.",
-    
     "privacyPolicy.gaming.title": "7. Responsible Gaming",
     "privacyPolicy.gaming.content": "We adhere to responsible gaming principles and have implemented measures aimed at preventing gambling addiction. Personal information may be used to detect signs of problematic behavior and provide appropriate assistance to Users.",
-    
     "privacyPolicy.rights.title": "8. User Rights",
     "privacyPolicy.rights.content": "Users have the right to:",
     "privacyPolicy.rights.items.0": "Request access to their personal information.",
@@ -79,25 +72,20 @@
     "privacyPolicy.rights.items.4": "Object to data processing for marketing purposes.",
     "privacyPolicy.rights.items.5": "Transfer their data to another service provider.",
     "privacyPolicy.rights.contact": "To exercise their rights, Users can contact us using the contact information provided below.",
-    
     "privacyPolicy.changes.title": "9. Changes to the Privacy Policy",
     "privacyPolicy.changes.content": "We reserve the right to make changes to this Privacy Policy at any time.",
-    
     "terms.introduction.title": "1. Introduction",
     "terms.introduction.content": "Welcome to GMS Play! These General Terms and Conditions (hereinafter referred to as the \"Rules\") govern the use of the website [https://www.gmsplay.pro/](https://www.gmsplay.pro/) (hereinafter referred to as the \"Site\", \"we\", \"us\", \"our\") and the services provided on it. Please read these Rules carefully before using the Site. By using the Site, you agree to comply with these Rules. If you disagree with any of the points, please discontinue using the Site.",
-    
     "terms.participation.title": "2. Participation Conditions",
     "terms.participation.age.title": "2.1. Age Restrictions",
     "terms.participation.age.content": "To participate in games and use the services provided on our Site, Users must be over 18 years of age or have reached the age of majority in their jurisdiction if it exceeds 18 years. We reserve the right to request documents verifying the User's age and block access to the Site if age requirements are not met.",
     "terms.participation.legal.title": "2.2. Legal Responsibility",
     "terms.participation.legal.content": "Users agree to use the Site strictly within the laws of their jurisdiction. The User is solely responsible for complying with all applicable laws and regulations. We are not responsible for any illegal or improper use of the Site by Users.",
-    
     "terms.account.title": "3. Account Registration",
     "terms.account.registration.title": "3.1. Registration Process",
     "terms.account.registration.content": "To participate in games on the Site, you must create a personal account. During registration, the User is required to provide accurate and up-to-date information requested by the Site. We reserve the right to refuse registration or close an account if false data is provided.",
     "terms.account.confidentiality.title": "3.2. Data Confidentiality",
     "terms.account.confidentiality.content": "The User is responsible for maintaining the confidentiality of their account login details. Any actions carried out using the User's account are considered to be performed by the User. In case of suspected unauthorized access, the User must notify us immediately.",
-    
     "terms.games.title": "4. Games and Bets",
     "terms.games.bets.title": "4.1. Bet Acceptance",
     "terms.games.bets.content": "The Site allows Users to place real money bets. We reserve the right to limit, cancel, or reject any bets at our discretion if we suspect or have evidence of hacking or exploitation of site bugs/errors.",
@@ -105,7 +93,6 @@
     "terms.games.results.content": "Game results are determined randomly using a certified random number generator (RNG). Users acknowledge that the results of all games on the Site are final and not subject to change.",
     "terms.games.responsible.title": "4.3. Responsible Gaming",
     "terms.games.responsible.content": "We support responsible gambling and offer various tools to help Users control their gaming habits, such as bet and playtime limits. If you need help managing your gameplay, you can use these tools or contact our support team.",
-    
     "terms.financial.title": "5. Financial Transactions",
     "terms.financial.transactions.title": "5.1. Deposits and Withdrawals",
     "terms.financial.transactions.content": "Users can deposit funds into their gaming account using the payment methods available on the Site. Withdrawals can only be made using the method used for the deposit, subject to meeting all account verification and wagering requirements. Please note that minimum and maximum deposit and withdrawal amounts may vary depending on the payment method.",
@@ -113,24 +100,18 @@
     "terms.financial.fees.content": "We may charge a fee for processing transactions depending on the payment method used. Information about applicable fees will be available to the User before completing the transaction. The User is responsible for paying any fees charged by banks or other financial institutions.",
     "terms.financial.blocking.title": "5.3. Blocking and Confiscation of Funds",
     "terms.financial.blocking.content": "We reserve the right to block or confiscate funds in the User's gaming account in cases of suspected fraud, money laundering, violations of these Rules, or other unlawful actions.",
-    
     "terms.bonuses.title": "6. Bonuses and Promotions",
     "terms.bonuses.conditions.title": "6.1. Bonus Conditions",
     "terms.bonuses.conditions.content": "The Site may offer various bonuses and promotions to its Users. The conditions for receiving and using bonuses will be specified in the description of each specific promotion. Bonuses may be provided in the form of free bets, additional funds in the gaming account, or other privileges.",
     "terms.bonuses.wagering.title": "6.2. Bonus Wagering Requirements",
     "terms.bonuses.wagering.content": "All bonuses are subject to certain wagering requirements, which must be met before bonus funds or winnings obtained with their use can be withdrawn. Users are required to familiarize themselves with these conditions before activating the bonus.",
-    
     "terms.liability.title": "7. Limitation of Liability",
     "terms.liability.content": "We are not responsible for any damages, data loss, income, profit, or other assets that may arise as a result of using the Site. The User agrees that the use of the Site is at their own risk.",
-    
     "terms.changes.title": "8. Changes to the Rules",
     "terms.changes.content": "We reserve the right to make changes to these Rules at any time. Updated versions of the Rules will be published on the Site with the date of the last changes. Continuing to use the Site after changes indicates the User's acceptance of the new terms.",
-    
     "terms.contact.title": "9. Contact Information",
     "terms.contact.content": "If you have any questions about these Rules or other aspects of our Site's operation, please contact us: gmsplaypro@gmail.com",
-  
     "leaders.subTitle": "Top players of the month",
-
     "auth.registration": "Registration",
     "auth.login": "Login",
     "auth.username": "User name",
@@ -140,10 +121,8 @@
     "auth.agreeToTerms": "By registering you agree to our",
     "auth.privacyPolicy": "privacy policy",
     "auth.forgotPassword": "Forgot password?",
-
     "pageNotFound": "Oops! The page you are looking for does not exist.",
     "backToHome": "Back to Home",
-    
     "validation.required": "This field is required",
     "validation.minLength": "Must be at least {{count}} characters",
     "validation.maxLength": "Must be at most {{count}} characters",
@@ -151,14 +130,11 @@
     "validation.passwordMatch": "Passwords do not match",
     "validation.agreeToTerms": "You must agree to the privacy policy",
     "validation.usernamePattern": "Username can only contain letters, numbers, and underscores",
-
     "rules.content1": "There are 3 lines in front of you, after each line you can withdraw funds! Watch out! Behind the door are traps, the number of which you can adjust. This is influenced by the amount of winnings.",
     "rules.content2": "The player can choose from 1 to 3 bombs sprive, place a bet sprive, and depending on the number of chosen bombs, receive a maximum winning multiplier. The player can play both with demo money and real money. Demo money can be refreshed after completion, allowing the player to understand the game mechanics before playing with real money.",
     "rules.content3": "To play with real money, click on the \"Cashier\" cass button, select a suitable deposit option, and follow the instructions. As a result, you will see a second account by clicking on the value under your cass balance. Here you can switch the account you wish to play on.",
     "rules.content4": "After selecting the account, the number of bombs behind the doors, and placing the bet, you will see the \"maximum prize\" cass if you pass all three lines. The prize can be withdrawn after each completed line by clicking the \"Withdraw\" button to avoid risk. However, those who do not take risks do not become champions. If you hit a bomb, your bet and all winnings up to that point will be lost. You will need to place a new bet, choose the number of bombs behind the doors, and aim for the maximum prize.",
-    
     "doNotShowAgain": "Do not show again",
-
     "profile.title": "User profile",
     "profile.security": "Security",
     "profile.changePassword": "Change Password",
@@ -168,27 +144,22 @@
     "profile.email": "Your email",
     "profile.balance": "Balance",
     "profile.withdrawn": "Withdrawn",
-    
     "changePassword.title": "Change Password",
     "changePassword.currentPassword": "Current Password",
     "changePassword.newPassword": "New Password",
     "changePassword.confirmPassword": "Confirm New Password",
     "changePassword.submit": "Update Password",
     "changePassword.success": "Password successfully updated!",
-    
     "changeUsername.title": "Change Username",
     "changeUsername.newUsername": "New Username",
     "changeUsername.submit": "Update Username",
     "changeUsername.success": "Username successfully updated!",
-    
     "cancel": "Cancel",
-    
     "forgotPassword.title": "Forgot Password",
     "forgotPassword.description": "Enter your email address and we'll send you a link to reset your password.",
     "forgotPassword.submit": "Send Reset Link",
     "forgotPassword.backToLogin": "Back to Login",
     "forgotPassword.successMessage": "Password reset link has been sent to your email. You will be redirected to the home page shortly.",
-    
     "resetPassword.title": "Reset Password",
     "resetPassword.description": "Enter your new password below.",
     "resetPassword.newPassword": "New Password",
@@ -196,14 +167,22 @@
     "resetPassword.submit": "Reset Password",
     "resetPassword.backToLogin": "Back to Login",
     "resetPassword.successMessage": "Your password has been reset successfully. You will be redirected to the login page shortly.",
-
+    "notifications.auth.registerSuccess": "Registration successful! You can now log in.",
+    "notifications.auth.loginSuccess": "Login successful! Welcome.",
+    "notifications.auth.loginError": "Login failed. Please check your credentials.",
+    "notifications.auth.registerError": "Registration failed. Please try again.",
+    "notifications.auth.forgotPasswordSuccess": "Password reset link has been sent to your email.",
+    "notifications.auth.forgotPasswordError": "Failed to send password reset link. Please try again.",
+    "notifications.auth.resetPasswordSuccess": "Your password has been reset successfully.",
+    "notifications.auth.resetPasswordError": "Failed to reset password. Please try again.",
+    "notifications.auth.changePasswordSuccess": "Your password has been changed successfully.",
+    "notifications.auth.changePasswordError": "Failed to change password. Please check your current password.",
     "comic.subTitle": "History of the game",
     "comic.content1": "ONCE UPON A TIME, THERE LIVED AN OLD WOMAN WHO HAD A LOT OF GOLD, EARNED THROUGH HARD WORK. ONE DAY, A WICKED SORCERER VISITED HER, HAVING HEARD OF HER WEALTH.",
     "comic.content2": "WITH THE HELP OF HIS MAGIC, HE STOLE THE GOLD AND HID IT BEHIND TWELVE ENCHANTED DOORS.",
     "comic.content3": "THE OLD WOMAN, DETERMINED AND BRAVE, SET OUT ON A JOURNEY TO RECLAIM HER WEALTH. SHE PASSED THROUGH DENSE FORESTS, CLIMBED HIGH MOUNTAINS, AND CROSSED DEEP RIVERS.",
     "comic.content4": "HER PATH LED HER TO THE DARK TOWER OF THE SORCERER. SHE CLIMBED TO THE TOP OF THE TOWER AND, DEFEATING HIM, GOT THE CHANCE TO OPEN ALL THE DOORS.",
     "comic.content5": "APPROACHING THEM, SHE WANTED TO OPEN THEM, BUT... SHE REALIZED THERE COULD BE TRAPS.",
-    
     "cash.title": "Cash",
     "cash.subtitle": "Deposit and withdraw money",
     "cash.withdrawWith": "Withdraw with",

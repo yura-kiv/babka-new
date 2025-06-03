@@ -1,14 +1,11 @@
 export interface UserState {
   isAuthenticated: boolean;
   token: string;
-  userId: number | null;
+  userId: string | null;
   username: string | null;
   balance: number;
   email: string | null;
-  lang: string | null;
   avatarUrl: string | null;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
   // optional
   selectedBalance: BalanceType;
   demoBalance: number;
@@ -36,7 +33,6 @@ export interface MultipliersState {
 
 export interface UIState {
   isLoading: boolean;
-  errorMessage: string | null;
   isMuted: boolean;
 }
 
@@ -82,3 +78,64 @@ export interface StopGamePayload {
 }
 
 export type BalanceType = 'real' | 'demo';
+
+export interface ChangePasswordData {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface ResetPasswordData {
+  password: string;
+  token: string;
+}
+
+export interface LoginResponse {
+  status: number;
+  message: string;
+  data: {
+    accessToken: string;
+  };
+  userData: {
+    name: string;
+    email: string;
+    balance: string;
+    avatar: string | null;
+  };
+}
+
+export interface DecodedToken {
+  email: string;
+  exp: number;
+  iat: number;
+  id: string;
+  username: string;
+}
+
+export interface RegisterResponse {
+  message: string;
+  user: {
+    id: number;
+    username: string;
+    email: string;
+  };
+}
+
+export interface RefreshTokenResponse {
+  token: string;
+}
+
+export interface LogoutResponse {
+  message: string;
+}
+
+export interface ForgotPasswordResponse {
+  message: string;
+}
+
+export interface ResetPasswordResponse {
+  message: string;
+}
+
+export interface ChangePasswordResponse {
+  message: string;
+}

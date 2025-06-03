@@ -1,0 +1,126 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.container {
+  position: relative;
+
+  &.absolute {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    background-color: $blue-lighter;
+    z-index: 100;
+  }
+
+  &.fixed {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    background-color: $blue-lighter;
+    z-index: 100;
+  }
+
+  &.replace {
+    position: relative;
+    width: 100%;
+    min-height: 324px;
+  }
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  @include flex(column, center, center);
+}
+
+.bombs {
+  @include flex(row, center, center);
+}
+
+.small {
+  .bombHappy {
+    height: 80px;
+  }
+
+  .bombSad {
+    height: 60px;
+  }
+
+  .loading {
+    font-size: $font-size-small;
+  }
+}
+
+.medium {
+  .bombHappy {
+    height: 100px;
+  }
+
+  .bombSad {
+    height: 80px;
+  }
+
+  .loading {
+    font-size: $font-size-medium;
+  }
+}
+
+.large {
+  .bombHappy {
+    height: 120px;
+  }
+
+  .bombSad {
+    height: 140px;
+  }
+
+  .loading {
+    font-size: $font-size-large;
+  }
+}
+
+.bombHappy {
+  position: relative;
+  animation: bombHappy 1.5s linear infinite;
+}
+
+.bombSad {
+  position: relative;
+  left: 15%;
+  animation: bombSad 1s linear infinite;
+}
+
+@keyframes bombHappy {
+  0% {
+    transform: translateX(0%) rotate(0deg);
+  }
+
+  30% {
+    transform: translateY(-10%) rotate(5deg);
+  }
+
+  100% {
+    transform: translateX(0%) rotate(0deg);
+  }
+}
+
+@keyframes bombSad {
+  0% {
+    transform: translateY(0%) rotate(0deg);
+  }
+
+  15% {
+    transform: translateY(-5%) rotate(5deg);
+  }
+
+  100% {
+    transform: translateY(0%) rotate(0deg);
+  }
+}

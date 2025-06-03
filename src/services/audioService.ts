@@ -1,10 +1,42 @@
-export type SoundType = 'bomb' | 'coins' | 'game' | 'layer' | 'lose' | 'victory';
+export type SoundType = 'bum' | 'coins' | 'game' | 'throwBomb' | 'lose' | 'victory';
+
+export interface Sound {
+  type: SoundType;
+  volume: number;
+}
 
 interface AudioInstance {
   audio: HTMLAudioElement;
   volume: number;
   isPlaying: boolean;
 }
+
+const sounds: Sound[] = [
+  {
+    type: 'bum',
+    volume: 0.05,
+  },
+  {
+    type: 'coins',
+    volume: 0.4,
+  },
+  {
+    type: 'game',
+    volume: 0.4,
+  },
+  {
+    type: 'throwBomb',
+    volume: 0.5,
+  },
+  {
+    type: 'lose',
+    volume: 0.4,
+  },
+  {
+    type: 'victory',
+    volume: 0.4,
+  },
+]
 
 class AudioService {
   private sounds: Map<SoundType, AudioInstance> = new Map();
@@ -16,16 +48,9 @@ class AudioService {
     this.preloadSounds();
   }
 
-  private preloadSounds(): void {
-    const soundTypes: SoundType[] = ['bomb', 'coins', 'game', 'layer', 'lose', 'victory'];
-    
-    soundTypes.forEach(type => {
+  private preloadSounds(): void {   
+    sounds.forEach(({type, volume}) => {
       const audio = new Audio(`/sounds/${type}.mp3`);
-      
-      let volume = 0.7; 
-      if (type === 'game') {
-        volume = 0.4; 
-      }
       
       this.sounds.set(type, {
         audio,

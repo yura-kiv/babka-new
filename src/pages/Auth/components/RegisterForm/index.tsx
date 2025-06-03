@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
@@ -6,6 +6,8 @@ import Input from '@/components/ui/Input';
 import { PasswordInput } from '@/components/ui/Input';
 import Checkbox from '@/components/ui/Checkbox';
 import Button from '@/components/ui/Button';
+import { authApi } from '@/api/auth';
+import { notificationService } from '@/services/notification';
 import s from './styles.module.scss';
 
 type FormData = {
@@ -18,7 +20,8 @@ type FormData = {
 
 const RegisterForm: React.FC = () => {
   const { t } = useTranslation();
-  const { control, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
+  const [isLoading, setIsLoading] = useState(false);
+  const { control, handleSubmit, watch, formState: { errors }, reset } = useForm<FormData>({
     defaultValues: {
       username: '',
       email: '',
@@ -31,8 +34,22 @@ const RegisterForm: React.FC = () => {
 
   const password = watch('password');
 
-  const onSubmit = (data: FormData) => {
-    console.log('Registration form submitted:', data);
+  const onSubmit = async (data: FormData) => {
+    try {
+      setIsLoading(true);
+      const { confirmPassword, agreeToTerms, ...registerData } = data;
+      
+      await authApi.register(registerData);
+      
+      notificationService.success(t('notifications.auth.registerSuccess'));
+      reset();
+    } catch (error: any) {
+      const message = error?.response?.data?.message || t('notifications.auth.registerError');
+      console.error('Registration error:', error);
+      notificationService.error(message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -156,6 +173,8 @@ const RegisterForm: React.FC = () => {
         fullWidth
         size="large"
         className={s.submitButton}
+        isLoading={isLoading}
+        disabled={isLoading}
       >
         {t('auth.registration')}
       </Button>

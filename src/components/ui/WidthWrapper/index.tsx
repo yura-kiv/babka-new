@@ -9,6 +9,7 @@ interface WidthWrapperProps {
   fullHeight?: boolean;
   centered?: boolean;
   maxWidth?: number | string;
+  relative?: boolean;
   as?: React.ElementType;
 }
 
@@ -19,6 +20,7 @@ const WidthWrapper: React.FC<WidthWrapperProps> = ({
   fullHeight = false,
   centered = false,
   maxWidth,
+  relative = false,
   as: Component = 'div'
 }) => {
   const style = maxWidth ? { maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth } : {};
@@ -30,7 +32,8 @@ const WidthWrapper: React.FC<WidthWrapperProps> = ({
         {
           [s.noPadding]: noPadding,
           [s.fullHeight]: fullHeight,
-          [s.centered]: centered
+          [s.centered]: centered,
+          [s.relative]: relative
         },
         className
       )}

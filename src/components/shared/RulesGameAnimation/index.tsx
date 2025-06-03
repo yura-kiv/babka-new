@@ -1,55 +1,34 @@
 import { useState, useRef, useEffect } from 'react';
-import LottiePlayer from "@/components/ui/LottiePlayer";
-import type { LottiePlayerMethods } from "@/components/ui/LottiePlayer";
+import Lottie from 'react-lottie-player';
+import { type AnimationItem } from 'lottie-web';
 import { ANIMATIONS } from "@/constants";
 import s from './styles.module.scss';
 import WidthWrapper from "@/components/ui/WidthWrapper";
 import DoorGrid, { type DoorState } from "@/components/shared/DoorGrid";
-import FlyingBomb from "@/components/shared/FlyingBomb";
+import FlyingBomb, { type FlyingBombCoords } from "@/components/shared/FlyingBomb";
+import { getBombPoints } from '@/utils';
 
 const RulesGameAnimation = () => {
     const [doorStates, setDoorStates] = useState<(DoorState)[]>(['closed', 'closed', 'closed', 'closed']);
     const [animationStep, setAnimationStep] = useState(0);
-    const [bombAnimation, setBombAnimation] = useState<{
-        startPosition: { x: number; y: number };
-        targetPosition: { x: number; y: number };
-    } | null>(null);
+    const [bombAnimation, setBombAnimation] = useState<FlyingBombCoords | null>(null);
 
-    const lottieRef = useRef<LottiePlayerMethods | null>(null);
-    const grandmaRef = useRef<HTMLDivElement | null>(null);
+    const lottieRef = useRef<AnimationItem | undefined>(undefined);
     const doorRefs = useRef<(HTMLDivElement | null)[]>([null, null, null, null]);
 
-    const getGrandmaPosition = () => {
-        const grandmaElement = grandmaRef.current;
-        if (!grandmaElement) return null;
-        const rect = grandmaElement.getBoundingClientRect();
-        const scrollY = window.scrollY;
-        return {
-            x: rect.left + rect.width / 2,
-            y: rect.top + rect.height / 2 + scrollY,
-        };
-    };
-
-    const getDoorPosition = (doorIndex: number) => {
-        const doorElement = doorRefs.current[doorIndex];
-        if (!doorElement) return null;
-        const rect = doorElement.getBoundingClientRect();
-        const scrollY = window.scrollY;
-        return {
-            x: rect.left + rect.width / 2,
-            y: rect.top + rect.height - 20 + scrollY,
-        };
-    };
-
     const handleGrandmaAnimationComplete = () => {
+        // @ts-ignore
+        const grandmaRef = lottieRef.current?.wrapper;
+        
         setAnimationStep(1);
-        setBombAnimation({
-            startPosition: getGrandmaPosition()!,
-            targetPosition: getDoorPosition(0)!
-        });
+        const { from, to } = getBombPoints(grandmaRef!, doorRefs.current[0]!);
+        setBombAnimation({ from, to });
     };
 
     const onBombAnimationComplete = () => {
+        // @ts-ignore
+        const grandmaRef = lottieRef.current?.wrapper;
+        
         if (animationStep === 1) {
             setBombAnimation(null);
             setAnimationStep(2);
@@ -59,10 +38,8 @@ const RulesGameAnimation = () => {
                 return newStates;
             });
             setTimeout(() => {
-                setBombAnimation({
-                    startPosition: getGrandmaPosition()!,
-                    targetPosition: getDoorPosition(1)!
-                });
+                const { from, to } = getBombPoints(grandmaRef!, doorRefs.current[1]!);
+                setBombAnimation({ from, to });
             }, 50);
         }
         if (animationStep === 2) {
@@ -74,10 +51,8 @@ const RulesGameAnimation = () => {
                 return newStates;
             });
             setTimeout(() => {
-                setBombAnimation({
-                    startPosition: getGrandmaPosition()!,
-                    targetPosition: getDoorPosition(2)!
-                });
+                const { from, to } = getBombPoints(grandmaRef!, doorRefs.current[2]!);
+                setBombAnimation({ from, to });
             }, 50);
         }
         if (animationStep === 3) {
@@ -109,9 +84,8 @@ const RulesGameAnimation = () => {
                 setAnimationStep(0);
                 setDoorStates(['closed', 'closed', 'closed', 'closed']);
                 if (lottieRef.current) {
-                    lottieRef.current.stop();
                     setTimeout(() => {
-                        lottieRef.current?.play();
+                        lottieRef.current?.goToAndPlay(0);
                     }, 50);
                 }
             }, 2000);
@@ -126,11 +100,11 @@ const RulesGameAnimation = () => {
                         {row.map((cellId) => (
                             <div
                                 key={`cell-${cellId}`}
+                                className={s.doorWrapper}
                                 ref={(ref: HTMLDivElement | null) => {
                                     doorRefs.current[cellId] = ref;
                                     return undefined;
                                 }}
-                                className={s.doorWrapper}
                             >
                                 <DoorGrid.Door
                                     state={doorStates[cellId]}
@@ -141,22 +115,19 @@ const RulesGameAnimation = () => {
                 ))}
             </DoorGrid>
 
-            <LottiePlayer
-                lottieRef={lottieRef}
-                containerRef={grandmaRef}
-                src={ANIMATIONS.GRANDMA}
-                width="200px"
-                height="200px"
-                autoplay={true}
+
+            <Lottie
+                ref={lottieRef}
+                path={ANIMATIONS.GRANDMA}
+                style={{ height: '220px', width: '220px', margin: '0 auto' }}
                 loop={false}
                 onComplete={handleGrandmaAnimationComplete}
+                play
             />
-
 
             {bombAnimation && (
                 <FlyingBomb
-                    startPosition={bombAnimation.startPosition}
-                    targetPosition={bombAnimation.targetPosition}
+                    coords={bombAnimation}
                     onAnimationComplete={onBombAnimationComplete}
                 />
             )}

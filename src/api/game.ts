@@ -1,5 +1,5 @@
 import { privateApi } from './axios';
-import type { StartGamePayload } from '@/types/store';
+import type { StartGamePayload } from "@/types";
 
 export const gameApi = {
   startGame: (data: StartGamePayload) => {

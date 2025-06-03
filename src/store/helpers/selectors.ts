@@ -1,40 +1,94 @@
-import { store } from "@/store";
+import type { AppRootState } from '@/store';
+import { createSelector } from '@reduxjs/toolkit';
 
 // --- AUTH SELECTORS ---
-export const isUserAuthenticated = (): boolean => store.getState().user.isAuthenticated;
+export const isUserAuthenticated = createSelector(
+  [(state: AppRootState) => state.user.isAuthenticated],
+  (isAuthenticated) => isAuthenticated
+);
 
-export const getAuthToken = (): string => store.getState().user.token;
-
-export const getUserId = (): number | null => store.getState().user.userId;
+export const getAuthToken = createSelector(
+  [(state: AppRootState) => state.user.token],
+  (token) => token
+);
 
 // --- USER SELECTORS ---
-export const getUserData = () => store.getState().user;
+export const getUserData = createSelector(
+  [(state: AppRootState) => state.user],
+  (user) => ({
+    isAuthenticated: user.isAuthenticated,
+    token: user.token,
+    userId: user.userId,
+    username: user.username,
+    email: user.email,
+    balance: user.balance,
+    avatarUrl: user.avatarUrl,
+    selectedBalance: user.selectedBalance,
+    demoBalance: user.demoBalance
+  })
+);
 
-export const getUserBalance = (): number => store.getState().user.balance;
+export const getUserBalance = createSelector(
+  [(state: AppRootState) => state.user.balance],
+  (balance) => balance
+);
+
+export const getUserId = createSelector(
+  [(state: AppRootState) => state.user.userId],
+  (userId) => userId
+);
 
 // --- BALANCE SELECTORS ---
-export const getSelectedBalanceType = (): 'real' | 'demo' => 
-  store.getState().user.selectedBalance;
+export const getSelectedBalanceType = createSelector(
+  [(state: AppRootState) => state.user.selectedBalance],
+  (selectedBalance) => selectedBalance
+);
 
-export const getCurrentBalance = (): number => {
-  const state = store.getState().user;
-  return state.selectedBalance === 'real' ? state.balance : state.demoBalance;
-};
+export const getCurrentBalance = createSelector(
+  [
+    (state: AppRootState) => state.user.selectedBalance,
+    (state: AppRootState) => state.user.balance,
+    (state: AppRootState) => state.user.demoBalance
+  ],
+  (selectedBalance, balance, demoBalance) => {
+    return selectedBalance === 'real' ? balance : demoBalance;
+  }
+);
 
-export const getDemoBalance = (): number => 
-  store.getState().user.demoBalance;
+export const getDemoBalance = createSelector(
+  [(state: AppRootState) => state.user.demoBalance],
+  (demoBalance) => demoBalance
+);
 
 // --- GAME SELECTORS ---
-export const getGameState = () => store.getState().game;
+export const getGameState = createSelector(
+  [(state: AppRootState) => state.game],
+  (game) => game
+);
 
-export const getGameResult = (): string | null => store.getState().game.result;
+export const getGameResult = createSelector(
+  [(state: AppRootState) => state.game.result],
+  (result) => result
+);
 
-export const getCurrentLevel = (): number | null => store.getState().game.currentLevel;
+export const getCurrentLevel = createSelector(
+  [(state: AppRootState) => state.game.currentLevel],
+  (currentLevel) => currentLevel
+);
 
-export const getFinalWin = (): number => store.getState().game.finalWin;
+export const getFinalWin = createSelector(
+  [(state: AppRootState) => state.game.finalWin],
+  (finalWin) => finalWin
+);
 
 // --- MULTIPLIERS SELECTORS ---
-export const getMultipliers = (): Record<string, number> => store.getState().multipliers.values;
+export const getMultipliers = createSelector(
+  [(state: AppRootState) => state.multipliers.values],
+  (values) => values
+);
 
-// --- SUBSCRIPTION ---
-export const subscribeToStore = (callback: () => void): (() => void) => store.subscribe(callback);
+// --- UI SELECTORS ---
+export const getUiState = createSelector(
+  [(state: AppRootState) => state.ui],
+  (ui) => ui
+);

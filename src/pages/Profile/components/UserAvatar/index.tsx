@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { FaCamera } from 'react-icons/fa';
-import { updateUserProfile } from '@/store/slices/userSlice';
 import type { AppDispatch } from '@/store';
 import s from './styles.module.scss';
 import Button from '@/components/ui/Button';
@@ -22,7 +21,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ avatarUrl, username }) => {
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      dispatch(updateUserProfile({ avatarFile: e.target.files[0] }));
+      
     }
   };
 

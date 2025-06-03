@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '@/types/store';
-import { setMuted } from '@/store/slices/uiSlice';
 import audioService, { type SoundType } from '@/services/audioService';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { getUiState } from '@/store/helpers/selectors';
+import { setUiMuted } from '@/store/helpers/actions';
 
 export const useAudio = () => {
-  const dispatch = useDispatch();
-  const { isMuted } = useSelector((state: RootState) => state.ui);
+  const dispatch = useAppDispatch();
+  const { isMuted } = useAppSelector(getUiState);
 
   const playSound = useCallback((type: SoundType) => {
     audioService.playSound(type);
@@ -29,11 +29,11 @@ export const useAudio = () => {
   }, []);
 
   const toggleMute = useCallback(() => {
-    dispatch(setMuted(!isMuted));
+    dispatch(setUiMuted(!isMuted));
   }, [dispatch, isMuted]);
 
   const setMute = useCallback((muted: boolean) => {
-    dispatch(setMuted(muted));
+    dispatch(setUiMuted(muted));
   }, [dispatch]);
 
   const setVolume = useCallback((type: SoundType, volume: number) => {

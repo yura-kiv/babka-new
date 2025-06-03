@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
@@ -6,6 +6,8 @@ import { FaLock } from 'react-icons/fa';
 import { PasswordInput } from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import PageTitle from '@/components/ui/PageTitle';
+import { authApi } from '@/api/auth';
+import { notificationService } from '@/services/notification';
 import { Pages } from '@/constants';
 import s from './styles.module.scss';
 
@@ -20,8 +22,17 @@ const ResetPassword: React.FC = () => {
   const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // In a real implementation, you would extract the token from the URL
-  // const token = new URLSearchParams(location.search).get('token');
+  const [token, setToken] = useState<string>('');
+  
+  useEffect(() => {
+    const tokenFromUrl = new URLSearchParams(location.search).get('token');
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
+    } else {
+      notificationService.error('Invalid or missing reset token');
+      navigate(Pages.Auth);
+    }
+  }, [location.search, navigate]);
 
   const { control, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
     defaultValues: {
@@ -36,13 +47,25 @@ const ResetPassword: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     try {
       setIsSubmitting(true);
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
+      
+      if (!token) {
+        notificationService.error('Invalid or missing reset token');
+        return;
+      }
+      
+      await authApi.resetPassword({
+        password: data.password,
+        token
+      });
+      
+      notificationService.success(t('notifications.auth.resetPasswordSuccess'));
+      
       setTimeout(() => {
         navigate(Pages.Auth);
       }, 2000);
     } catch (error) {
       console.error('Error resetting password:', error);
+      notificationService.error(t('notifications.auth.resetPasswordError'));
     } finally {
       setIsSubmitting(false);
     }
