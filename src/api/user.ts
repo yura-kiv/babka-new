@@ -1,14 +1,15 @@
 import { privateApi } from './axios';
-import type { UpdateProfileData } from "@/types";
+import type { AxiosResponse } from 'axios';
+import type { ChangeUsernameResponse, ChangeAvatarResponse } from '@/types';
 
 export const userApi = {
-  updateProfile: (data: UpdateProfileData) => {
+  changeUsername: (newUsername: string): Promise<AxiosResponse<ChangeUsernameResponse>> => {
+    return privateApi.patch('/user/username', { newUsername });
+  },
+  changeAvatar: (avatarFile: File): Promise<AxiosResponse<ChangeAvatarResponse>> => {
     const formData = new FormData();
-    
-    if (data.username) formData.append("username", data.username);
-    if (data.avatarFile) formData.append("avatar", data.avatarFile);
-    
-    return privateApi.patch('/users/me', formData, {
+    if (avatarFile) formData.append("avatar", avatarFile);
+    return privateApi.patch('/user/avatar', formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

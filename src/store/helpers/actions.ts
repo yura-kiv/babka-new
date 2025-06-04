@@ -30,7 +30,7 @@ import {
 // --- AUTH & USER ---
 export const logoutUser = () => store.dispatch(logout());
 
-export const setUserState = (user: UserState) => store.dispatch(setUser(user));
+export const setUserState = (user: Partial<UserState>) => store.dispatch(setUser(user));
 
 export const updateUserToken = (token: string) => store.dispatch(updateToken(token));
 

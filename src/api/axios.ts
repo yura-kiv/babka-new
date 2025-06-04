@@ -4,6 +4,8 @@ import { store } from '@/store';
 import { authApi } from '@/api/auth';
 import i18n from '@/i18n/config';
 import { logoutUser, updateUserToken } from '@/store/helpers/actions';
+import { jwtDecode } from 'jwt-decode';
+import { type DecodedToken } from '@/types';
 
 export const publicApi = axios.create({
   baseURL: API_BASE,
@@ -21,8 +23,6 @@ export const privateApi = axios.create({
   withCredentials: true,
 });
 
-const responseInterceptor = (response: AxiosResponse) => response;
-
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
 
@@ -37,93 +37,21 @@ const onRefreshed = (token: string) => {
   refreshSubscribers.length = 0;
 };
 
-const refreshTokenAndRetry = async (error: AxiosError) => {
+const isTokenExpired = (token: string): boolean => {
   try {
-    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+    const decoded = jwtDecode<DecodedToken>(token);
+    const currentTime = Date.now() / 1000;
     
-    if (!originalRequest || originalRequest._retry) {
-      store.dispatch(logoutUser());
-      return Promise.reject(error);
-    }
-    
-    originalRequest._retry = true;
-    
-    if (isRefreshing) {
-      return new Promise<AxiosResponse>((resolve, reject) => {
-        addRefreshSubscriber(token => {
-          originalRequest.headers.Authorization = `Bearer ${token}`;
-          resolve(axios(originalRequest));
-        });
-      });
-    }
-    
-    isRefreshing = true;
-
-    refreshPromise = new Promise<string>(async (resolve, reject) => {
-      try {
-        const { data } = await authApi.refreshToken();
-        
-        if (data && data.token) {
-          const newToken = data.token;
-          store.dispatch(updateUserToken(newToken));
-          
-          onRefreshed(newToken);
-          resolve(newToken);
-        } else {
-          store.dispatch(logoutUser());
-          reject(new Error('Failed to refresh token'));
-        }
-      } catch (refreshError) {
-        store.dispatch(logoutUser());
-        reject(refreshError);
-      } finally {
-        isRefreshing = false;
-        refreshPromise = null;
-      }
-    });
-    
-    const newToken = await refreshPromise;
-    
-    originalRequest.headers.Authorization = `Bearer ${newToken}`;
-    
-    return axios(originalRequest);
-  } catch (refreshError) {
-    store.dispatch(logoutUser());
-    return Promise.reject(refreshError);
+    return !decoded.exp || decoded.exp < (currentTime + 30);
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return true;
   }
 };
 
-const errorInterceptor = async (error: AxiosError) => {
-  if (!error.response) {
-    console.error('Network Error', error);
-    return Promise.reject(new Error('Network error. Please check your internet connection.'));
-  }
-
-  if (error.response.status === 401) {
-    const isAuthEndpoint = error.config?.url?.includes('/auth/');
-    
-    if (!isAuthEndpoint) {
-      return refreshTokenAndRetry(error);
-    } else {
-      store.dispatch(logoutUser());
-    }
-  }
-  
-  switch (error.response.status) {
-    case 403:
-      console.error('Access denied', error);
-      break;
-    case 404:
-      console.error('Resource not found', error);
-      break;
-    case 500:
-      console.error('Server error', error);
-      break;
-    default:
-      console.error('API Error', error);
-  }
-
-  return Promise.reject(error);
+const getTokenFromStore = (): string | null => {
+  const state = store.getState();
+  return state.user.token || null;
 };
 
 const addLanguageToRequest = (config: InternalAxiosRequestConfig) => {
@@ -151,18 +79,93 @@ const addLanguageToRequest = (config: InternalAxiosRequestConfig) => {
   return config;
 };
 
+const responseInterceptor = (response: AxiosResponse) => response;
+
+const errorInterceptor = async (error: AxiosError) => {
+  if (!error.response) {
+    console.error('Network Error', error);
+    return Promise.reject(new Error('Network error. Please check your internet connection.'));
+  }
+
+  if (error.response.status === 401) {
+    store.dispatch(logoutUser());
+  }
+  
+  switch (error.response.status) {
+    case 403:
+      console.error('Access denied', error);
+      break;
+    case 404:
+      console.error('Resource not found', error);
+      break;
+    case 500:
+      console.error('Server error', error);
+      break;
+    default:
+      console.error('API Error', error);
+  }
+
+  return Promise.reject(error);
+};
+
 publicApi.interceptors.request.use(
   (config) => addLanguageToRequest(config),
   (error) => Promise.reject(error)
 );
 
 privateApi.interceptors.request.use(
-  (config) => {
-    const state = store.getState();
-    const token = state.user.token;
+  async (config) => {
+    const token = getTokenFromStore();
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      if (isTokenExpired(token)) {
+        if (!isRefreshing) {
+          isRefreshing = true;
+          refreshPromise = new Promise<string>(async (resolve, reject) => {
+            try {
+              const { data } = await authApi.refreshToken();
+              
+              if (data && data.token) {
+                const newToken = data.token;
+                store.dispatch(updateUserToken(newToken));
+                onRefreshed(newToken);
+                resolve(newToken);
+              } else {
+                store.dispatch(logoutUser());
+                reject(new Error('Failed to refresh token'));
+              }
+            } catch (refreshError) {
+              console.error('Failed to refresh token:', refreshError);
+              store.dispatch(logoutUser());
+              reject(refreshError);
+            } finally {
+              isRefreshing = false;
+            }
+          });
+        }
+        
+        try {
+          if (refreshPromise) {
+            const newToken = await refreshPromise;
+            config.headers.Authorization = `Bearer ${newToken}`;
+          } else {
+            return new Promise((resolve) => {
+              addRefreshSubscriber((token) => {
+                config.headers.Authorization = `Bearer ${token}`;
+                resolve(config);
+              });
+            });
+          }
+        } catch (error) {
+          console.error('Error waiting for token refresh:', error);
+        } finally {
+          if (!isRefreshing) {
+            refreshPromise = null;
+          }
+        }
+      } else {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     
     return addLanguageToRequest(config);

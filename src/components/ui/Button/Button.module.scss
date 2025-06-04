@@ -21,22 +21,6 @@
     pointer-events: none;
   }
 
-  .loading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: inherit;
-
-    svg {
-      animation: spin 1s linear infinite;
-    }
-  }
-
   .content {
     display: flex;
     align-items: center;
@@ -61,11 +45,11 @@
   transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
-  
+
   &:focus {
     outline: none;
   }
-  
+
   .content {
     display: flex;
     align-items: center;
@@ -78,6 +62,34 @@
     justify-content: center;
     width: 1em;
     height: 1em;
+  }
+}
+
+.button,
+.link {
+  &.loading {
+    pointer-events: none;
+    cursor: not-allowed;
+    
+    .content {
+      opacity: 0;
+    }
+  }
+
+  .loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: inherit;
+
+    svg {
+      animation: spin 1s linear infinite;
+    }
   }
 }
 
@@ -297,13 +309,13 @@
 
 .simple {
   color: $white;
-  
+
   @media (hover: hover) {
     &:hover {
       opacity: 0.8;
     }
   }
-  
+
   @media (hover: none) {
     &:active {
       opacity: 0.8;
@@ -314,7 +326,7 @@
 .underline {
   color: $white;
   font-weight: $font-weight-medium;
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -325,22 +337,22 @@
     background-color: $white;
     transition: width 0.3s ease;
   }
-  
+
   @media (hover: hover) {
     &:hover {
       opacity: 0.8;
     }
-    
+
     &:hover:after {
       width: 100%;
     }
   }
-  
+
   @media (hover: none) {
     &:active {
       opacity: 0.8;
     }
-    
+
     &:active:after {
       width: 100%;
     }
@@ -349,13 +361,13 @@
 
 .subtle {
   color: rgba($white, 0.7);
-  
+
   @media (hover: hover) {
     &:hover {
       color: $white;
     }
   }
-  
+
   @media (hover: none) {
     &:active {
       color: $white;
@@ -368,13 +380,13 @@
   font-weight: $font-weight-medium;
   padding: 10px 15px;
   border-radius: 4px;
-  
+
   @media (hover: hover) {
     &:hover {
       background-color: $white-background-hover;
     }
   }
-  
+
   @media (hover: none) {
     &:active {
       background-color: $white-background-hover;
@@ -390,20 +402,20 @@
   padding: 10px 15px;
   text-align: center;
   justify-content: center;
-  
+
   @media (hover: hover) {
     &:hover {
       background-color: $white-background-hover;
       color: $white-light;
     }
   }
-  
+
   @media (hover: none) {
     &:active {
       background-color: $white-background-hover;
       color: $white-light;
     }
-    
+
     &:active {
       transform: scale(0.98);
     }
@@ -414,7 +426,7 @@
   &.tab {
     background-color: $white-background-hover;
   }
-  
+
   &.underline:after {
     width: 100%;
   }

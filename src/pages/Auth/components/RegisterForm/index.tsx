@@ -9,6 +9,10 @@ import Button from '@/components/ui/Button';
 import { authApi } from '@/api/auth';
 import { notificationService } from '@/services/notification';
 import s from './styles.module.scss';
+import { jwtDecode } from 'jwt-decode';
+import type { DecodedToken } from '@/types';
+import { useAppDispatch } from '@/store/hooks';
+import { setUserState } from '@/store/helpers/actions';
 
 type FormData = {
   username: string;
@@ -20,6 +24,7 @@ type FormData = {
 
 const RegisterForm: React.FC = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { control, handleSubmit, watch, formState: { errors }, reset } = useForm<FormData>({
     defaultValues: {
@@ -38,9 +43,29 @@ const RegisterForm: React.FC = () => {
     try {
       setIsLoading(true);
       const { confirmPassword, agreeToTerms, ...registerData } = data;
-      
-      await authApi.register(registerData);
-      
+      let tokenData = {} as Partial<DecodedToken>;
+
+      const res = await authApi.register(registerData);
+      const { accessToken, status } = res.data;
+
+      try {
+        tokenData = jwtDecode(accessToken) as DecodedToken;
+      } catch (decodeError) {
+        console.error('Error decoding token:', decodeError);
+      }
+
+      const { email, exp, iat, id, username } = tokenData;
+
+      dispatch(setUserState({
+        isAuthenticated: false,
+        token: accessToken,
+        userId: id || null,
+        username: username || null,
+        email: email || null,
+        selectedBalance: 'real',
+        demoBalance: 1000,
+      }));
+
       notificationService.success(t('notifications.auth.registerSuccess'));
       reset();
     } catch (error: any) {

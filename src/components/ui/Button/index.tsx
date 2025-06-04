@@ -95,6 +95,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     isLinkStyle ? s.link : s.button,
     s[variant],
     s[size],
+    isLoading && s.loading,
     !isLinkStyle && s[`radius-${borderRadius}`],
     {
       [s.fullWidth]: fullWidth,

@@ -58,11 +58,6 @@ export interface RegisterCredentials {
   agreeToTerms?: boolean;
 }
 
-export interface UpdateProfileData {
-  username?: string;
-  avatarFile?: File;
-}
-
 export interface StartGamePayload {
   bet: number;
   bombsCount: number;
@@ -112,12 +107,8 @@ export interface DecodedToken {
 }
 
 export interface RegisterResponse {
-  message: string;
-  user: {
-    id: number;
-    username: string;
-    email: string;
-  };
+  accessToken: string;
+  status: number;
 }
 
 export interface RefreshTokenResponse {
@@ -129,7 +120,8 @@ export interface LogoutResponse {
 }
 
 export interface ForgotPasswordResponse {
-  message: string;
+  message: string,
+  status: number,
 }
 
 export interface ResetPasswordResponse {
@@ -138,4 +130,18 @@ export interface ResetPasswordResponse {
 
 export interface ChangePasswordResponse {
   message: string;
+}
+
+export interface ChangeUsernameResponse {
+  data: string;
+  message: string;
+  status: number;
+}
+
+export interface ChangeAvatarResponse {
+  data: {
+    avatarUrl: string;
+  };
+  message: string;
+  status: number;
 }

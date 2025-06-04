@@ -6,6 +6,10 @@ import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import s from './ChangeUsernameModal.module.scss';
 import { FaUser } from 'react-icons/fa';
+import { userApi } from '@/api';
+import { notificationService } from '@/services/notification';
+import { setUserState } from '@/store/helpers/actions';
+import { useAppDispatch } from '@/store/hooks';
 
 interface ChangeUsernameModalProps {
   isOpen: boolean;
@@ -19,6 +23,7 @@ interface ChangeUsernameFormData {
 const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -34,12 +39,20 @@ const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({ isOpen, onClo
   const onSubmit = async (data: ChangeUsernameFormData) => {
     try {
       setIsLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      const res = await userApi.changeUsername(data.username);
+      const { message, data: username } = res.data;
+
+      dispatch(setUserState({
+        username: username || null,
+      }));
+
       reset();
+      notificationService.success(t(message || 'notifications.user.changeUsernameSuccess'));
       onClose();
-    } catch (error) {
-      console.error('Error updating username:', error);
+    } catch (error: any) {
+      const message = error?.response?.data?.message || t('notifications.user.changeUsernameError');
+      console.error('Change username error:', error);
+      notificationService.error(message);
     } finally {
       setIsLoading(false);
     }
