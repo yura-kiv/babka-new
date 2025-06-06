@@ -7,7 +7,6 @@ import type {
   ResetPasswordData,
   LoginResponse,
   RegisterResponse,
-  RefreshTokenResponse,
   LogoutResponse,
   ForgotPasswordResponse,
   ResetPasswordResponse,
@@ -21,10 +20,6 @@ export const authApi = {
 
   register: (userData: RegisterCredentials): Promise<AxiosResponse<RegisterResponse>> => {
     return publicApi.post<RegisterResponse>('/auth/register', userData);
-  },
-
-  refreshToken: (): Promise<AxiosResponse<RefreshTokenResponse>> => {
-    return privateApi.post<RefreshTokenResponse>('/auth/refresh');
   },
   
   logout: (): Promise<AxiosResponse<LogoutResponse>> => {
