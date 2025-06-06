@@ -1,11 +1,10 @@
 import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
 import { API_BASE } from '@/constants';
 import { store } from '@/store';
-import { authApi } from '@/api/auth';
 import i18n from '@/i18n/config';
 import { logoutUser, updateUserToken } from '@/store/helpers/actions';
 import { jwtDecode } from 'jwt-decode';
-import { type DecodedToken } from '@/types';
+import { type DecodedToken, type RefreshTokenResponse } from '@/types';
 
 export const publicApi = axios.create({
   baseURL: API_BASE,
@@ -23,36 +22,13 @@ export const privateApi = axios.create({
   withCredentials: true,
 });
 
-let isRefreshing = false;
-let refreshPromise: Promise<string> | null = null;
-
-const refreshSubscribers: ((token: string) => void)[] = [];
-
-const addRefreshSubscriber = (callback: (token: string) => void) => {
-  refreshSubscribers.push(callback);
-};
-
-const onRefreshed = (token: string) => {
-  refreshSubscribers.forEach(callback => callback(token));
-  refreshSubscribers.length = 0;
-};
-
-const isTokenExpired = (token: string): boolean => {
-  try {
-    const decoded = jwtDecode<DecodedToken>(token);
-    const currentTime = Date.now() / 1000;
-    
-    return !decoded.exp || decoded.exp < (currentTime + 30);
-  } catch (error) {
-    console.error('Error decoding token:', error);
-    return true;
-  }
-};
-
-const getTokenFromStore = (): string | null => {
-  const state = store.getState();
-  return state.user.token || null;
-};
+const refreshTokenApi = axios.create({
+  baseURL: API_BASE,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
+});
 
 const addLanguageToRequest = (config: InternalAxiosRequestConfig) => {
   const currentLanguage = i18n.language;
@@ -79,36 +55,59 @@ const addLanguageToRequest = (config: InternalAxiosRequestConfig) => {
   return config;
 };
 
-const responseInterceptor = (response: AxiosResponse) => response;
+const getTokenFromStore = (): string | null => {
+  const state = store.getState();
+  return state.user.token || null;
+};
 
-const errorInterceptor = async (error: AxiosError) => {
-  if (!error.response) {
-    console.error('Network Error', error);
-    return Promise.reject(new Error('Network error. Please check your internet connection.'));
+const isTokenExpired = (token: string): boolean => {
+  try {
+    const decoded = jwtDecode<DecodedToken>(token);
+    const currentTime = Date.now() / 1000;
+    
+    return !decoded.exp || decoded.exp < (currentTime + 30);
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return true;
   }
+};
 
-  if (error.response.status === 401) {
+let isRefreshingToken = false;
+let refreshTokenPromise: Promise<string | null> | null = null;
+const pendingRequestsQueue: ((token: string | null) => void)[] = [];
+
+const processPendingRequests = (newToken: string | null) => {
+  pendingRequestsQueue.forEach((callback) => callback(newToken));
+  pendingRequestsQueue.length = 0;
+};
+
+const refreshToken = async (): Promise<string | null> => {
+  try {
+    const token = getTokenFromStore();
+    if (!token) return null;
+
+    const response = await refreshTokenApi.post<RefreshTokenResponse>('/auth/refresh', {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const newToken = response.data.data.accessToken;
+    store.dispatch(updateUserToken(newToken));
+    return newToken;
+  } catch (error) {
+    console.error('Error refreshing token:', error);
     store.dispatch(logoutUser());
+    return null;
   }
-  
-  switch (error.response.status) {
-    case 403:
-      console.error('Access denied', error);
-      break;
-    case 404:
-      console.error('Resource not found', error);
-      break;
-    case 500:
-      console.error('Server error', error);
-      break;
-    default:
-      console.error('API Error', error);
-  }
-
-  return Promise.reject(error);
 };
 
 publicApi.interceptors.request.use(
+  (config) => addLanguageToRequest(config),
+  (error) => Promise.reject(error)
+);
+
+refreshTokenApi.interceptors.request.use(
   (config) => addLanguageToRequest(config),
   (error) => Promise.reject(error)
 );
@@ -117,63 +116,61 @@ privateApi.interceptors.request.use(
   async (config) => {
     const token = getTokenFromStore();
 
-    if (token) {
-      if (isTokenExpired(token)) {
-        if (!isRefreshing) {
-          isRefreshing = true;
-          refreshPromise = new Promise<string>(async (resolve, reject) => {
-            try {
-              const { data } = await authApi.refreshToken();
-              
-              if (data && data.token) {
-                const newToken = data.token;
-                store.dispatch(updateUserToken(newToken));
-                onRefreshed(newToken);
-                resolve(newToken);
-              } else {
-                store.dispatch(logoutUser());
-                reject(new Error('Failed to refresh token'));
-              }
-            } catch (refreshError) {
-              console.error('Failed to refresh token:', refreshError);
-              store.dispatch(logoutUser());
-              reject(refreshError);
-            } finally {
-              isRefreshing = false;
-            }
-          });
-        }
-        
-        try {
-          if (refreshPromise) {
-            const newToken = await refreshPromise;
-            config.headers.Authorization = `Bearer ${newToken}`;
-          } else {
-            return new Promise((resolve) => {
-              addRefreshSubscriber((token) => {
-                config.headers.Authorization = `Bearer ${token}`;
-                resolve(config);
-              });
-            });
-          }
-        } catch (error) {
-          console.error('Error waiting for token refresh:', error);
-        } finally {
-          if (!isRefreshing) {
-            refreshPromise = null;
-          }
-        }
-      } else {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
+    if (!token) {
+      return addLanguageToRequest(config);
     }
-    
-    return addLanguageToRequest(config);
+
+    const tokenExpired = isTokenExpired(token);
+
+    if (!tokenExpired) {
+      config.headers.Authorization = `Bearer ${token}`;
+      return addLanguageToRequest(config);
+    }
+
+    if (!isRefreshingToken) {
+      isRefreshingToken = true;
+
+      refreshTokenPromise = refreshToken()
+        .then((newToken) => {
+          processPendingRequests(newToken);
+          return newToken;
+        })
+        .catch((error) => {
+          processPendingRequests(null);
+          throw error;
+        })
+        .finally(() => {
+          isRefreshingToken = false;
+          refreshTokenPromise = null;
+        });
+    }
+
+    return new Promise((resolve, reject) => {
+      pendingRequestsQueue.push((newToken: string | null) => {
+        if (newToken) {
+          config.headers.Authorization = `Bearer ${newToken}`;
+          resolve(addLanguageToRequest(config));
+        } else {
+          reject(new Error('Unable to refresh token'));
+        }
+      });
+    });
   },
   (error) => Promise.reject(error)
 );
 
+const responseInterceptor = (response: AxiosResponse) => response;
+
+const errorInterceptor = async (error: AxiosError) => {
+  if (!error.response) {
+    console.error('Network Error', error);
+    return Promise.reject(new Error('Network error. Please check your internet connection.'));
+  }
+  return Promise.reject(error);
+};
+
 publicApi.interceptors.response.use(responseInterceptor, errorInterceptor);
+refreshTokenApi.interceptors.response.use(responseInterceptor, errorInterceptor);
 privateApi.interceptors.response.use(responseInterceptor, errorInterceptor);
 
 export default {

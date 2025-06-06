@@ -112,7 +112,11 @@ export interface RegisterResponse {
 }
 
 export interface RefreshTokenResponse {
-  token: string;
+  data: {
+    accessToken: string;
+  };
+  message: string;
+  status: number;
 }
 
 export interface LogoutResponse {

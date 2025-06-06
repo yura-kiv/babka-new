@@ -39,16 +39,19 @@ const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({ isOpen, onClo
   const onSubmit = async (data: ChangeUsernameFormData) => {
     try {
       setIsLoading(true);
-      const res = await userApi.changeUsername(data.username);
-      const { message, data: username } = res.data;
+      userApi.changeUsername(data.username);
+      userApi.changeUsername(data.username);
+      userApi.changeUsername(data.username);
+      // const res = await userApi.changeUsername(data.username);
+      // const { message, data: username } = res.data;
 
-      dispatch(setUserState({
-        username: username || null,
-      }));
+      // dispatch(setUserState({
+      //   username: username || null,
+      // }));
 
-      reset();
-      notificationService.success(t(message || 'notifications.user.changeUsernameSuccess'));
-      onClose();
+      // reset();
+      // notificationService.success(t(message || 'notifications.user.changeUsernameSuccess'));
+      // onClose();
     } catch (error: any) {
       const message = error?.response?.data?.message || t('notifications.user.changeUsernameError');
       console.error('Change username error:', error);
