@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button';
 import Lottie from 'react-lottie-player';
 import { type AnimationItem } from 'lottie-web';
 import WidthWrapper from '@/components/ui/WidthWrapper';
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import s from './styles.module.scss'
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
@@ -12,13 +12,32 @@ import { useAudio } from '@/hooks/useAudio';
 import PlayButton from '@/components/shared/PlayButton';
 import BombDropdown from './components/BombDropdown';
 import ProgressBar from '@/components/ui/ProgressBar';
-import DoorGrid from '@/components/shared/DoorGrid';
-import type { DoorState } from '@/components/shared/DoorGrid';
+import DoorGrid, { RowState } from '@/components/shared/DoorGrid';
+import { DoorState } from '@/components/shared/DoorGrid';
 import { ANIMATIONS } from '@/constants';
 import HowToPlayModal from '@/components/modals/HowToPlayModal';
-import FlyingBomb, { type FlyingBombCoords } from '@/components/shared/FlyingBomb';
+import FlyingBomb, { type FlyingBombParams } from '@/components/shared/FlyingBomb';
 import { getBombPoints } from '@/utils';
 import Loader from '@/components/ui/Loader';
+import { useAppSelector } from '@/store/hooks';
+import { notificationService } from '@/services/notification';
+import { getDoorState } from './utils';
+import { GameStatusFront, type RowNumber } from '@/types';
+import {
+  getUserData,
+  getMultipliers,
+  getGameState,
+  getUserBalance
+} from '@/store/helpers/selectors';
+import {
+  startGame as startGameAction,
+  openCell as openCellAction,
+  stopGame as stopGameAction,
+  resetGame as resetGameAction,
+  loadMultipliers,
+  setBombsCount,
+  setBet,
+} from '@/store/helpers/actions'
 
 const bombImg = 'imgs/game/bombHappy.svg';
 const chestImg = 'imgs/game/chest.svg';
@@ -31,20 +50,29 @@ const DOOR_GRID: number[][] = [
 
 const Game: React.FC = () => {
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
-  const [value, setValue] = useState(0);
-  const [bombCount, setBombCount] = useState(0);
-  const [progress, setProgress] = useState(30);
-  const { isMuted, toggleMute, playSound, playBackgroundMusic, stopBackgroundMusic } = useAudio();
+  const game = useAppSelector(getGameState);
+  const user = useAppSelector(getUserData);
+  const balance = useAppSelector(getUserBalance);
+  const multipliers = useAppSelector(getMultipliers);
+
+  const isLoading = false; // preload data for start game
+  const progress = game.activeRow ? (game.activeRow + 1) / DOOR_GRID.length * 100 : 0;
+
+  const [bomb, setBomb] = useState<FlyingBombParams | null>(null);
+  const {
+    isMuted,
+    toggleMute,
+    playSound,
+    playBackgroundMusic,
+    stopBackgroundMusic,
+  } = useAudio();
   const [currentAnimation, setCurrentAnimation] = useState<{
     loop: boolean;
     play: boolean;
     type: keyof typeof ANIMATIONS;
   }>({ loop: false, play: false, type: 'GRANDMA' });
-  const [bomb, setBomb] = useState<FlyingBombCoords | null>(null);
 
   const lottieRef = useRef<AnimationItem | undefined>(undefined);
-  const lastSelectedDoor = useRef<{ rowIndex: number; cellId: number, type: DoorState } | null>(null);
 
   const playGrandma = () => {
     setCurrentAnimation({ loop: false, play: true, type: 'GRANDMA' });
@@ -61,40 +89,72 @@ const Game: React.FC = () => {
     playSound('victory');
   };
 
-  const launchBomb = useCallback((doorElement: HTMLElement, rowIndex: number, cellId: number, type: DoorState) => {
+  const launchBomb = (door: HTMLElement, type: DoorState = DoorState.OPEN) => {
     // @ts-ignore
     const grandmaWrapper = lottieRef.current?.wrapper as HTMLElement;
     if (!grandmaWrapper) return;
-    lastSelectedDoor.current = { rowIndex, cellId, type };
-    const { from, to } = getBombPoints(grandmaWrapper, doorElement);
-    setBomb({ from, to });
-  }, [playSound]);
-
-  const handleBombAnimationComplete = () => {
-    setBomb(null);
-    const { type } = lastSelectedDoor.current || {};
-    if (type === 'bomb') {
-      playLoser();
-    }
-    if (type === 'prize') {
-      playPrize();
-    }
-    lastSelectedDoor.current = null;
+    const { from, to } = getBombPoints(grandmaWrapper, door);
+    const onComplete = () => {
+      setBomb(null);
+      if (type === DoorState.BOMB) {
+        playLoser();
+      }
+      if (type === DoorState.PRIZE) {
+        playPrize();
+      }
+    };
+    setBomb({ from, to, onComplete });
   };
 
-  const startGame = () => {
-    playGrandma();
+  const openDoor = async (e: React.MouseEvent<HTMLDivElement>, cellId: number) => {
+    const res = await openCellAction(cellId);
+    // console.log('res', res);
+    // launchBomb(e.currentTarget); // door type here to play throw result sound
+  }
+
+  const startGame = async () => {
+    try {
+      // checks
+      if (!user.isAuthenticated) {
+        notificationService.warning(t('notifications.game.login'));
+        return;
+      }
+      if (game.bet === 0 || game.bombsCount === 0) {
+        notificationService.warning(t('notifications.game.empty'));
+        return;
+      }
+      if (balance < game.bet) {
+        notificationService.warning(t('notifications.game.notEnoughBalance'));
+        return;
+      }
+
+      const res = await startGameAction();
+      // playGrandma();
+    } catch (error) {
+      console.error('Error starting game:', error);
+    }
+  };
+
+  const stopGame = () => {
+    stopGameAction();
   };
 
   useEffect(() => {
+    loadMultipliers();
+
+    if (game.status === GameStatusFront.PROGRESS) {
+      playGrandma();
+    }
+
     return () => {
       stopBackgroundMusic();
-    };
-  }, [stopBackgroundMusic]);
 
-  const activeRow = 0;
-  const bombCell = 2;
-  const prizeCell = 1;
+      if (game.status === GameStatusFront.INITIAL) {
+        setBet(0);
+        setBombsCount(0);
+      }
+    };
+  }, []);
 
   return (
     <WidthWrapper>
@@ -102,64 +162,60 @@ const Game: React.FC = () => {
         <Loader isLoading={isLoading} type="absolute">
           <div className={s.top}>
             <div className={s.left}>
-              <span className={s.label}>{t('maximumPrize')}</span>
+              <span className={s.label}>{t('maximumPrizeProgress')}</span>
               <ProgressBar value={progress} />
             </div>
-            <div className={s.bombCount}>
-              <span className={s.count}>{bombCount}</span>
+            <div className={s.bombsCount}>
+              <span className={s.count}>{game.bombsCount}</span>
               <img src={bombImg} alt="bomb" className={s.bomb} />
             </div>
           </div>
 
-          <DoorGrid>
-            {DOOR_GRID.map((row, rowIndex) => (
-              <DoorGrid.Row
-                key={`row-${rowIndex}`}
-                state={rowIndex === activeRow ? 'active' : 'disabled'}
-              >
-                {row.map((cellId) => {
-                  let doorState: DoorState = 'closed';
+          <div className={s.game}>
+            <DoorGrid>
+              {DOOR_GRID.map((row, rowIdx) => (
+                <DoorGrid.Row
+                  key={`row-${row}`}
+                  state={game.status === GameStatusFront.PROGRESS && game.activeRow === rowIdx ? RowState.ACTIVE : RowState.DISABLED}
+                >
+                  {row.map((cell) => {
+                    const state = getDoorState(game, rowIdx as RowNumber, cell);
 
-                  if (rowIndex < activeRow || rowIndex > activeRow) {
-                    doorState = 'locked';
-                  } else if (rowIndex === activeRow) {
-                    if (cellId === bombCell) {
-                      doorState = 'bomb';
-                    } else if (cellId === prizeCell) {
-                      doorState = 'prize';
-                    } else {
-                      doorState = 'closed';
-                    }
-                  }
+                    const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+                      if (game.status !== GameStatusFront.PROGRESS || game.activeRow !== rowIdx) return;
+                      openDoor(e, cell);
+                    };
 
-                  return (
-                    <DoorGrid.Door
-                      key={`cell-${cellId}`}
-                      state={doorState}
-                      onClick={(e) => {
-                        if (rowIndex !== activeRow) return;
-                        launchBomb(e.currentTarget, rowIndex, cellId, doorState);
-                      }}
-                    />
-                  );
-                })}
-              </DoorGrid.Row>
-            ))}
-          </DoorGrid>
+                    return (
+                      <DoorGrid.Door
+                        key={`cell-${cell}`}
+                        state={state}
+                        onClick={onClick}
+                      />
+                    );
+                  })}
+                </DoorGrid.Row>
+              ))}
+            </DoorGrid>
 
-          <Lottie
-            ref={lottieRef}
-            path={ANIMATIONS[currentAnimation.type]}
-            loop={currentAnimation.loop}
-            play={currentAnimation.play}
-            style={{ height: '200px', width: '200px', margin: '0 auto' }}
-          />
+            <Lottie
+              ref={lottieRef}
+              path={ANIMATIONS[currentAnimation.type]}
+              loop={currentAnimation.loop}
+              play={currentAnimation.play}
+              style={{ height: '200px', width: '200px', margin: '0 auto' }}
+            />
+
+            {game.status === GameStatusFront.INITIAL &&
+              <div className={s.startGame}>
+                <span className={s.label}>{t('startGame')}</span>
+              </div>}
+          </div>
 
           {bomb && (
             <FlyingBomb
               withSound
-              coords={bomb}
-              onAnimationComplete={handleBombAnimationComplete}
+              params={bomb}
             />
           )}
 
@@ -171,7 +227,7 @@ const Game: React.FC = () => {
                   {t('maximumPrize')}:
                 </span>
                 <span className={s.value}>
-                  {value} $
+                  {game.bet} $
                 </span>
               </div>
             </div>
@@ -186,19 +242,26 @@ const Game: React.FC = () => {
 
           <div className={s.settings}>
             <BombDropdown
-              value={bombCount}
-              setValue={setBombCount}
+              value={game.bombsCount}
+              setValue={setBombsCount}
+              disabled={game.status === GameStatusFront.PROGRESS}
             />
             <NumberInput
-              value={value}
-              onChange={setValue}
+              value={game.bet}
+              onChange={setBet}
               min={0}
               step={1}
+              disabled={game.status === GameStatusFront.PROGRESS}
             />
             <PlayButton
               size='medium'
-              disabled={value === 0 || bombCount === 0}
-              onClick={startGame}
+              onClick={game.status === GameStatusFront.PROGRESS ? stopGame : startGame}
+              text={game.status === GameStatusFront.PROGRESS ? t('stopGame') : undefined}
+              disabled={
+                game.isLoading
+                || game.bet === 0
+                || game.bombsCount === 0
+              }
             />
           </div>
         </Loader>

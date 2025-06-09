@@ -13,6 +13,7 @@ export interface PlayButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
   size?: PlayButtonSize;
   onClick?: () => void;
   disabled?: boolean;
+  text?: string;
 }
 
 const PlayButton: React.FC<PlayButtonProps> = ({
@@ -22,6 +23,7 @@ const PlayButton: React.FC<PlayButtonProps> = ({
   size = 'large',
   onClick,
   disabled = false,
+  text,
   ...rest
 }) => {
   const { t } = useTranslation();
@@ -35,7 +37,7 @@ const PlayButton: React.FC<PlayButtonProps> = ({
   
   const content = (
     <div className={s.label}>
-      {children || t('play')}
+      {children || text || t('play')}
     </div>
   );
   

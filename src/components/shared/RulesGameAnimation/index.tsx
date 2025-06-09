@@ -5,13 +5,13 @@ import { ANIMATIONS } from "@/constants";
 import s from './styles.module.scss';
 import WidthWrapper from "@/components/ui/WidthWrapper";
 import DoorGrid, { type DoorState } from "@/components/shared/DoorGrid";
-import FlyingBomb, { type FlyingBombCoords } from "@/components/shared/FlyingBomb";
+import FlyingBomb, { type FlyingBombParams } from "@/components/shared/FlyingBomb";
 import { getBombPoints } from '@/utils';
 
 const RulesGameAnimation = () => {
     const [doorStates, setDoorStates] = useState<(DoorState)[]>(['closed', 'closed', 'closed', 'closed']);
     const [animationStep, setAnimationStep] = useState(0);
-    const [bombAnimation, setBombAnimation] = useState<FlyingBombCoords | null>(null);
+    const [bomb, setBomb] = useState<FlyingBombParams | null>(null);
 
     const lottieRef = useRef<AnimationItem | undefined>(undefined);
     const doorRefs = useRef<(HTMLDivElement | null)[]>([null, null, null, null]);
@@ -22,15 +22,15 @@ const RulesGameAnimation = () => {
         
         setAnimationStep(1);
         const { from, to } = getBombPoints(grandmaRef!, doorRefs.current[0]!);
-        setBombAnimation({ from, to });
+        setBomb({ from, to });
     };
 
-    const onBombAnimationComplete = () => {
+    const onBombComplete = () => {
         // @ts-ignore
         const grandmaRef = lottieRef.current?.wrapper;
         
         if (animationStep === 1) {
-            setBombAnimation(null);
+            setBomb(null);
             setAnimationStep(2);
             setDoorStates(prev => {
                 const newStates = [...prev];
@@ -39,11 +39,11 @@ const RulesGameAnimation = () => {
             });
             setTimeout(() => {
                 const { from, to } = getBombPoints(grandmaRef!, doorRefs.current[1]!);
-                setBombAnimation({ from, to });
+                setBomb({ from, to });
             }, 50);
         }
         if (animationStep === 2) {
-            setBombAnimation(null);
+            setBomb(null);
             setAnimationStep(3);
             setDoorStates(prev => {
                 const newStates = [...prev];
@@ -52,11 +52,11 @@ const RulesGameAnimation = () => {
             });
             setTimeout(() => {
                 const { from, to } = getBombPoints(grandmaRef!, doorRefs.current[2]!);
-                setBombAnimation({ from, to });
+                setBomb({ from, to });
             }, 50);
         }
         if (animationStep === 3) {
-            setBombAnimation(null);
+            setBomb(null);
             setAnimationStep(4);
             setDoorStates(prev => {
                 const newStates = [...prev];
@@ -69,7 +69,7 @@ const RulesGameAnimation = () => {
     useEffect(() => {
         if (animationStep === 4) {
             setTimeout(() => {
-                setBombAnimation(null);
+                setBomb(null);
                 setAnimationStep(5);
                 setDoorStates(prev => {
                     const newStates = [...prev];
@@ -80,7 +80,7 @@ const RulesGameAnimation = () => {
         }
         if (animationStep === 5) {
             setTimeout(() => {
-                setBombAnimation(null);
+                setBomb(null);
                 setAnimationStep(0);
                 setDoorStates(['closed', 'closed', 'closed', 'closed']);
                 if (lottieRef.current) {
@@ -125,12 +125,7 @@ const RulesGameAnimation = () => {
                 play
             />
 
-            {bombAnimation && (
-                <FlyingBomb
-                    coords={bombAnimation}
-                    onAnimationComplete={onBombAnimationComplete}
-                />
-            )}
+            {bomb && <FlyingBomb params={{ ...bomb, onComplete: onBombComplete }} />}
         </WidthWrapper>
     );
 };

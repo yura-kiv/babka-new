@@ -1,20 +1,20 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { GameState, StartGamePayload, OpenCellPayload, StopGamePayload } from "@/types";
-import { logout as logoutUser } from "@/store/slices/userSlice";
+import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
+import { type GameState, GameStatusFront, BalanceType, type RowNumber } from "@/types";
 import { gameApi } from "@/api";
+import { getUserData, getGameState } from "@/store/helpers/selectors";
+import type { AppRootState } from "@/store";
 
 // Start game
 export const startGame = createAsyncThunk(
   "game/startGame",
-  async (payload: StartGamePayload, { rejectWithValue, dispatch }) => {
+  async (_, { rejectWithValue, getState }) => {
+    const state = getState() as AppRootState;
+    const user = getUserData(state);
+    const game = getGameState(state);
     try {
-      const { data } = await gameApi.startGame(payload);
+      const { data } = await gameApi.startGame({ bet: game.bet, bombsCount: game.bombsCount, isDemo: user.selectedBalance === BalanceType.DEMO });
       return data;
     } catch (error: any) {
-      if (error.response?.status === 401) {
-        dispatch(logoutUser());
-        return rejectWithValue("Not authenticated");
-      }
       return rejectWithValue(error.response?.data?.message || "Failed to start game");
     }
   }
@@ -23,12 +23,15 @@ export const startGame = createAsyncThunk(
 // Open cell
 export const openCell = createAsyncThunk(
   "game/openCell",
-  async ({ level, cellIndex }: OpenCellPayload, { rejectWithValue }) => {
+  async (cell: number, { rejectWithValue, getState }) => {
+    const state = getState() as AppRootState;
+    const activeRow = getGameState(state).activeRow;
+    if (!activeRow) {
+      return rejectWithValue("Active row is not defined");
+    }
     try {
-      const { data } = await gameApi.openCell(level, cellIndex);
-      
-      // Attach cellIndex for updating openedCells
-      return { ...data, cellIndex };
+      const { data } = await gameApi.openCell(activeRow, cell);
+      return { ...data, cellIndex: cell };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to open cell");
     }
@@ -38,32 +41,33 @@ export const openCell = createAsyncThunk(
 // Cash out (stop) game
 export const stopGame = createAsyncThunk(
   "game/stopGame",
-  async ({ level }: StopGamePayload, { rejectWithValue, dispatch }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
-      const { data } = await gameApi.stopGame(level);
+      const state = getState() as AppRootState;
+      const activeRow = getGameState(state).activeRow;
+      if (!activeRow) {
+        return rejectWithValue("Active row is not defined");
+      }
+      const { data } = await gameApi.stopGame(activeRow);
       return data;
     } catch (error: any) {
-      if (error.response?.status === 401) {
-        dispatch(logoutUser());
-        return rejectWithValue("Not authenticated");
-      }
       return rejectWithValue(error.response?.data?.message || "Failed to cash out");
     }
   }
 );
 
 const initialState: GameState = {
+  isLoading: false,
   bet: 0,
   bombsCount: 0,
-  currentLevel: null,
-  openedCells: [],
-  cellType: null,
-  cellStatus: null,
-  frontStatus: null,
-  result: null,
-  finalWin: 0,
-  endedAt: null,
-  error: null,
+  activeRow: null,
+  status: GameStatusFront.INITIAL,
+  mode: BalanceType.REAL,
+  openedCells: {
+    0: [],
+    1: [],
+    2: [],
+  }
 };
 
 const gameSlice = createSlice({
@@ -71,71 +75,61 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     resetGame: () => initialState,
+    setBet: (state, action: PayloadAction<number>) => {
+      state.bet = action.payload;
+    },
+    setBombsCount: (state, action: PayloadAction<number>) => {
+      state.bombsCount = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       // startGame
       .addCase(startGame.pending, (state) => {
-        state.frontStatus = "loading";
-        state.error = null;
+        state.isLoading = true;
       })
       .addCase(startGame.fulfilled, (state, { payload }) => {
-        state.frontStatus = "succeeded";
-        state.bet = payload.bet;
-        state.bombsCount = payload.bombsCount;
-        state.currentLevel = payload.currentLevel;
-        state.result = payload.gameStatus;
-        state.openedCells = [];
-        state.cellType = null;
-        state.cellStatus = null;
-        state.finalWin = 0;
-        state.endedAt = null;
+        const { result, bet, bombsCount, currentLevel, finalWin, message, isDemo } = payload;
+        state.isLoading = false;
+        state.status = GameStatusFront.PROGRESS;
+        state.bet = bet;
+        state.bombsCount = bombsCount;
+        state.activeRow = Number(currentLevel) as RowNumber;
+        state.mode = isDemo ? BalanceType.DEMO : BalanceType.REAL;
       })
       .addCase(startGame.rejected, (state, { payload }) => {
-        state.frontStatus = "failed";
-        state.error = payload as string;
+        state.isLoading = false;
       })
 
       // openCell
       .addCase(openCell.pending, (state) => {
-        state.frontStatus = "loading";
-        state.error = null;
+        state.isLoading = true;
       })
       .addCase(openCell.fulfilled, (state, { payload }) => {
-        state.frontStatus = "succeeded";
-        state.result = payload.gameStatus;
-        if (payload.gameStatus === "in_progress") {
-          state.openedCells.push(payload.cellIndex);
-          state.cellType = payload.cellType;
-          state.cellStatus = payload.cellStatus;
-          state.currentLevel = payload.currentLevel;
-        } else {
-          state.finalWin = payload.finalWin;
-          state.endedAt = payload.gameEnd;
-        }
+        const { cellIndex, message, cellStatus, cellType, currentLevel, finalWin, gameEnd, gameStatus } = payload;
+        const _activeRow = Number(currentLevel) as RowNumber;
+        state.isLoading = false;
+        state.activeRow = _activeRow;
+        state.openedCells[_activeRow].push({ id: cellIndex, type: cellType! });
       })
-      .addCase(openCell.rejected, (state, { payload }) => {
-        state.frontStatus = "failed";
-        state.error = payload as string;
+      .addCase(openCell.rejected, (state) => {
+        state.isLoading = false;
       })
 
       // stopGame
       .addCase(stopGame.pending, (state) => {
-        state.frontStatus = "loading";
-        state.error = null;
+        state.isLoading = true;
       })
       .addCase(stopGame.fulfilled, (state, { payload }) => {
-        state.frontStatus = "succeeded";
-        state.result = payload.gameStatus;
-        state.finalWin = payload.finalWin;
-        state.endedAt = payload.gameEnd;
+        const { gameStatus, finalWin, gameEnd, message } = payload;
+        state.isLoading = false;
+        state.status = GameStatusFront.END;
       })
-      .addCase(stopGame.rejected, (state, { payload }) => {
-        state.frontStatus = "failed";
-        state.error = payload as string;
+      .addCase(stopGame.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
 
-export const { resetGame } = gameSlice.actions;
+export const { resetGame, setBet, setBombsCount } = gameSlice.actions;
 export default gameSlice.reducer;

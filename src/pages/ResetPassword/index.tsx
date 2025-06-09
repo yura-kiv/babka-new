@@ -10,6 +10,7 @@ import { authApi } from '@/api/auth';
 import { notificationService } from '@/services/notification';
 import { Pages } from '@/constants';
 import s from './styles.module.scss';
+import { password as passwordValidation } from '@/utils/validations';
 
 type FormData = {
   password: string;
@@ -62,7 +63,7 @@ const ResetPassword: React.FC = () => {
       
       setTimeout(() => {
         navigate(Pages.Auth);
-      }, 2000);
+      }, 3000);
     } catch (error) {
       console.error('Error resetting password:', error);
       notificationService.error(t('notifications.auth.resetPasswordError'));
@@ -82,13 +83,7 @@ const ResetPassword: React.FC = () => {
         <Controller
           name="password"
           control={control}
-          rules={{
-            required: t('validation.required'),
-            minLength: {
-              value: 8,
-              message: t('validation.minLength', { count: 8 })
-            }
-          }}
+          rules={passwordValidation}
           render={({ field }) => (
             <PasswordInput
               {...field}
@@ -105,7 +100,7 @@ const ResetPassword: React.FC = () => {
           name="confirmPassword"
           control={control}
           rules={{
-            required: t('validation.required'),
+            ...passwordValidation,
             validate: value => 
               value === password || t('validation.passwordMatch')
           }}

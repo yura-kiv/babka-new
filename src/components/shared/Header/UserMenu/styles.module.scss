@@ -43,7 +43,7 @@
 }
 
 .loginButton {
-  @include respond-to(md) {
+  @include respond-to(lg) {
     width: 100%;
   }
 }

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import styles from './styles.module.scss';
 
 export interface DropdownProps {
+  disabled?: boolean;
   trigger?: ReactNode;
   children?: ReactNode;
   className?: string;
@@ -14,7 +15,7 @@ export interface DropdownProps {
   closeOnClickOutside?: boolean;
   onOpen?: () => void;
   onClose?: () => void;
-  renderTrigger?: (props: { isOpen: boolean; toggle: () => void }) => React.ReactNode;
+  renderTrigger?: (props: { isOpen: boolean; toggle: () => void; disabled?: boolean }) => React.ReactNode;
   renderContent?: (props: { isOpen: boolean; close: () => void }) => React.ReactNode;
 }
 
@@ -27,6 +28,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   placement = 'bottom-left',
   offset = 10,
   closeOnClickOutside = true,
+  disabled = false,
   onOpen,
   onClose,
   renderTrigger,
@@ -52,12 +54,14 @@ const Dropdown: React.FC<DropdownProps> = ({
       e.preventDefault();
     }
     
+    if (disabled) return;
+    
     if (isOpen) {
       close();
     } else {
       open();
     }
-  }, [isOpen, open, close]);
+  }, [isOpen, open, close, disabled]);
   
   useEffect(() => {
     if (!isOpen || !closeOnClickOutside) return undefined;
@@ -129,11 +133,16 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const triggerElement = renderTrigger 
-    ? renderTrigger({ isOpen, toggle })
+    ? renderTrigger({ isOpen, toggle, disabled })
     : (
         <div 
-          className={classNames(styles.trigger, triggerClassName)} 
+          className={classNames(
+            styles.trigger, 
+            triggerClassName,
+            { [styles.disabled]: disabled }
+          )} 
           onClick={toggle}
+          aria-disabled={disabled}
         >
           {trigger}
         </div>
@@ -144,10 +153,17 @@ const Dropdown: React.FC<DropdownProps> = ({
     : children;
   
   return (
-    <div className={classNames(styles.dropdown, className)} ref={dropdownRef}>
+    <div 
+      className={classNames(
+        styles.dropdown, 
+        className,
+        { [styles.dropdownDisabled]: disabled }
+      )} 
+      ref={dropdownRef}
+    >
       {triggerElement}
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && !disabled && (
           <motion.div
             className={classNames(styles.content, getPlacementClass(), contentClassName)}
             initial="hidden"

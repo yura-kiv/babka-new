@@ -4,11 +4,24 @@
 .dropdown {
   position: relative;
   @include flex(row, center, center);
+  
+  &.dropdownDisabled {
+    .trigger {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
 }
 
 .trigger {
   cursor: pointer;
   user-select: none;
+  
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
+  }
 }
 
 .content {

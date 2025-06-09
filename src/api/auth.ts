@@ -10,7 +10,8 @@ import type {
   LogoutResponse,
   ForgotPasswordResponse,
   ResetPasswordResponse,
-  ChangePasswordResponse
+  ChangePasswordResponse,
+  ResendActivationEmailResponse
 } from '@/types';
 
 export const authApi = {
@@ -36,6 +37,10 @@ export const authApi = {
 
   changePassword: (data: ChangePasswordData): Promise<AxiosResponse<ChangePasswordResponse>> => {
     return privateApi.post<ChangePasswordResponse>('/auth/changePassword', data);
+  },
+
+  resendActivationEmail: (): Promise<AxiosResponse<ResendActivationEmailResponse>> => {
+    return privateApi.post<ResendActivationEmailResponse>('/auth/resendActivationEmail');
   }
 };
 

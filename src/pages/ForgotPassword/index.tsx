@@ -10,6 +10,10 @@ import { notificationService } from '@/services/notification';
 import s from './styles.module.scss';
 import { Pages } from '@/constants';
 import PageTitle from '@/components/ui/PageTitle';
+import {
+  password as passwordValidation,
+  email as emailValidation
+ } from '@/utils/validations';
 
 type FormData = {
   email: string;
@@ -52,13 +56,7 @@ const ForgotPassword: React.FC = () => {
         <Controller
           name="email"
           control={control}
-          rules={{
-            required: t('validation.required'),
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: t('validation.email')
-            }
-          }}
+          rules={emailValidation}
           render={({ field }) => (
             <Input
               {...field}

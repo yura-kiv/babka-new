@@ -13,6 +13,10 @@ import { authApi } from '@/api/auth';
 import { setUserState } from '@/store/helpers/actions';
 import { useAppDispatch } from '@/store/hooks';
 import type { DecodedToken } from '@/types';
+import {
+  required,
+  email as emailValidation,
+} from '@/utils/validations'
 
 type FormData = {
   email: string;
@@ -39,7 +43,7 @@ const LoginForm: React.FC = () => {
       const res = await authApi.login(data);
       const { data: { accessToken }, message, status, userData } = res.data;
       let tokenData = {} as Partial<DecodedToken>;
-      
+
       try {
         tokenData = jwtDecode(accessToken) as DecodedToken;
       } catch (decodeError) {
@@ -47,7 +51,7 @@ const LoginForm: React.FC = () => {
       }
 
       const { email, exp, iat, id, username } = tokenData;
-      
+
       dispatch(setUserState({
         isAuthenticated: true,
         token: accessToken,
@@ -59,7 +63,7 @@ const LoginForm: React.FC = () => {
         selectedBalance: 'real',
         demoBalance: 1000,
       }));
-      
+
       reset();
       notificationService.success(t(message || 'notifications.auth.loginSuccess'));
       navigate(Pages.Home);
@@ -77,13 +81,7 @@ const LoginForm: React.FC = () => {
       <Controller
         name="email"
         control={control}
-        rules={{
-          required: t('validation.required'),
-          pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: t('validation.email')
-          }
-        }}
+        rules={emailValidation}
         render={({ field }) => (
           <Input
             {...field}
@@ -100,9 +98,7 @@ const LoginForm: React.FC = () => {
       <Controller
         name="password"
         control={control}
-        rules={{
-          required: t('validation.required')
-        }}
+        rules={{ required }}
         render={({ field }) => (
           <PasswordInput
             {...field}

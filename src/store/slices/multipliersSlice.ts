@@ -7,7 +7,7 @@ export const fetchMultipliers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await multipliersApi.getMultipliers();
-      return data.data; // { '1':1.1, '2':1.5, '3':1.9 }
+      return data.data;
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch multipliers");
     }

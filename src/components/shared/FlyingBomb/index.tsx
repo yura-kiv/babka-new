@@ -4,21 +4,20 @@ import { createPortal } from 'react-dom';
 import s from './styles.module.scss'
 import { useAudio } from '@/hooks/useAudio';
 
-export type FlyingBombCoords = {
+export type FlyingBombParams = {
   from: { x: number; y: number };
   to: { x: number; y: number };
+  onComplete?: () => void;
 }
 
 interface FlyingBombProps {
-  coords: FlyingBombCoords;
+  params: FlyingBombParams;
   withSound?: boolean;
-  onAnimationComplete: () => void;
 }
 
 const FlyingBomb: React.FC<FlyingBombProps> = ({
-  coords,
+  params,
   withSound = false,
-  onAnimationComplete
 }) => {
   const { isMuted, toggleMute, playSound, playBackgroundMusic, stopBackgroundMusic } = useAudio();
   const [explosion, setExplosion] = useState<{
@@ -26,7 +25,7 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
     position: { x: number; y: number };
   } | null>(null);
 
-  const { from, to } = coords;
+  const { from, to, onComplete } = params;
 
   const dx = to.x - from.x;
   const dy = to.y - from.y;
@@ -97,9 +96,7 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
 
   const handleExplosionComplete = () => {
     setExplosion(null);
-    if (onAnimationComplete) {
-      onAnimationComplete();
-    }
+    onComplete?.();
   };
 
   const bombOverlayElement = document.getElementById('bombOverlay');

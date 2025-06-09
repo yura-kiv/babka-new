@@ -4,31 +4,7 @@ import PageTitle from '@/components/ui/PageTitle';
 import { useTranslation } from 'react-i18next';
 import Divider from '@/components/ui/Divider';
 import s from './styles.module.scss';
-import Button from '@/components/ui/Button';
 import Table from '@/components/ui/Table';
-
-const variants = [
-    {
-        id: 'tether',
-        name: 'Tether',
-        img: '/imgs/cash/tether.svg',
-    },
-    {
-        id: 'visa',
-        name: 'Visa',
-        img: '/imgs/cash/visa.svg',
-    },
-    {
-        id: 'mastercard',
-        name: 'Mastercard',
-        img: '/imgs/cash/mastercard.svg',
-    },
-    {
-        id: 'webMoney',
-        name: 'WebMoney',
-        img: '/imgs/cash/webmoney.svg',
-    },
-]
 
 const paymentHistory = [
     {
@@ -60,39 +36,14 @@ const Cash: React.FC = () => {
             <Divider noMargin />
             <div className={s.container}>
                 <PageTitle title={t('cash.withdrawWith')} subtitle={t('cash.withdrawWithSubtitle')} as="h2" />
-                <div className={s.variants}>
-                    {variants.map((variant) => (<Button
-                        key={variant.id}
-                        variant="outline"
-                        size="large"
-                        icon={<img src={variant.img} alt={variant.name} className={s.img} />}
-                        className={s.variant}
-                        onClick={() => { }}
-                    >
-                        {variant.name}
-                    </Button>))}
-                </div>
             </div>
             <Divider noMargin />
             <div className={s.container}>
                 <PageTitle title={t('cash.depositWith')} subtitle={t('cash.depositWithSubtitle')} as="h2" />
-                <div className={s.variants}>
-                    {variants.map((variant) => (<Button
-                        key={variant.id}
-                        variant="outline"
-                        size="large"
-                        icon={<img src={variant.img} alt={variant.name} className={s.img} />}
-                        className={s.variant}
-                        onClick={() => { }}
-                    >
-                        {variant.name}
-                    </Button>))}
-                </div>
             </div>
             <Divider noMargin />
             <div className={s.container}>
                 <PageTitle title={t('cash.paymentHistory')} subtitle={t('cash.paymentHistorySubtitle')} as="h2" />
-
                 <div className={s.tableWrapper}>
                     <Table
                         variant="dark"

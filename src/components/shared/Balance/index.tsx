@@ -8,9 +8,10 @@ import s from './styles.module.scss'
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { getUserData } from '@/store/helpers/selectors'
 import { changeSelectedBalance } from '@/store/helpers/actions'
+import { BalanceType } from "@/types";
 
 interface BalanceOption {
-  id: 'real' | 'demo';
+  id: BalanceType;
   name: string;
   value: number;
   isActive: boolean;
@@ -23,16 +24,16 @@ const Balance: React.FC = () => {
 
   const balanceOptions: BalanceOption[] = [
     {
-      id: 'real',
+      id: BalanceType.REAL,
       name: t('realBalance'),
       value: user.balance,
-      isActive: user.selectedBalance === 'real',
+      isActive: user.selectedBalance === BalanceType.REAL,
     },
     {
-      id: 'demo',
+      id: BalanceType.DEMO,
       name: t('demo'),
       value: user.demoBalance,
-      isActive: user.selectedBalance === 'demo',
+      isActive: user.selectedBalance === BalanceType.DEMO,
     }
   ];
 

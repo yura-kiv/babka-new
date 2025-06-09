@@ -10,6 +10,7 @@ interface NumberInputProps {
   step?: number;
   currency?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 const NumberInput: React.FC<NumberInputProps> = ({
@@ -20,6 +21,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   step = 1,
   currency = '$',
   className = '',
+  disabled = false,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,11 +57,11 @@ const NumberInput: React.FC<NumberInputProps> = ({
   }, [value, min, step, onChange]);
 
   return (
-    <div className={`${s.numberInput} ${className}`}>
+    <div className={`${s.numberInput} ${disabled ? s.disabled : ''} ${className}`}>
       <button 
         className={s.decrementButton} 
         onClick={handleDecrement}
-        disabled={value <= min}
+        disabled={value <= min || disabled}
         type="button"
         aria-label="Decrease value"
       >
@@ -75,6 +77,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
           value={value}
           onChange={handleInputChange}
           className={s.input}
+          disabled={disabled}
         />
         <span className={s.currency}>{currency}</span>
       </div>
@@ -82,7 +85,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
       <button 
         className={s.incrementButton} 
         onClick={handleIncrement}
-        disabled={value >= max}
+        disabled={value >= max || disabled}
         type="button"
         aria-label="Increase value"
       >

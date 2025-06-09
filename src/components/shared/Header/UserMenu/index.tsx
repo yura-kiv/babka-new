@@ -7,8 +7,13 @@ import s from './styles.module.scss';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { getUserData } from '@/store/helpers/selectors';
 import { logoutUser } from '@/store/helpers/actions';
+import { useNavigate } from 'react-router-dom';
 
-const UserMenu: React.FC = () => {
+interface UserMenuProps {
+  onLogout?: () => void;
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { username, avatarUrl, isAuthenticated } = useAppSelector(getUserData);
@@ -16,8 +21,12 @@ const UserMenu: React.FC = () => {
   const defaultAvatarUrl = '/imgs/grandma/avatar.svg';
   const displayAvatarUrl = avatarUrl || defaultAvatarUrl;
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
+    navigate(Pages.Auth);
     dispatch(logoutUser());
+    onLogout?.();
   };
 
   if (!isAuthenticated) {

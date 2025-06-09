@@ -134,7 +134,7 @@ const MobileHeader: React.FC = () => {
                       placement: 'top-left',
                     }}
                   />
-                  <UserMenu />
+                  <UserMenu onLogout={toggleMenu} />
                 </div>
               </div>
             </motion.div>

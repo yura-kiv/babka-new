@@ -1,5 +1,5 @@
 import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
-import { API_BASE } from '@/constants';
+import { API_BASE, Pages } from '@/constants';
 import { store } from '@/store';
 import i18n from '@/i18n/config';
 import { logoutUser, updateUserToken } from '@/store/helpers/actions';
@@ -72,7 +72,6 @@ const isTokenExpired = (token: string): boolean => {
   }
 };
 
-let isRefreshingToken = false;
 let refreshTokenPromise: Promise<string | null> | null = null;
 const pendingRequestsQueue: ((token: string | null) => void)[] = [];
 
@@ -98,6 +97,7 @@ const refreshToken = async (): Promise<string | null> => {
   } catch (error) {
     console.error('Error refreshing token:', error);
     store.dispatch(logoutUser());
+    // window.location.href = Pages.Auth;
     return null;
   }
 };
@@ -127,9 +127,7 @@ privateApi.interceptors.request.use(
       return addLanguageToRequest(config);
     }
 
-    if (!isRefreshingToken) {
-      isRefreshingToken = true;
-
+    if (!refreshTokenPromise) {
       refreshTokenPromise = refreshToken()
         .then((newToken) => {
           processPendingRequests(newToken);
@@ -140,7 +138,6 @@ privateApi.interceptors.request.use(
           throw error;
         })
         .finally(() => {
-          isRefreshingToken = false;
           refreshTokenPromise = null;
         });
     }

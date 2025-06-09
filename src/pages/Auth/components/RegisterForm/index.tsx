@@ -13,6 +13,12 @@ import { jwtDecode } from 'jwt-decode';
 import type { DecodedToken } from '@/types';
 import { useAppDispatch } from '@/store/hooks';
 import { setUserState } from '@/store/helpers/actions';
+import {
+  required,
+  password as passwordValidation,
+  email as emailValidation,
+  userName as userNameValidation,
+} from '@/utils/validations'
 
 type FormData = {
   username: string;
@@ -22,7 +28,11 @@ type FormData = {
   agreeToTerms: boolean;
 };
 
-const RegisterForm: React.FC = () => {
+type RegisterFormProps = {
+  setTab: (tab: 'login' | 'register') => void;
+};
+
+const RegisterForm: React.FC<RegisterFormProps> = ({ setTab }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -66,8 +76,10 @@ const RegisterForm: React.FC = () => {
         demoBalance: 1000,
       }));
 
+      notificationService.info(t('notifications.auth.registerSuccessDescription'));
       notificationService.success(t('notifications.auth.registerSuccess'));
       reset();
+      setTab('login');
     } catch (error: any) {
       const message = error?.response?.data?.message || t('notifications.auth.registerError');
       console.error('Registration error:', error);
@@ -82,13 +94,7 @@ const RegisterForm: React.FC = () => {
       <Controller
         name="username"
         control={control}
-        rules={{
-          required: t('validation.required'),
-          minLength: {
-            value: 3,
-            message: t('validation.minLength', { count: 3 })
-          }
-        }}
+        rules={userNameValidation}
         render={({ field }) => (
           <Input
             {...field}
@@ -104,13 +110,7 @@ const RegisterForm: React.FC = () => {
       <Controller
         name="email"
         control={control}
-        rules={{
-          required: t('validation.required'),
-          pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: t('validation.email')
-          }
-        }}
+        rules={emailValidation}
         render={({ field }) => (
           <Input
             {...field}
@@ -127,13 +127,7 @@ const RegisterForm: React.FC = () => {
       <Controller
         name="password"
         control={control}
-        rules={{
-          required: t('validation.required'),
-          minLength: {
-            value: 6,
-            message: t('validation.minLength', { count: 6 })
-          }
-        }}
+        rules={passwordValidation}
         render={({ field }) => (
           <PasswordInput
             {...field}
@@ -150,7 +144,7 @@ const RegisterForm: React.FC = () => {
         name="confirmPassword"
         control={control}
         rules={{
-          required: t('validation.required'),
+          ...passwordValidation,
           validate: value =>
             value === password || t('validation.passwordMatch')
         }}
@@ -169,9 +163,7 @@ const RegisterForm: React.FC = () => {
       <Controller
         name="agreeToTerms"
         control={control}
-        rules={{
-          required: t('validation.agreeToTerms')
-        }}
+        rules={{ required }}
         render={({ field: { onChange, value, ref } }) => (
           <Checkbox
             ref={ref}

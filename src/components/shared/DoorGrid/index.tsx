@@ -4,8 +4,19 @@ import classNames from 'classnames';
 import { FaLock } from "react-icons/fa";
 import s from './styles.module.scss';
 
-export type RowState = 'active' | 'disabled' | 'demo';
-export type DoorState = 'closed' | 'open' | 'prize' | 'bomb' | 'locked';
+export enum RowState {
+  ACTIVE = 'active',
+  DISABLED = 'disabled',
+  DEMO = 'demo',
+}
+
+export enum DoorState {
+  CLOSED = 'closed',
+  OPEN = 'open',
+  PRIZE = 'prize',
+  BOMB = 'bomb',
+  LOCKED = 'locked',
+}
 
 interface DoorGridProps {
   children: ReactNode;
@@ -59,31 +70,31 @@ const Door: React.FC<DoorProps> = ({
         src="/imgs/game/doorClose.png" 
         alt="doorClose" 
         className={s.doorImage} 
-        style={{ display: state === 'closed' || state === 'locked' ? 'block' : 'none' }} 
+        style={{ display: state === DoorState.CLOSED || state === DoorState.LOCKED ? 'block' : 'none' }} 
       />
       
       <img 
         src="/imgs/game/doorOpen.png" 
         alt="doorOpen" 
         className={s.doorImage} 
-        style={{ display: state === 'open' || state === 'prize' || state === 'bomb' ? 'block' : 'none' }} 
+        style={{ display: state === DoorState.OPEN || state === DoorState.PRIZE || state === DoorState.BOMB ? 'block' : 'none' }} 
       />
       
       <img 
         src="/imgs/game/prize.svg" 
         alt="prize" 
         className={s.prizeImage} 
-        style={{ display: state === 'prize' ? 'block' : 'none' }} 
+        style={{ display: state === DoorState.PRIZE ? 'block' : 'none' }} 
       />
       
       <img 
         src="/imgs/game/bombHappy.svg" 
         alt="bomb" 
         className={s.bombImage} 
-        style={{ display: state === 'bomb' ? 'block' : 'none' }} 
+        style={{ display: state === DoorState.BOMB ? 'block' : 'none' }} 
       />
       
-      {state === 'locked' && <FaLock size={20} className={s.lock} />}
+      {state === DoorState.LOCKED && <FaLock size={20} className={s.lock} />}
     </div>
   );
 }

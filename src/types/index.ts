@@ -11,20 +11,6 @@ export interface UserState {
   demoBalance: number;
 }
 
-export interface GameState {
-  bet: number;
-  bombsCount: number;
-  currentLevel: number | null;
-  openedCells: number[];
-  cellType: string | null;
-  cellStatus: string | null;
-  frontStatus: 'idle' | 'loading' | 'succeeded' | 'failed' | null;
-  result: string | null;
-  finalWin: number;
-  endedAt: string | null;
-  error: string | null;
-}
-
 export interface MultipliersState {
   values: Record<string, number>;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -34,13 +20,6 @@ export interface MultipliersState {
 export interface UIState {
   isLoading: boolean;
   isMuted: boolean;
-}
-
-export interface RootState {
-  user: UserState;
-  game: GameState;
-  multipliers: MultipliersState;
-  ui: UIState;
 }
 
 export interface LoginCredentials {
@@ -61,18 +40,13 @@ export interface RegisterCredentials {
 export interface StartGamePayload {
   bet: number;
   bombsCount: number;
+  isDemo: boolean;
 }
 
-export interface OpenCellPayload {
-  level: number;
-  cellIndex: number;
+export enum BalanceType {
+  REAL = "real",
+  DEMO = "demo",
 }
-
-export interface StopGamePayload {
-  level: number;
-}
-
-export type BalanceType = 'real' | 'demo';
 
 export interface ChangePasswordData {
   currentPassword: string;
@@ -148,4 +122,82 @@ export interface ChangeAvatarResponse {
   };
   message: string;
   status: number;
+}
+
+export interface ResendActivationEmailResponse {
+}
+
+export interface MultipliersResponse {
+  message: string;
+  data: {
+    "1": number,
+    "2": number,
+    "3": number
+  }
+}
+
+export enum GameResultBackend {
+  IN_PROGRESS = "in_progress",
+  LOST = "lost",
+  WON = "won",
+  CANCELED = "canceled",
+  CASHED_OUT = "cashed_out"
+}
+
+export enum CellTypeBackend {
+  PRIZE = "prize",
+  BOMB = "bomb",
+  EMPTY = "empty"
+}
+
+export enum CellStatusBackend {
+  CLOSED = "closed",
+  OPEN = "open"
+}
+
+export enum GameStatusFront {
+  PROGRESS = "progress",
+  INITIAL = "initial",
+  END = "end",
+}
+
+export type RowNumber = 0 | 1 | 2;
+
+export interface GameState {
+  bet: number;
+  bombsCount: number;
+  activeRow: RowNumber | null;
+  status: GameStatusFront;
+  mode: BalanceType;
+  openedCells: {
+    [key in RowNumber]: { id: number, type: CellTypeBackend }[];
+  };
+  isLoading: boolean;
+}
+
+export interface StartGameResponse {
+  bet: number;
+  bombsCount: number;
+  currentLevel: string;
+  finalWin: number;
+  message: string;
+  result: GameResultBackend;
+  isDemo?: boolean;
+}
+
+export interface StopGameResponse {
+  finalWin: number;
+  gameEnd: string;
+  gameStatus: GameResultBackend;
+  message: string;
+}
+
+export interface OpenCellResponse {
+  message: string;
+  gameStatus?: GameResultBackend;
+  cellType?: CellTypeBackend;
+  cellStatus?: CellStatusBackend;
+  currentLevel?: number;
+  finalWin?: number;
+  gameEnd?: string;
 }

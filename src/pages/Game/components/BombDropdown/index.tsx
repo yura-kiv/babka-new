@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button';
 interface BombDropdownProps {
   value?: number;
   setValue?: (value: number) => void;
+  disabled?: boolean;
 }
 
 const BOMB_OPTIONS = [1, 2, 3];
@@ -16,6 +17,7 @@ const BOMB_OPTIONS = [1, 2, 3];
 const BombDropdown: React.FC<BombDropdownProps> = ({
   value,
   setValue,
+  disabled = false,
 }) => {
   const { t } = useTranslation();
 
@@ -29,6 +31,7 @@ const BombDropdown: React.FC<BombDropdownProps> = ({
       variant="outline"
       onClick={toggle}
       className={classNames(s.trigger, { [s.open]: isOpen })}
+      disabled={disabled}
     >
       {bombIcon}
       <span className={s.label}>{t('bombsSelection', { count: value })}</span>
@@ -61,6 +64,7 @@ const BombDropdown: React.FC<BombDropdownProps> = ({
       className={s.dropdown}
       contentClassName={s.content}
       placement="bottom-left"
+      disabled={disabled}
     />
   );
 };

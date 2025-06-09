@@ -7,17 +7,16 @@ import {
   updateToken,
 } from "@/store/slices/userSlice";
 
-import { fetchMultipliers } from "@/store/slices/multipliersSlice";
-
 import {
-  startGame,
-  openCell,
-  stopGame,
-  resetGame,
+  startGame as startGameAction,
+  openCell as openCellAction,
+  stopGame as stopGameAction,
+  resetGame as resetGameAction,
+  setBet as setBetAction,
+  setBombsCount as setBombsCountAction,
 } from "@/store/slices/gameSlice";
 
 import type { 
-  StartGamePayload,
   BalanceType,
   UserState 
 } from "@/types";
@@ -26,6 +25,8 @@ import {
   setLoading,
   setMuted,
 } from "@/store/slices/uiSlice";
+
+import { fetchMultipliers } from "@/store/slices/multipliersSlice";
 
 // --- AUTH & USER ---
 export const logoutUser = () => store.dispatch(logout());
@@ -38,13 +39,17 @@ export const updateUserToken = (token: string) => store.dispatch(updateToken(tok
 export const loadMultipliers = () => store.dispatch(fetchMultipliers());
 
 // --- GAME ---
-export const initGame = (payload: StartGamePayload) => store.dispatch(startGame(payload));
+export const startGame = () => store.dispatch(startGameAction());
 
-export const revealCell = (lvl: number, cell: number) => store.dispatch(openCell({ level: lvl, cellIndex: cell }));
+export const openCell = (cell: number) => store.dispatch(openCellAction(cell));
 
-export const cashOut = (lvl: number) => store.dispatch(stopGame({ level: lvl }));
+export const stopGame = () => store.dispatch(stopGameAction());
 
-export const resetGameState = () => store.dispatch(resetGame());
+export const resetGame = () => store.dispatch(resetGameAction());
+
+export const setBet = (bet: number) => store.dispatch(setBetAction(bet));
+
+export const setBombsCount = (bombsCount: number) => store.dispatch(setBombsCountAction(bombsCount));
 
 // -- BALANCE --
 export const changeSelectedBalance = (balance: BalanceType) => store.dispatch(setSelectedBalance(balance));

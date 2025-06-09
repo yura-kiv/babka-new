@@ -8,6 +8,10 @@ import { authApi } from '@/api/auth';
 import { notificationService } from '@/services/notification';
 import s from './ChangePasswordModal.module.scss';
 import { FaLock } from 'react-icons/fa';
+import {
+  required,
+  password as passwordValidation,
+} from '@/utils/validations'
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -73,9 +77,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
     >
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <PasswordInput
-          {...register('currentPassword', {
-            required: t('validation.required')
-          })}
+          {...register('currentPassword', passwordValidation)}
           leftIcon={<FaLock />}
           placeholder={t('changePassword.currentPassword')}
           label={t('changePassword.currentPassword')}
@@ -84,13 +86,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
         />
 
         <PasswordInput
-          {...register('newPassword', {
-            required: t('validation.required'),
-            minLength: {
-              value: 8,
-              message: t('validation.minLength', { count: 8 })
-            }
-          })}
+          {...register('newPassword', passwordValidation)}
           leftIcon={<FaLock />}
           placeholder={t('changePassword.newPassword')}
           label={t('changePassword.newPassword')}
@@ -100,7 +96,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
 
         <PasswordInput
           {...register('confirmPassword', {
-            required: t('validation.required'),
+            ...passwordValidation,
             validate: value =>
               value === newPassword || t('validation.passwordMatch')
           })}
