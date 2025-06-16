@@ -2,23 +2,19 @@ import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Pages } from '@/constants';
 import { useAppSelector } from '@/store/hooks';
-import { isUserAuthenticated } from '@/store/helpers/selectors';
+import { getUserIsConfirmed, getUserToken } from '@/store/helpers/selectors';
 
 interface AuthGuardProps {
-  requireAuth?: boolean;
+  withAuth?: boolean;
+  withoutAuth?: boolean;
+  withConfirmed?: boolean;
+  withoutConfirmed?: boolean;
 }
 
-const AuthGuard: React.FC<AuthGuardProps> = ({ requireAuth = true }) => {
+const AuthGuard: React.FC<AuthGuardProps> = ({ withAuth = false, withoutAuth = false }) => {
   const location = useLocation();
-  const isAuthenticated = useAppSelector(isUserAuthenticated);
-
-  if (requireAuth && !isAuthenticated) {
-    return <Navigate to={Pages.Auth} state={{ from: location.pathname }} replace />;
-  }
-
-  if (isAuthenticated && location.pathname.startsWith(Pages.Auth)) {
-    return <Navigate to={Pages.Home} replace />;
-  }
+  const isToken = useAppSelector(getUserToken);
+  const isConfirmed = useAppSelector(getUserIsConfirmed);
 
   return (
     <Outlet />

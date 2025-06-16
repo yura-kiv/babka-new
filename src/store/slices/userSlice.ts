@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { UserState } from "@/types";
+import { BalanceType, type UserState } from "@/types";
 
 const initialUserState: UserState = {
-  isAuthenticated: false,
+  isConfirmed: false,
   // auth
   token: "",
   userId: null,
@@ -13,7 +13,7 @@ const initialUserState: UserState = {
   email: null,
   avatarUrl: null,
   // demo balance
-  selectedBalance: 'real',
+  selectedBalance: BalanceType.REAL,
   demoBalance: 1000,
 };
 
@@ -25,7 +25,7 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<Partial<UserState>>) => {
       Object.assign(state, action.payload);
     },
-    setSelectedBalance: (state, action: PayloadAction<'real' | 'demo'>) => {
+    setSelectedBalance: (state, action: PayloadAction<BalanceType>) => {
       state.selectedBalance = action.payload;
     },
     updateToken: (state, action: PayloadAction<string>) => {

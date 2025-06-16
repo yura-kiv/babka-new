@@ -1,7 +1,7 @@
-export type SoundType = 'bum' | 'coins' | 'game' | 'throwBomb' | 'lose' | 'victory';
+import { SOUND_TYPE } from "@/constants";
 
 export interface Sound {
-  type: SoundType;
+  type: SOUND_TYPE;
   volume: number;
 }
 
@@ -13,36 +13,36 @@ interface AudioInstance {
 
 const sounds: Sound[] = [
   {
-    type: 'bum',
+    type: SOUND_TYPE.BUM,
     volume: 0.05,
   },
   {
-    type: 'coins',
+    type: SOUND_TYPE.COINS,
     volume: 0.4,
   },
   {
-    type: 'game',
+    type: SOUND_TYPE.GAME,
     volume: 0.4,
   },
   {
-    type: 'throwBomb',
+    type: SOUND_TYPE.THROW_BOMB,
     volume: 0.5,
   },
   {
-    type: 'lose',
+    type: SOUND_TYPE.LOSE,
     volume: 0.4,
   },
   {
-    type: 'victory',
+    type: SOUND_TYPE.VICTORY,
     volume: 0.4,
   },
 ]
 
 class AudioService {
-  private sounds: Map<SoundType, AudioInstance> = new Map();
+  private sounds: Map<SOUND_TYPE, AudioInstance> = new Map();
   private isMuted: boolean = false;
   private backgroundMusic: AudioInstance | null = null;
-  private backgroundMusicType: SoundType | null = null;
+  private backgroundMusicType: SOUND_TYPE | null = null;
 
   constructor() {
     this.preloadSounds();
@@ -67,7 +67,7 @@ class AudioService {
     });
   }
 
-  public playSound(type: SoundType): void {
+  public playSound(type: SOUND_TYPE): void {
     if (this.isMuted) return;
     
     const soundInstance = this.sounds.get(type);
@@ -83,7 +83,7 @@ class AudioService {
     });
   }
 
-  public playBackgroundMusic(type: SoundType = 'game'): void {
+  public playBackgroundMusic(type: SOUND_TYPE = SOUND_TYPE.GAME): void {
     if (this.isMuted) return;
     
     this.stopBackgroundMusic();
@@ -130,7 +130,7 @@ class AudioService {
     }
   }
 
-  public setVolume(type: SoundType, volume: number): void {
+  public setVolume(type: SOUND_TYPE, volume: number): void {
     const soundInstance = this.sounds.get(type);
     if (soundInstance) {
       soundInstance.volume = Math.max(0, Math.min(1, volume));
@@ -170,11 +170,11 @@ class AudioService {
     return this.isMuted;
   }
 
-  public getCurrentBackgroundMusic(): SoundType | null {
+  public getCurrentBackgroundMusic(): SOUND_TYPE | null {
     return this.backgroundMusicType;
   }
 
-  public isPlaying(type: SoundType): boolean {
+  public isPlaying(type: SOUND_TYPE): boolean {
     const soundInstance = this.sounds.get(type);
     return soundInstance ? soundInstance.isPlaying : false;
   }

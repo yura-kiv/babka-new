@@ -10,13 +10,30 @@ export enum Pages {
     Cash = '/cash',
     Comic = '/comic',
     ForgotPassword = '/forgot-password',
-    ResetPassword = '/reset-password'
+    ResetPassword = '/reset-password',
+    AskToConfirmEmail = '/ask-to-confirm-email',
+    ConfirmEmail = '/confirm-email'
+}
+
+export enum SOUND_TYPE {
+    BUM = 'bum',
+    COINS = 'coins',
+    GAME = 'game',
+    THROW_BOMB = 'throwBomb',
+    LOSE = 'lose',
+    VICTORY = 'victory',
+  }
+
+export enum ANIMATIONS_TYPE {
+    GRANDMA = 'GRANDMA',
+    LOSER = 'LOSER',
+    PRIZE = 'PRIZE'
 }
 
 export const ANIMATIONS = {
-    GRANDMA: 'https://lottie.host/ede8a463-190f-48c8-8888-8c163fe393b0/8DFN7sP0za.json',
-    LOSER: 'https://lottie.host/1d78b59a-d4ac-4439-8670-de3656a6e2a5/efm6X6xQf7.json',
-    PRIZE: 'https://lottie.host/d54aa7cf-dc80-465c-8175-871edb269141/zdqnzQUoyp.json'
+    [ANIMATIONS_TYPE.GRANDMA]: 'https://lottie.host/ede8a463-190f-48c8-8888-8c163fe393b0/8DFN7sP0za.json',
+    [ANIMATIONS_TYPE.LOSER]: 'https://lottie.host/1d78b59a-d4ac-4439-8670-de3656a6e2a5/efm6X6xQf7.json',
+    [ANIMATIONS_TYPE.PRIZE]: 'https://lottie.host/d54aa7cf-dc80-465c-8175-871edb269141/zdqnzQUoyp.json'
 }
 
 export const userNames = [

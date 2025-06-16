@@ -4,12 +4,12 @@ import { type AnimationItem } from 'lottie-web';
 import { ANIMATIONS } from "@/constants";
 import s from './styles.module.scss';
 import WidthWrapper from "@/components/ui/WidthWrapper";
-import DoorGrid, { type DoorState } from "@/components/shared/DoorGrid";
+import DoorGrid, { RowState, DoorState } from "@/components/shared/DoorGrid";
 import FlyingBomb, { type FlyingBombParams } from "@/components/shared/FlyingBomb";
 import { getBombPoints } from '@/utils';
 
 const RulesGameAnimation = () => {
-    const [doorStates, setDoorStates] = useState<(DoorState)[]>(['closed', 'closed', 'closed', 'closed']);
+    const [doorStates, setDoorStates] = useState<(DoorState)[]>([DoorState.CLOSED, DoorState.CLOSED, DoorState.CLOSED, DoorState.CLOSED]);
     const [animationStep, setAnimationStep] = useState(0);
     const [bomb, setBomb] = useState<FlyingBombParams | null>(null);
 
@@ -34,7 +34,7 @@ const RulesGameAnimation = () => {
             setAnimationStep(2);
             setDoorStates(prev => {
                 const newStates = [...prev];
-                newStates[0] = 'open';
+                newStates[0] = DoorState.OPEN;
                 return newStates;
             });
             setTimeout(() => {
@@ -47,7 +47,7 @@ const RulesGameAnimation = () => {
             setAnimationStep(3);
             setDoorStates(prev => {
                 const newStates = [...prev];
-                newStates[1] = 'open';
+                newStates[1] = DoorState.OPEN;
                 return newStates;
             });
             setTimeout(() => {
@@ -60,7 +60,7 @@ const RulesGameAnimation = () => {
             setAnimationStep(4);
             setDoorStates(prev => {
                 const newStates = [...prev];
-                newStates[2] = 'prize';
+                newStates[2] = DoorState.PRIZE;
                 return newStates;
             });
         }
@@ -73,7 +73,7 @@ const RulesGameAnimation = () => {
                 setAnimationStep(5);
                 setDoorStates(prev => {
                     const newStates = [...prev];
-                    newStates[3] = 'bomb';
+                    newStates[3] = DoorState.BOMB;
                     return newStates;
                 });
             }, 1000);
@@ -82,7 +82,7 @@ const RulesGameAnimation = () => {
             setTimeout(() => {
                 setBomb(null);
                 setAnimationStep(0);
-                setDoorStates(['closed', 'closed', 'closed', 'closed']);
+                setDoorStates([DoorState.CLOSED, DoorState.CLOSED, DoorState.CLOSED, DoorState.CLOSED]);
                 if (lottieRef.current) {
                     setTimeout(() => {
                         lottieRef.current?.goToAndPlay(0);
@@ -96,7 +96,7 @@ const RulesGameAnimation = () => {
         <WidthWrapper maxWidth={992} noPadding className={s.wrapper}>
             <DoorGrid>
                 {[[0, 1, 2, 3]].map((row, rowIndex) => (
-                    <DoorGrid.Row key={`row-${rowIndex}`} state='demo'>
+                    <DoorGrid.Row key={`row-${rowIndex}`} state={RowState.DEMO}>
                         {row.map((cellId) => (
                             <div
                                 key={`cell-${cellId}`}

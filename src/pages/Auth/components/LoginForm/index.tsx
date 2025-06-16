@@ -12,7 +12,7 @@ import s from './styles.module.scss';
 import { authApi } from '@/api/auth';
 import { setUserState } from '@/store/helpers/actions';
 import { useAppDispatch } from '@/store/hooks';
-import type { DecodedToken } from '@/types';
+import { BalanceType, type DecodedToken } from '@/types';
 import {
   required,
   email as emailValidation,
@@ -53,14 +53,14 @@ const LoginForm: React.FC = () => {
       const { email, exp, iat, id, username } = tokenData;
 
       dispatch(setUserState({
-        isAuthenticated: true,
+        isConfirmed: true,
         token: accessToken,
         userId: id || null,
         username: username || null,
         email: email || null,
         balance: Number(userData.balance) || 0,
         avatarUrl: userData.avatar || null,
-        selectedBalance: 'real',
+        selectedBalance: BalanceType.REAL,
         demoBalance: 1000,
       }));
 

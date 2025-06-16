@@ -17,6 +17,8 @@ import Cash from '@/pages/Cash';
 import Comic from '@/pages/Comic';
 import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
+import AskToConfirmEmail from '@/pages/AskToConfirmEmail';
+import ConfirmEmail from '@/pages/ConfirmEmail';
 
 export const router = createBrowserRouter([
   {
@@ -44,7 +46,7 @@ export const router = createBrowserRouter([
         element: <Comic />,
       },
       {
-        element: <AuthGuard requireAuth={true} />,
+        element: <AuthGuard withAuth />,
         children: [
           {
             path: Pages.Profile,
@@ -62,7 +64,7 @@ export const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        element: <AuthGuard requireAuth={false} />,
+        element: <AuthGuard withoutAuth />,
         children: [
           {
             path: Pages.Auth,
@@ -72,11 +74,24 @@ export const router = createBrowserRouter([
             path: Pages.ForgotPassword,
             element: <ForgotPassword />,
           },
-          {
-            path: Pages.ResetPassword,
-            element: <ResetPassword />,
-          },  
         ],
+      },
+      {
+        element: <AuthGuard withAuth withoutConfirmed />,
+        children: [
+          {
+            path: Pages.AskToConfirmEmail,
+            element: <AskToConfirmEmail />,
+          },
+          {
+            path: Pages.ConfirmEmail,
+            element: <ConfirmEmail />,
+          },
+        ],
+      },
+      {
+        path: Pages.ResetPassword,
+        element: <ResetPassword />,
       },
     ],  
   },

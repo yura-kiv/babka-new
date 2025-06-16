@@ -6,6 +6,7 @@ export const userApi = {
   changeUsername: (newUsername: string): Promise<AxiosResponse<ChangeUsernameResponse>> => {
     return privateApi.patch('/user/username', { newUsername });
   },
+
   changeAvatar: (avatarFile: File): Promise<AxiosResponse<ChangeAvatarResponse>> => {
     const formData = new FormData();
     if (avatarFile) formData.append("avatar", avatarFile);

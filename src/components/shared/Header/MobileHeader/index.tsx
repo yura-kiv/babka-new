@@ -12,7 +12,7 @@ import s from './styles.module.scss';
 import Divider from '@/components/ui/Divider';
 import classNames from 'classnames';
 import { useAppSelector } from '@/store/hooks';
-import { isUserAuthenticated } from '@/store/helpers/selectors';
+import { getUserToken } from '@/store/helpers/selectors';
 
 const navigation = [
   {
@@ -37,7 +37,7 @@ const MobileHeader: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const isAuthenticated = useAppSelector(isUserAuthenticated);
+  const isToken = useAppSelector(getUserToken);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -78,7 +78,7 @@ const MobileHeader: React.FC = () => {
           {logo}
           {menuButton}
         </div>
-        <div className={classNames(s.rightSection, { [s.notAuthenticated]: !isAuthenticated })}>
+        <div className={classNames(s.rightSection, { [s.notAuthenticated]: !isToken })}>
           <Divider noMargin />
           <Balance />
           {menuButton}

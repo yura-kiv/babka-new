@@ -36,12 +36,12 @@ export const authApi = {
   },
 
   changePassword: (data: ChangePasswordData): Promise<AxiosResponse<ChangePasswordResponse>> => {
-    return privateApi.post<ChangePasswordResponse>('/auth/changePassword', data);
+    return publicApi.post<ChangePasswordResponse>('/auth/changePassword', data);
   },
 
   resendActivationEmail: (): Promise<AxiosResponse<ResendActivationEmailResponse>> => {
-    return privateApi.post<ResendActivationEmailResponse>('/auth/resendActivationEmail');
-  }
+    return publicApi.post<ResendActivationEmailResponse>('/auth/resendActivationEmail');
+  },
 };
 
 export default authApi;

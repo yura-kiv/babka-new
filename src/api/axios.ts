@@ -33,7 +33,6 @@ const refreshTokenApi = axios.create({
 const addLanguageToRequest = (config: InternalAxiosRequestConfig) => {
   const currentLanguage = i18n.language;
   config.headers['Accept-Language'] = currentLanguage;
-  
   if (config.method !== 'get') {
     config.data = config.data || {};
     if (typeof config.data === 'string') {
@@ -63,9 +62,8 @@ const getTokenFromStore = (): string | null => {
 const isTokenExpired = (token: string): boolean => {
   try {
     const decoded = jwtDecode<DecodedToken>(token);
-    const currentTime = Date.now() / 1000;
-    
-    return !decoded.exp || decoded.exp < (currentTime + 30);
+    const currentTime: number = Math.floor(Date.now() / 1000) - 1;
+    return !decoded.exp || decoded.exp < currentTime;
   } catch (error) {
     console.error('Error decoding token:', error);
     return true;
@@ -84,20 +82,17 @@ const refreshToken = async (): Promise<string | null> => {
   try {
     const token = getTokenFromStore();
     if (!token) return null;
-
     const response = await refreshTokenApi.post<RefreshTokenResponse>('/auth/refresh', {}, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
-
     const newToken = response.data.data.accessToken;
     store.dispatch(updateUserToken(newToken));
     return newToken;
   } catch (error) {
     console.error('Error refreshing token:', error);
     store.dispatch(logoutUser());
-    // window.location.href = Pages.Auth;
     return null;
   }
 };
@@ -115,18 +110,14 @@ refreshTokenApi.interceptors.request.use(
 privateApi.interceptors.request.use(
   async (config) => {
     const token = getTokenFromStore();
-
     if (!token) {
       return addLanguageToRequest(config);
     }
-
     const tokenExpired = isTokenExpired(token);
-
     if (!tokenExpired) {
       config.headers.Authorization = `Bearer ${token}`;
       return addLanguageToRequest(config);
     }
-
     if (!refreshTokenPromise) {
       refreshTokenPromise = refreshToken()
         .then((newToken) => {
@@ -141,7 +132,6 @@ privateApi.interceptors.request.use(
           refreshTokenPromise = null;
         });
     }
-
     return new Promise((resolve, reject) => {
       pendingRequestsQueue.push((newToken: string | null) => {
         if (newToken) {

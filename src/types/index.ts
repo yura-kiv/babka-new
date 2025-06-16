@@ -1,20 +1,14 @@
 export interface UserState {
-  isAuthenticated: boolean;
+  isConfirmed: boolean;
   token: string;
   userId: string | null;
   username: string | null;
   balance: number;
   email: string | null;
   avatarUrl: string | null;
-  // optional
+  // front additional fields
   selectedBalance: BalanceType;
   demoBalance: number;
-}
-
-export interface MultipliersState {
-  values: Record<string, number>;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
 }
 
 export interface UIState {
@@ -37,10 +31,9 @@ export interface RegisterCredentials {
   agreeToTerms?: boolean;
 }
 
-export interface StartGamePayload {
+export interface StartGameRequest {
   bet: number;
   bombsCount: number;
-  isDemo: boolean;
 }
 
 export enum BalanceType {
@@ -127,13 +120,22 @@ export interface ChangeAvatarResponse {
 export interface ResendActivationEmailResponse {
 }
 
+export type MultipliersBombsCount = 1 | 2 | 3;
+export type MultipliersRows = 1 | 2 | 3;
+export type BombsCount = 0 | 1 | 2 | 3;
 export interface MultipliersResponse {
   message: string;
-  data: {
-    "1": number,
-    "2": number,
-    "3": number
-  }
+  data: Record<MultipliersBombsCount, Record<MultipliersRows, number>>;
+}
+
+export type RowNumber = 0 | 1 | 2;
+
+export type CellNumber = 0 | 1 | 2 | 3;
+
+export enum GameStatusFront {
+  INITIAL = "INITIAL",
+  IN_PROGRESS = "IN_PROGRESS",
+  END = "END",
 }
 
 export enum GameResultBackend {
@@ -155,49 +157,59 @@ export enum CellStatusBackend {
   OPEN = "open"
 }
 
-export enum GameStatusFront {
-  PROGRESS = "progress",
-  INITIAL = "initial",
-  END = "end",
+export interface Cell {
+  status: CellStatusBackend;
+  type?: CellTypeBackend;
+  posX: number;
+  posY: number;
 }
 
-export type RowNumber = 0 | 1 | 2;
-
-export interface GameState {
-  bet: number;
-  bombsCount: number;
-  activeRow: RowNumber | null;
-  status: GameStatusFront;
-  mode: BalanceType;
-  openedCells: {
-    [key in RowNumber]: { id: number, type: CellTypeBackend }[];
-  };
-  isLoading: boolean;
-}
+export type BoardState = Cell[][];
 
 export interface StartGameResponse {
+  message: string;
   bet: number;
   bombsCount: number;
   currentLevel: string;
-  finalWin: number;
-  message: string;
   result: GameResultBackend;
+  finalWin: number;
   isDemo?: boolean;
 }
 
 export interface StopGameResponse {
-  finalWin: number;
-  gameEnd: string;
-  gameStatus: GameResultBackend;
   message: string;
+  gameStatus: GameResultBackend;
+  finalWin: number;
+  gameEnd: string; // ISO date string
 }
 
-export interface OpenCellResponse {
+export interface GameStateResponse {
   message: string;
-  gameStatus?: GameResultBackend;
-  cellType?: CellTypeBackend;
-  cellStatus?: CellStatusBackend;
-  currentLevel?: number;
-  finalWin?: number;
-  gameEnd?: string;
+  gameStatus: GameResultBackend;
+  currentLevel: number;
+  finalWin: number;
+  board: BoardState;
+}
+
+export interface OpenCellLostResponse {
+  message: string;
+  cellType: "prize" | "bomb" | "empty";
+  gameStatus: "lost";
+  finalWin: number;
+  gameEnd: string; // ISO date string
+}
+
+export interface OpenCellProgressResponse {
+  message: string;
+  gameStatus: "in_progress";
+  cellType: "prize" | "bomb" | "empty";
+  cellStatus: "open" | "closed";
+  currentLevel: number;
+}
+
+export interface OpenCellWonResponse {
+  message: string;
+  gameStatus: "won";
+  finalWin: number;
+  gameEnd: string; // ISO date string
 }

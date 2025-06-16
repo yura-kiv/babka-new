@@ -1,10 +1,6 @@
 @import '@/styles/abstracts/variables';
 @import '@/styles/abstracts/mixins';
 
-.title {
-    margin-bottom: 40px;
-}
-
 .rules {
     @include flex(column, center, center);
     gap: 20px;

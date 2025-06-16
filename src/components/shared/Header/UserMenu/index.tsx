@@ -5,7 +5,7 @@ import Button from '@/components/ui/Button';
 import { Pages } from '@/constants';
 import s from './styles.module.scss';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { getUserData } from '@/store/helpers/selectors';
+import { getUser } from '@/store/helpers/selectors';
 import { logoutUser } from '@/store/helpers/actions';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { username, avatarUrl, isAuthenticated } = useAppSelector(getUserData);
+  const { username, avatarUrl, token } = useAppSelector(getUser);
 
   const defaultAvatarUrl = '/imgs/grandma/avatar.svg';
   const displayAvatarUrl = avatarUrl || defaultAvatarUrl;
@@ -29,7 +29,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
     onLogout?.();
   };
 
-  if (!isAuthenticated) {
+  if (!token) {
     return (
       <Button 
         size='large' 

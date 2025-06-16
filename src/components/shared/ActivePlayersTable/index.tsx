@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import s from './styles.module.scss'
 import { useTranslation } from 'react-i18next';
 import Table from '@/components/ui/Table';
 import UserAvatar from '@/components/ui/UserAvatar';
 import PulseCircle from '@/assets/icons/onlineCircle.svg';
 import { userNames, userAvatars } from '@/constants';
+import classNames from 'classnames';
 
 type PlayerStatus = 'active' | 'lost' | 'pending';
 
@@ -61,7 +62,11 @@ function createRow(): PlayerData {
     };
 }
 
-const ActivePlayersTable: React.FC = () => {
+type Props = {
+    className?: string;
+}
+
+const ActivePlayersTable: React.FC<Props> = ({ className }) => {
     const { t } = useTranslation();
     const [rows, setRows] = useState<PlayerData[]>(() => Array.from({ length: 10 }, createRow));
 
@@ -103,7 +108,7 @@ const ActivePlayersTable: React.FC = () => {
     }, []);
 
     return (
-        <div className={s.wrapper}>
+        <div className={classNames(s.wrapper, className)}>
             <div className={s.top}>
                 <span className={s.title}>{t('live')}</span>
                 <img src={PulseCircle} alt="pulse-circle" className={s.pulseCircle} />
@@ -150,4 +155,4 @@ const ActivePlayersTable: React.FC = () => {
     );
 };
 
-export default ActivePlayersTable;
+export default memo(ActivePlayersTable);

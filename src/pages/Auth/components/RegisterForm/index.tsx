@@ -13,6 +13,9 @@ import { jwtDecode } from 'jwt-decode';
 import type { DecodedToken } from '@/types';
 import { useAppDispatch } from '@/store/hooks';
 import { setUserState } from '@/store/helpers/actions';
+import { BalanceType } from '@/types';
+import { useNavigate } from 'react-router-dom';
+import { Pages } from '@/constants';
 import {
   required,
   password as passwordValidation,
@@ -28,13 +31,10 @@ type FormData = {
   agreeToTerms: boolean;
 };
 
-type RegisterFormProps = {
-  setTab: (tab: 'login' | 'register') => void;
-};
-
-const RegisterForm: React.FC<RegisterFormProps> = ({ setTab }) => {
+const RegisterForm: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { control, handleSubmit, watch, formState: { errors }, reset } = useForm<FormData>({
     defaultValues: {
@@ -67,19 +67,19 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ setTab }) => {
       const { email, exp, iat, id, username } = tokenData;
 
       dispatch(setUserState({
-        isAuthenticated: false,
+        isConfirmed: false,
         token: accessToken,
         userId: id || null,
         username: username || null,
         email: email || null,
-        selectedBalance: 'real',
+        selectedBalance: BalanceType.REAL,
         demoBalance: 1000,
       }));
 
       notificationService.info(t('notifications.auth.registerSuccessDescription'));
       notificationService.success(t('notifications.auth.registerSuccess'));
       reset();
-      setTab('login');
+      navigate(Pages.AskToConfirmEmail);      
     } catch (error: any) {
       const message = error?.response?.data?.message || t('notifications.auth.registerError');
       console.error('Registration error:', error);

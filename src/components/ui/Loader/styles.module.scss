@@ -11,6 +11,7 @@
     bottom: 0;
     position: absolute;
     background-color: $blue-lighter;
+    backdrop-filter: blur(3px);
     z-index: 100;
   }
 
@@ -21,6 +22,7 @@
     bottom: 0;
     position: fixed;
     background-color: $blue-lighter;
+    backdrop-filter: blur(3px);
     z-index: 100;
   }
 
@@ -40,25 +42,34 @@
   @include flex(column, center, center);
 }
 
+.loading::after {
+  content: '';
+  animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+    content: '';
+  }
+  25% {
+    content: '.';
+  }
+  50% {
+    content: '..';
+  }
+  75% {
+    content: '...';
+  }
+  100% {
+    content: '';
+  }
+}
+
 .bombs {
   @include flex(row, center, center);
 }
 
 .small {
-  .bombHappy {
-    height: 80px;
-  }
-
-  .bombSad {
-    height: 60px;
-  }
-
-  .loading {
-    font-size: $font-size-small;
-  }
-}
-
-.medium {
   .bombHappy {
     height: 100px;
   }
@@ -72,17 +83,31 @@
   }
 }
 
-.large {
+.medium {
   .bombHappy {
     height: 120px;
   }
 
   .bombSad {
-    height: 140px;
+    height: 100px;
   }
 
   .loading {
     font-size: $font-size-large;
+  }
+}
+
+.large {
+  .bombHappy {
+    height: 140px;
+  }
+
+  .bombSad {
+    height: 160px;
+  }
+
+  .loading {
+    font-size: $font-size-xlarge;
   }
 }
 

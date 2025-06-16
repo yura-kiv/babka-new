@@ -8,22 +8,25 @@
 }
 
 .header {
-    @include flex(row, space-between, center);
     border-bottom: 1px solid $border;
-    padding: 10px 0;
+
+    .content {
+        @include flex(row, space-between, center);
+        gap: 20px;
+        padding: 10px 20px;
+    }
 }
 
 .footer {
-    @include flex(row, center, center);
-    border-top: 1px solid $border;
-    padding: 20px 0;
-}
-
-.rights {
-    @include flex(row, center, bottom);
-    gap: 10px;
-    font-size: $font-size-small;
     color: $white;
+    font-size: $font-size-small;
+    border-top: 1px solid $border;
+
+    .content {
+        @include flex(row, center, center);
+        gap: 10px;
+        padding: 20px;
+    }
 }
 
 .logo {

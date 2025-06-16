@@ -21,7 +21,6 @@ const ResetPassword: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [token, setToken] = useState<string>('');
   
@@ -33,9 +32,9 @@ const ResetPassword: React.FC = () => {
       notificationService.error('Invalid or missing reset token');
       navigate(Pages.Auth);
     }
-  }, [location.search, navigate]);
+  }, [location.search]);
 
-  const { control, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
+  const { control, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm<FormData>({
     defaultValues: {
       password: '',
       confirmPassword: ''
@@ -46,29 +45,22 @@ const ResetPassword: React.FC = () => {
   const password = watch('password');
 
   const onSubmit = async (data: FormData) => {
-    try {
-      setIsSubmitting(true);
-      
+    try {      
       if (!token) {
         notificationService.error('Invalid or missing reset token');
         return;
       }
-      
       await authApi.resetPassword({
         password: data.password,
         token
       });
-      
       notificationService.success(t('notifications.auth.resetPasswordSuccess'));
-      
       setTimeout(() => {
         navigate(Pages.Auth);
       }, 3000);
     } catch (error) {
       console.error('Error resetting password:', error);
       notificationService.error(t('notifications.auth.resetPasswordError'));
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

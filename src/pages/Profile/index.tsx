@@ -8,26 +8,16 @@ import UserAvatar from './components/UserAvatar';
 import s from './styles.module.scss';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { useAppSelector } from '@/store/hooks';
-import { getUserData } from '@/store/helpers/selectors';
+import { getUser } from '@/store/helpers/selectors';
 import { authApi } from '@/api/auth';
 import { notificationService } from '@/services/notification';
-// import ChangePasswordModal from '@/components/modals/ChangePasswordModal';
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState<boolean>();
-  // const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
   const [isChangeUsernameModalOpen, setIsChangeUsernameModalOpen] = useState(false);
 
-  const user = useAppSelector(getUserData);
-
-  // const openChangePasswordModal = () => {
-  //   setIsChangePasswordModalOpen(true);
-  // };
-
-  // const closeChangePasswordModal = () => {
-  //   setIsChangePasswordModalOpen(false);
-  // };
+  const user = useAppSelector(getUser);
 
   const openChangeUsernameModal = () => {
     setIsChangeUsernameModalOpen(true);
@@ -112,12 +102,6 @@ const Profile: React.FC = () => {
         isOpen={isChangeUsernameModalOpen}
         onClose={closeChangeUsernameModal}
       />
-      {/*
-        <ChangePasswordModal
-          isOpen={isChangePasswordModalOpen}
-          onClose={closeChangePasswordModal}
-        />
-      */}
     </WidthWrapper>
   );
 };

@@ -23,7 +23,7 @@ const Auth: React.FC = () => {
         size="large"
         fullWidth
       />
-      {activeTab === 'login' ? <LoginForm /> : <RegisterForm setTab={setActiveTab} />}
+      {activeTab === 'login' ? <LoginForm /> : <RegisterForm />}
     </div>
   );
 };

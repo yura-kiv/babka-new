@@ -15,14 +15,16 @@ const AuthLayout: React.FC<AuthLayoutProps> = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <WidthWrapper className={s.wrapper}>
-      <div className={s.header}>
-        <Button to={Pages.Home} variant="simple" size="large" padding={{ p: 0 }} className={s.logo}>
-          GMSPLAY.PRO
-        </Button>
-        <LanguageSwitcher />
-      </div>
-      <WidthWrapper maxWidth={992} noPadding className={s.content}>
+    <div className={s.wrapper}>
+      <header className={s.header}>
+        <WidthWrapper className={s.content}>
+          <Button to={Pages.Home} variant="simple" size="large" padding={{ p: 0 }} className={s.logo}>
+            GMSPLAY.PRO
+          </Button>
+          <LanguageSwitcher />
+        </WidthWrapper>
+      </header>
+      <WidthWrapper maxWidth={992} className={s.content}>
         <div className={s.left}>
           <img src="imgs/auth/grandma.svg" alt="grandma" className={s.img} />
         </div>
@@ -30,17 +32,17 @@ const AuthLayout: React.FC<AuthLayoutProps> = () => {
           <Outlet />
         </div>
       </WidthWrapper>
-      <div className={s.footer}>
-        <div className={s.rights}>
+      <footer className={s.footer}>
+        <WidthWrapper className={s.content}>
           <span>Ⓒ</span>
           <span>{currentYear}</span>
           <span>•</span>
           <span>GmsPlay.pro</span>
           <span>•</span>
           <span>{t('allRightReserved')}</span>
-        </div>
-      </div>
-    </WidthWrapper>
+        </WidthWrapper>
+      </footer>
+    </div>
   );
 };
 

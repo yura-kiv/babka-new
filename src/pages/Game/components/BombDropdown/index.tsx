@@ -5,14 +5,15 @@ import classNames from 'classnames';
 import { FaChevronDown } from 'react-icons/fa';
 import s from './styles.module.scss';
 import Button from '@/components/ui/Button';
+import type { BombsCount } from '@/types';
 
 interface BombDropdownProps {
-  value?: number;
-  setValue?: (value: number) => void;
+  value?: BombsCount;
+  setValue?: (value: BombsCount) => void;
   disabled?: boolean;
 }
 
-const BOMB_OPTIONS = [1, 2, 3];
+const BOMB_OPTIONS: BombsCount[] = [1, 2, 3];
 
 const BombDropdown: React.FC<BombDropdownProps> = ({
   value,

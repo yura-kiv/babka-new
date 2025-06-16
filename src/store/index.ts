@@ -13,14 +13,10 @@ import {
 import storage from "redux-persist/lib/storage";
 
 import userReducer from "@/store/slices/userSlice";
-import gameReducer from "@/store/slices/gameSlice";
-import multipliersReducer from "@/store/slices/multipliersSlice";
 import uiReducer from "@/store/slices/uiSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
-  game: gameReducer,
-  multipliers: multipliersReducer,
   ui: uiReducer
 });
 
@@ -28,7 +24,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  whitelist: ["user", "game", "multipliers"],
+  whitelist: ["user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

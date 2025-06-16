@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { FaChevronDown } from "react-icons/fa";
 import s from './styles.module.scss'
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
-import { getUserData } from '@/store/helpers/selectors'
+import { getUser } from '@/store/helpers/selectors'
 import { changeSelectedBalance } from '@/store/helpers/actions'
 import { BalanceType } from "@/types";
 
@@ -20,20 +20,21 @@ interface BalanceOption {
 const Balance: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const user = useAppSelector(getUserData);
+  const user = useAppSelector(getUser);
+  const { token, isConfirmed, balance, selectedBalance, demoBalance } = user;
 
   const balanceOptions: BalanceOption[] = [
     {
       id: BalanceType.REAL,
       name: t('realBalance'),
-      value: user.balance,
-      isActive: user.selectedBalance === BalanceType.REAL,
+      value: balance,
+      isActive: selectedBalance === BalanceType.REAL,
     },
     {
       id: BalanceType.DEMO,
       name: t('demo'),
-      value: user.demoBalance,
-      isActive: user.selectedBalance === BalanceType.DEMO,
+      value: demoBalance,
+      isActive: selectedBalance === BalanceType.DEMO,
     }
   ];
 
@@ -77,7 +78,7 @@ const Balance: React.FC = () => {
     </div>
   );
 
-  if (!user?.isAuthenticated) {
+  if (!token || !isConfirmed) {
     return null;
   }
 
