@@ -34,11 +34,12 @@ export interface RegisterCredentials {
 export interface StartGameRequest {
   bet: number;
   bombsCount: number;
+  isDemo: boolean;
 }
 
 export enum BalanceType {
-  REAL = "real",
-  DEMO = "demo",
+  REAL = 'real',
+  DEMO = 'demo',
 }
 
 export interface ChangePasswordData {
@@ -91,8 +92,8 @@ export interface LogoutResponse {
 }
 
 export interface ForgotPasswordResponse {
-  message: string,
-  status: number,
+  message: string;
+  status: number;
 }
 
 export interface ResetPasswordResponse {
@@ -117,12 +118,14 @@ export interface ChangeAvatarResponse {
   status: number;
 }
 
-export interface ResendActivationEmailResponse {
-}
+export interface ResendActivationEmailResponse {}
 
 export type MultipliersBombsCount = 1 | 2 | 3;
+
 export type MultipliersRows = 1 | 2 | 3;
+
 export type BombsCount = 0 | 1 | 2 | 3;
+
 export interface MultipliersResponse {
   message: string;
   data: Record<MultipliersBombsCount, Record<MultipliersRows, number>>;
@@ -133,83 +136,85 @@ export type RowNumber = 0 | 1 | 2;
 export type CellNumber = 0 | 1 | 2 | 3;
 
 export enum GameStatusFront {
-  INITIAL = "INITIAL",
-  IN_PROGRESS = "IN_PROGRESS",
-  END = "END",
+  INITIAL = 'INITIAL',
+  IN_PROGRESS = 'IN_PROGRESS',
+  WON = 'WON',
+  LOST = 'LOST',
+  STOPPED = 'STOPPED',
 }
 
-export enum GameResultBackend {
-  IN_PROGRESS = "in_progress",
-  LOST = "lost",
-  WON = "won",
-  CANCELED = "canceled",
-  CASHED_OUT = "cashed_out"
+export enum GameResultResponse {
+  IN_PROGRESS = 'in_progress',
+  LOST = 'lost',
+  WON = 'won',
+  CANCELED = 'canceled',
+  CASHED_OUT = 'cashed_out',
 }
 
-export enum CellTypeBackend {
-  PRIZE = "prize",
-  BOMB = "bomb",
-  EMPTY = "empty"
+export enum CellTypeResponse {
+  PRIZE = 'prize',
+  BOMB = 'bomb',
+  EMPTY = 'empty',
 }
 
-export enum CellStatusBackend {
-  CLOSED = "closed",
-  OPEN = "open"
+export enum CellStatusResponse {
+  CLOSED = 'closed',
+  OPEN = 'open',
 }
 
-export interface Cell {
-  status: CellStatusBackend;
-  type?: CellTypeBackend;
+export interface CellResponse {
+  status: CellStatusResponse;
+  type?: CellTypeResponse;
   posX: number;
   posY: number;
 }
 
-export type BoardState = Cell[][];
+export type BoardResponseState = CellResponse[][];
 
 export interface StartGameResponse {
   message: string;
   bet: number;
   bombsCount: number;
   currentLevel: string;
-  result: GameResultBackend;
+  result: GameResultResponse;
   finalWin: number;
   isDemo?: boolean;
 }
 
 export interface StopGameResponse {
   message: string;
-  gameStatus: GameResultBackend;
+  gameStatus: GameResultResponse;
   finalWin: number;
   gameEnd: string; // ISO date string
 }
 
 export interface GameStateResponse {
   message: string;
-  gameStatus: GameResultBackend;
+  gameStatus: GameResultResponse;
   currentLevel: number;
   finalWin: number;
-  board: BoardState;
+  board: BoardResponseState;
 }
 
 export interface OpenCellLostResponse {
   message: string;
-  cellType: "prize" | "bomb" | "empty";
-  gameStatus: "lost";
+  cellType: CellTypeResponse;
+  gameStatus: GameResultResponse.LOST;
   finalWin: number;
   gameEnd: string; // ISO date string
 }
 
 export interface OpenCellProgressResponse {
   message: string;
-  gameStatus: "in_progress";
-  cellType: "prize" | "bomb" | "empty";
-  cellStatus: "open" | "closed";
+  gameStatus: GameResultResponse.IN_PROGRESS;
+  cellType: CellTypeResponse;
+  cellStatus: CellStatusResponse;
   currentLevel: number;
 }
 
 export interface OpenCellWonResponse {
   message: string;
-  gameStatus: "won";
+  gameStatus: GameResultResponse.WON;
   finalWin: number;
   gameEnd: string; // ISO date string
 }

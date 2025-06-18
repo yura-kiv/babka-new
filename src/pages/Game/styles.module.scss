@@ -95,48 +95,96 @@
   }
 }
 
-.game {
-  position: relative;
+.wonOverlay,
+.lostOverlay,
+.startGame {
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0px;
+  right: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in forwards;
+  animation-delay: 1.5s;
+}
 
-  .startGame {
-    position: absolute;
-    top: -20px;
-    bottom: 0px;
-    left: -20px;
-    right: -20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(3px);
-    
-    .label {
-      font-size: $font-size-xxlarge;
-      font-weight: $font-weight-bold;
-      color: $green;
-      text-shadow: 
-        0 0 5px rgba($green, 0.7),
-        0 0 10px rgba($green, 0.5),
-        0 0 15px rgba(white, 0.3),
-        0 0 20px rgba($green, 0.3);
-      letter-spacing: 2px;
-      animation: floatingText 2s ease-in-out infinite;
-      background: linear-gradient(to bottom, lighten($green, 10%), $green);
-      background-clip: text;
-      -webkit-background-clip: text;
-      transform-origin: center;
-      text-align: center;
-    }
-    
-    @keyframes floatingText {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
-    }
+.startGame {
+  animation-delay: 0s;
+}
+
+.lostOverlay {
+  .label {
+    font-size: $font-size-xxlarge;
+    font-weight: $font-weight-bold;
+    color: $red;
+    text-shadow: 0 0 5px rgba($red, 0.7), 0 0 10px rgba($red, 0.5),
+      0 0 15px rgba(white, 0.3), 0 0 20px rgba($red, 0.3);
+    letter-spacing: 2px;
+    animation: floatingText 2s ease-in-out infinite;
+    background: linear-gradient(to bottom, lighten($red, 10%), $red);
+    background-clip: text;
+    -webkit-background-clip: text;
+    transform-origin: center;
+    text-align: center;
   }
 }
-  
+
+.wonOverlay {
+  .label {
+    font-size: $font-size-xxlarge;
+    font-weight: $font-weight-bold;
+    color: $green;
+    text-shadow: 0 0 5px rgba($green, 0.7), 0 0 10px rgba($green, 0.5),
+      0 0 15px rgba(white, 0.3), 0 0 20px rgba($green, 0.3);
+    letter-spacing: 2px;
+    animation: floatingText 2s ease-in-out infinite;
+    background: linear-gradient(to bottom, lighten($green, 10%), $green);
+    background-clip: text;
+    -webkit-background-clip: text;
+    transform-origin: center;
+    text-align: center;
+  }
+}
+
+.startGame {
+  .label {
+    font-size: $font-size-xxlarge;
+    font-weight: $font-weight-bold;
+    color: $green;
+    text-shadow: 0 0 5px rgba($green, 0.7), 0 0 10px rgba($green, 0.5),
+      0 0 15px rgba(white, 0.3), 0 0 20px rgba($green, 0.3);
+    letter-spacing: 2px;
+    animation: floatingText 2s ease-in-out infinite;
+    background: linear-gradient(to bottom, lighten($green, 10%), $green);
+    background-clip: text;
+    -webkit-background-clip: text;
+    transform-origin: center;
+    text-align: center;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes floatingText {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 .activePlayersTable {
 }

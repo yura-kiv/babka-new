@@ -6,6 +6,7 @@
   margin: 0 auto;
   gap: 40px;
   width: 100%;
+  position: relative;
 }
 
 .row {
@@ -14,21 +15,29 @@
   width: 100%;
   position: relative;
 
+  &:before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(100% - 20px);
+    width: 0;
+    border-radius: 15px;
+    background-color: $white-background-hover;
+    opacity: 0;
+    transition: width 0.3s ease, opacity 0.3s ease;
+  }
+
   &.active {
     position: relative;
 
     &:before {
-      content: '';
-      position: absolute;
-      top: 10px;
-      left: 0px;
-      right: 0px;
-      bottom: 10px;
-      border-radius: 15px;
-      background-color: $white-background-hover;
+      width: 100%;
+      opacity: 1;
     }
 
-    .door {
+    .door.closed {
       cursor: pointer;
 
       &:hover {

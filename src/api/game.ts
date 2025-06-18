@@ -11,33 +11,24 @@ import type {
 } from '@/types';
 
 export const gameApi = {
-  startGame: (data: StartGameRequest, isDemo: boolean = false): Promise<AxiosResponse<StartGameResponse>> => {
-    if (isDemo) {
-      return privateApi.post('/game/demo/start', data);
-    }
+  startGame: (data: StartGameRequest): Promise<AxiosResponse<StartGameResponse>> => {
     return privateApi.post('/game/start', data);
   },
 
-  openCell: (level: number, cellIndex: number, isDemo: boolean = false): Promise<AxiosResponse<
+  openCell: (level: number, cellIndex: number): Promise<AxiosResponse<
     OpenCellWonResponse
     | OpenCellLostResponse
     | OpenCellProgressResponse
   >> => {
-    if (isDemo) {
-      return privateApi.patch(`/game/open/demo/${level}/${cellIndex}`);
-    }
     return privateApi.patch(`/game/open/${level}/${cellIndex}`);
   },
 
-  stopGame: (level: number, isDemo: boolean = false): Promise<AxiosResponse<StopGameResponse>> => {
-    if (isDemo) {
-      return privateApi.post(`/game/stop/demo/${level}`);
-    }
+  stopGame: (level: number): Promise<AxiosResponse<StopGameResponse>> => {
     return privateApi.post(`/game/stop/${level}`);
   },
 
   getState: (): Promise<AxiosResponse<GameStateResponse>> => {
-    return privateApi.post(`/game/state`);
+    return privateApi.get(`/game/state`);
   },
 };
 
