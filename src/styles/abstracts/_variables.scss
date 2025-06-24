@@ -6,22 +6,22 @@ $black: #000000;
 $black-light: rgba($black, 0.7);
 $black-lighter: rgba($black, 0.5);
 
-$green: #44BB41;
+$green: #44bb41;
 $green-dark: #329136;
 $green-light: rgba($green, 0.7);
 $green-lighter: rgba($green, 0.5);
 
-$yellow: #FFB800;
+$yellow: #ffb800;
 $yellow-dark: #cf8a00;
 $yellow-light: rgba($yellow, 0.7);
 $yellow-lighter: rgba($yellow, 0.5);
 
-$red: #FF4B4B;
+$red: #ff4b4b;
 $red-dark: #cf4a4a;
 $red-light: rgba($red, 0.7);
 $red-lighter: rgba($red, 0.5);
 
-$blue: #090F1E;
+$blue: #090f1e;
 $blue-dark: #060c19;
 $blue-light: rgba($blue, 0.7);
 $blue-lighter: rgba($blue, 0.5);
@@ -44,6 +44,8 @@ $font-size-medium: 1.25rem;
 $font-size-large: 1.5rem;
 $font-size-xlarge: 2rem;
 $font-size-xxlarge: 2.5rem;
+
+$base-line-height: 1.2em;
 
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;

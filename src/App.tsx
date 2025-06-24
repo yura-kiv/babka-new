@@ -1,7 +1,7 @@
 import { RouterProvider } from 'react-router-dom';
-import { router } from './routes';
-import { NotificationContainer } from './components/ui/Notification';
-import { BOMB_OVERLAY_ID } from './constants';
+import { NotificationContainer } from '@/components/ui/Notification';
+import { router } from '@/routes';
+import { BOMB_OVERLAY_ID } from '@/constants';
 
 function App() {
   return (
