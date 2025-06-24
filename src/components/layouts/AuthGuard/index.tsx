@@ -11,14 +11,15 @@ interface AuthGuardProps {
   withoutConfirmed?: boolean;
 }
 
-const AuthGuard: React.FC<AuthGuardProps> = ({ withAuth = false, withoutAuth = false }) => {
+const AuthGuard: React.FC<AuthGuardProps> = ({
+  withAuth = false,
+  withoutAuth = false,
+}) => {
   const location = useLocation();
   const isToken = useAppSelector(getUserToken);
   const isConfirmed = useAppSelector(getUserIsConfirmed);
 
-  return (
-    <Outlet />
-  );
+  return <Outlet />;
 };
 
 export default AuthGuard;

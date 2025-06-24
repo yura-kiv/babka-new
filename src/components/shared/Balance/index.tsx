@@ -1,14 +1,13 @@
-import { Pages } from "@/constants";
-import Button from "@/components/ui/Button";
-import { useTranslation } from "react-i18next";
-import Dropdown from "@/components/ui/Dropdown";
-import classNames from "classnames";
-import { FaChevronDown } from "react-icons/fa";
-import s from './styles.module.scss'
+import { Pages } from '@/constants';
+import Button from '@/components/ui/Button';
+import { useTranslation } from 'react-i18next';
+import Dropdown from '@/components/ui/Dropdown';
+import classNames from 'classnames';
+import s from './styles.module.scss';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
-import { getUser } from '@/store/helpers/selectors'
-import { changeSelectedBalance } from '@/store/helpers/actions'
-import { BalanceType } from "@/types";
+import { getUser } from '@/store/helpers/selectors';
+import { changeSelectedBalance } from '@/store/helpers/actions';
+import { BalanceType } from '@/types';
 
 interface BalanceOption {
   id: BalanceType;
@@ -35,48 +34,54 @@ const Balance: React.FC = () => {
       name: t('demo'),
       value: demoBalance,
       isActive: selectedBalance === BalanceType.DEMO,
-    }
+    },
   ];
 
-  const currentOption = balanceOptions.find(option => option.isActive) || balanceOptions[0];
+  const currentOption =
+    balanceOptions.find((option) => option.isActive) || balanceOptions[0];
 
-  const renderTrigger = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) => (
-    <Button
-      variant="text"
-      size="small"
-      textColor="yellow"
+  const renderTrigger = ({
+    isOpen,
+    toggle,
+  }: {
+    isOpen: boolean;
+    toggle: () => void;
+  }) => (
+    <Dropdown.TriggerButtonWithChevron
+      variant='text'
+      size='small'
+      textColor='yellow'
+      isOpen={isOpen}
       onClick={toggle}
-      icon={<FaChevronDown className={classNames(s.arrow, { [s.open]: isOpen })} size={12} />}
-      iconPosition="right"
     >
       {t(currentOption.id)}
-    </Button>
+    </Dropdown.TriggerButtonWithChevron>
   );
 
-  const renderContent = ({ close }: { isOpen: boolean; close: () => void }) => (
-    <div className={s.balanceOptions}>
-      {balanceOptions.map((option) => (
-        <div
-          key={option.id}
-          className={classNames(s.balanceItem, {
-            [s.active]: option.isActive
-          })}
-          onClick={() => {
-            close();
-            dispatch(changeSelectedBalance(option.id));
-          }}
-        >
-          <div className={s.balanceItemLeft}>
-            <div className={classNames(s.circle, { [s.activeCircle]: option.isActive })}></div>
-            <span>{option.name}</span>
-          </div>
-          <span className={classNames(s.balanceValue, s[option.id])}>
-            {option.value}$
-          </span>
+  const renderContent = ({ close }: { isOpen: boolean; close: () => void }) =>
+    balanceOptions.map((option) => (
+      <Dropdown.WindowItem
+        key={option.id}
+        active={option.isActive}
+        className={s.balanceItem}
+        onClick={() => {
+          close();
+          dispatch(changeSelectedBalance(option.id));
+        }}
+      >
+        <div className={s.balanceItemLeft}>
+          <div
+            className={classNames(s.circle, {
+              [s.activeCircle]: option.isActive,
+            })}
+          />
+          <span>{option.name}</span>
         </div>
-      ))}
-    </div>
-  );
+        <span className={classNames(s.balanceValue, s[option.id])}>
+          {option.value}$
+        </span>
+      </Dropdown.WindowItem>
+    ));
 
   if (!token || !isConfirmed) {
     return null;
@@ -87,20 +92,26 @@ const Balance: React.FC = () => {
       <div className={s.right}>
         <div className={s.top}>
           <div className={s.label}>{t('balance')}:</div>
-          <div className={classNames(s.value, s[currentOption.id])}>{currentOption.value}$</div>
+          <div className={classNames(s.value, s[currentOption.id])}>
+            {currentOption.value}$
+          </div>
         </div>
         <Dropdown
-          placement="bottom-right"
-          contentClassName={s.dropdownContent}
+          placement='bottom-right'
           renderTrigger={renderTrigger}
           renderContent={renderContent}
         />
       </div>
-      <Button variant="yellow" to={Pages.Cash} padding={{ px: '25px' }} size="medium">
+      <Button
+        variant='yellow'
+        to={Pages.Cash}
+        padding={{ px: '25px' }}
+        size='medium'
+      >
         {t('cash')}
       </Button>
     </div>
-  )
-}
+  );
+};
 
 export default Balance;

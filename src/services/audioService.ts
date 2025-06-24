@@ -1,4 +1,4 @@
-import { SOUND_TYPE } from "@/constants";
+import { SOUND_TYPE } from '@/constants';
 
 export interface Sound {
   type: SOUND_TYPE;
@@ -36,7 +36,7 @@ const sounds: Sound[] = [
     type: SOUND_TYPE.VICTORY,
     volume: 0.4,
   },
-]
+];
 
 class AudioService {
   private sounds: Map<SOUND_TYPE, AudioInstance> = new Map();
@@ -48,16 +48,16 @@ class AudioService {
     this.preloadSounds();
   }
 
-  private preloadSounds(): void {   
-    sounds.forEach(({type, volume}) => {
+  private preloadSounds(): void {
+    sounds.forEach(({ type, volume }) => {
       const audio = new Audio(`/sounds/${type}.mp3`);
-      
+
       this.sounds.set(type, {
         audio,
         volume,
-        isPlaying: false
+        isPlaying: false,
       });
-      
+
       audio.addEventListener('ended', () => {
         const instance = this.sounds.get(type);
         if (instance) {
@@ -69,15 +69,15 @@ class AudioService {
 
   public playSound(type: SOUND_TYPE): void {
     if (this.isMuted) return;
-    
+
     const soundInstance = this.sounds.get(type);
     if (!soundInstance) return;
-    
+
     soundInstance.audio.currentTime = 0;
     soundInstance.audio.volume = soundInstance.volume;
     soundInstance.isPlaying = true;
-    
-    soundInstance.audio.play().catch(error => {
+
+    soundInstance.audio.play().catch((error) => {
       console.error(`Error playing sound ${type}:`, error);
       soundInstance.isPlaying = false;
     });
@@ -85,21 +85,21 @@ class AudioService {
 
   public playBackgroundMusic(type: SOUND_TYPE = SOUND_TYPE.GAME): void {
     if (this.isMuted) return;
-    
+
     this.stopBackgroundMusic();
-    
+
     const musicInstance = this.sounds.get(type);
     if (!musicInstance) return;
-    
+
     musicInstance.audio.loop = true;
     musicInstance.audio.volume = musicInstance.volume;
     musicInstance.isPlaying = true;
-    
-    musicInstance.audio.play().catch(error => {
+
+    musicInstance.audio.play().catch((error) => {
       console.error(`Error playing background music ${type}:`, error);
       musicInstance.isPlaying = false;
     });
-    
+
     this.backgroundMusic = musicInstance;
     this.backgroundMusicType = type;
   }
@@ -122,8 +122,12 @@ class AudioService {
   }
 
   public resumeBackgroundMusic(): void {
-    if (this.backgroundMusic && !this.backgroundMusic.isPlaying && !this.isMuted) {
-      this.backgroundMusic.audio.play().catch(error => {
+    if (
+      this.backgroundMusic &&
+      !this.backgroundMusic.isPlaying &&
+      !this.isMuted
+    ) {
+      this.backgroundMusic.audio.play().catch((error) => {
         console.error(`Error resuming background music:`, error);
       });
       this.backgroundMusic.isPlaying = true;
@@ -140,13 +144,13 @@ class AudioService {
 
   public mute(): void {
     this.isMuted = true;
-    
+
     if (this.backgroundMusic && this.backgroundMusic.isPlaying) {
       this.backgroundMusic.audio.pause();
       this.backgroundMusic.isPlaying = false;
     }
-    
-    this.sounds.forEach(soundInstance => {
+
+    this.sounds.forEach((soundInstance) => {
       if (soundInstance.isPlaying) {
         soundInstance.audio.pause();
         soundInstance.audio.currentTime = 0;
@@ -157,9 +161,9 @@ class AudioService {
 
   public unmute(): void {
     this.isMuted = false;
-    
+
     if (this.backgroundMusic) {
-      this.backgroundMusic.audio.play().catch(error => {
+      this.backgroundMusic.audio.play().catch((error) => {
         console.error(`Error resuming background music after unmute:`, error);
       });
       this.backgroundMusic.isPlaying = true;

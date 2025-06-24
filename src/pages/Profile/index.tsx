@@ -15,7 +15,8 @@ import { notificationService } from '@/services/notification';
 const Profile: React.FC = () => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState<boolean>();
-  const [isChangeUsernameModalOpen, setIsChangeUsernameModalOpen] = useState(false);
+  const [isChangeUsernameModalOpen, setIsChangeUsernameModalOpen] =
+    useState(false);
 
   const user = useAppSelector(getUser);
 
@@ -32,10 +33,14 @@ const Profile: React.FC = () => {
       setIsLoading(true);
       const res = await authApi.forgotPassword(user?.email || '');
       const { message } = res.data;
-      notificationService.success(message || t('notifications.auth.forgotPasswordRequestSuccess'));
+      notificationService.success(
+        message || t('notifications.auth.forgotPasswordRequestSuccess')
+      );
     } catch (error) {
       console.error('Change password error:', error);
-      notificationService.error(t('notifications.auth.forgotPasswordRequestError'));
+      notificationService.error(
+        t('notifications.auth.forgotPasswordRequestError')
+      );
     } finally {
       setIsLoading(false);
     }
@@ -43,7 +48,7 @@ const Profile: React.FC = () => {
 
   return (
     <WidthWrapper>
-      <PageTitle title={t('profile.title')} as="h1" />
+      <PageTitle title={t('profile.title')} as='h1' />
 
       <WidthWrapper maxWidth={992} className={s.profileInfo}>
         <UserAvatar avatarUrl={user.avatarUrl} username={user.username} />
@@ -61,7 +66,9 @@ const Profile: React.FC = () => {
 
           <div className={s.infoRow}>
             <span className={s.infoLabel}>{t('profile.balance')}</span>
-            <span className={s.infoValue + ' ' + s.green}>{user.balance} $</span>
+            <span className={s.infoValue + ' ' + s.green}>
+              {user.balance} $
+            </span>
           </div>
 
           {/*
@@ -76,9 +83,9 @@ const Profile: React.FC = () => {
       <div className={s.action}>
         <p>{t('profile.changeUsername')}:</p>
         <Button
-          variant="outline"
+          variant='outline'
           onClick={openChangeUsernameModal}
-          size="medium"
+          size='medium'
           icon={<FaUser />}
         >
           {t('profile.changeUsername')}
@@ -88,9 +95,9 @@ const Profile: React.FC = () => {
       <div className={s.action}>
         <p>{t('profile.changePassword')}:</p>
         <Button
-          variant="outline"
+          variant='outline'
           onClick={sendForgotPasswordRequest}
-          size="medium"
+          size='medium'
           icon={<FaLock />}
           isLoading={isLoading}
         >

@@ -1,10 +1,8 @@
 @import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
 
 .button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  @include flex(row, center, center, nowrap, 10px);
   font-weight: $font-weight-medium;
   border: none;
   cursor: pointer;
@@ -22,24 +20,18 @@
   }
 
   .content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    @include flex(row, center, center, nowrap, 10px);
   }
 
   .icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    @include flex(row, center, center);
     width: 1em;
     height: 1em;
   }
 }
 
 .link {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  @include flex(row, center, center, nowrap, 10px);
   text-decoration: none;
   font-family: $main-font;
   transition: all 0.3s ease;
@@ -51,15 +43,11 @@
   }
 
   .content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    @include flex(row, center, center, nowrap, 10px);
   }
 
   .icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    @include flex(row, center, center);
     width: 1em;
     height: 1em;
   }
@@ -70,7 +58,7 @@
   &.loading {
     pointer-events: none;
     cursor: not-allowed;
-    
+
     .content {
       opacity: 0;
     }
@@ -82,9 +70,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex(row, center, center);
     background: inherit;
 
     svg {

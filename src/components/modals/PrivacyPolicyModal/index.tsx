@@ -1,14 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Modal from '@/components/ui/Modal';
-import s from './PrivacyPolicyModal.module.scss';
+import s from './styles.module.scss';
 
 interface PrivacyPolicyModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose }) => {
+const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({
+  isOpen,
+  onClose,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -16,7 +19,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
       isOpen={isOpen}
       onClose={onClose}
       title={t('privacyPolicy')}
-      animation="scale"
+      animation='scale'
     >
       <div className={s.policyContent}>
         <h3>{t('privacyPolicy.introduction.title')}</h3>

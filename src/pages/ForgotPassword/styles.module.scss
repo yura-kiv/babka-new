@@ -3,16 +3,13 @@
 
 .wrapper {
   flex: 1 1 0;
-  @include flex(column, center, stretch);
-  gap: 20px;
+  @include flex(column, center, stretch, nowrap, 20px);
 }
 
 .form {
-  @include flex(column, center, stretch);
-  gap: 20px;
+  @include flex(column, center, stretch, nowrap, 20px);
 }
 
 .backButton {
   align-self: center;
 }
-

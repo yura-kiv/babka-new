@@ -1,28 +1,42 @@
 import React from 'react';
-import type { ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode, ElementType } from 'react';
+import type {
+  ButtonHTMLAttributes,
+  AnchorHTMLAttributes,
+  ReactNode,
+  ElementType,
+} from 'react';
 import { Link } from 'react-router-dom';
 import type { LinkProps } from 'react-router-dom';
 import classNames from 'classnames';
 import { FaSpinner } from 'react-icons/fa';
-import s from './Button.module.scss';
+import s from './styles.module.scss';
 
-export type ButtonVariant = 
+export type ButtonVariant =
   // Solid colored buttons
-  'green' | 'yellow' | 'red' |
-  
+  | 'green'
+  | 'yellow'
+  | 'red'
+
   // Transparent buttons
-  'outline' | 'ghost' |
-  
+  | 'outline'
+  | 'ghost'
+
   // Text-only buttons
-  'text' |
-  
+  | 'text'
+
   // Link-like styles
-  'simple' | // Basic link with hover opacity
-  'underline' | // Link with underline animation
-  'subtle' | // Subtle link with color change
-  'tab' | // Tab-like navigation link
-  'bordered'; // Bordered link
-export type TextButtonColor = 'white' | 'black' | 'green' | 'yellow' | 'red' | 'blue';
+  | 'simple' // Basic link with hover opacity
+  | 'underline' // Link with underline animation
+  | 'subtle' // Subtle link with color change
+  | 'tab' // Tab-like navigation link
+  | 'bordered'; // Bordered link
+export type TextButtonColor =
+  | 'white'
+  | 'black'
+  | 'green'
+  | 'yellow'
+  | 'red'
+  | 'blue';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type BorderRadiusType = 'small' | 'large' | 'none';
 
@@ -52,21 +66,27 @@ type BaseButtonProps = {
   isActive?: boolean;
 };
 
-type ButtonAsButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLButtonElement> & {
-  to?: never;
-  external?: never;
-};
+type ButtonAsButtonProps = BaseButtonProps &
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    to?: never;
+    external?: never;
+  };
 
-type ButtonAsLinkProps = BaseButtonProps & Omit<LinkProps, 'to'> & {
-  to: string;
-  external?: false;
-};
-type ButtonAsAnchorProps = BaseButtonProps & AnchorHTMLAttributes<HTMLAnchorElement> & {
-  to: string;
-  external: true;
-};
+type ButtonAsLinkProps = BaseButtonProps &
+  Omit<LinkProps, 'to'> & {
+    to: string;
+    external?: false;
+  };
+type ButtonAsAnchorProps = BaseButtonProps &
+  AnchorHTMLAttributes<HTMLAnchorElement> & {
+    to: string;
+    external: true;
+  };
 
-export type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps | ButtonAsAnchorProps;
+export type ButtonProps =
+  | ButtonAsButtonProps
+  | ButtonAsLinkProps
+  | ButtonAsAnchorProps;
 
 const Button: React.FC<ButtonProps> = (props) => {
   const {
@@ -87,10 +107,16 @@ const Button: React.FC<ButtonProps> = (props) => {
     isActive = false,
     ...rest
   } = props;
-  
+
   const disabled = 'disabled' in rest ? rest.disabled : false;
-  const isLinkStyle = ['simple', 'underline', 'subtle', 'tab', 'bordered'].includes(variant);
-  
+  const isLinkStyle = [
+    'simple',
+    'underline',
+    'subtle',
+    'tab',
+    'bordered',
+  ].includes(variant);
+
   const buttonClasses = classNames(
     isLinkStyle ? s.link : s.button,
     s[variant],
@@ -104,25 +130,33 @@ const Button: React.FC<ButtonProps> = (props) => {
     },
     className
   );
-  
-  const customStyle = padding ? {
-    paddingTop: padding.pt || padding.py || padding.p,
-    paddingRight: padding.pr || padding.px || padding.p,
-    paddingBottom: padding.pb || padding.py || padding.p,
-    paddingLeft: padding.pl || padding.px || padding.p
-  } : {};
+
+  const customStyle = padding
+    ? {
+        paddingTop: padding.pt || padding.py || padding.p,
+        paddingRight: padding.pr || padding.px || padding.p,
+        paddingBottom: padding.pb || padding.py || padding.p,
+        paddingLeft: padding.pl || padding.px || padding.p,
+      }
+    : {};
 
   const buttonContent = (
     <>
       {isLoading && (
         <div className={s.loading}>
-          <FaSpinner size={size === 'small' ? 14 : size === 'medium' ? 18 : 22} />
+          <FaSpinner
+            size={size === 'small' ? 14 : size === 'medium' ? 18 : 22}
+          />
         </div>
       )}
       <div className={s.content}>
-        {iconPosition === 'left' && icon && <span className={s.icon}>{icon}</span>}
+        {iconPosition === 'left' && icon && (
+          <span className={s.icon}>{icon}</span>
+        )}
         {children}
-        {iconPosition === 'right' && icon && <span className={s.icon}>{icon}</span>}
+        {iconPosition === 'right' && icon && (
+          <span className={s.icon}>{icon}</span>
+        )}
       </div>
     </>
   );
@@ -148,8 +182,8 @@ const Button: React.FC<ButtonProps> = (props) => {
         href={to}
         className={buttonClasses}
         style={customStyle}
-        target="_blank"
-        rel="noopener noreferrer"
+        target='_blank'
+        rel='noopener noreferrer'
         {...anchorProps}
       >
         {buttonContent}

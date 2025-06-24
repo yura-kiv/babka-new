@@ -3,16 +3,14 @@
 
 .tabSwitch {
   position: relative;
-  display: flex;
-  flex-direction: column;
+  @include flex(column, center, center);
   width: 100%;
 }
 
 .tabsContainer {
-  display: flex;
+  @include flex(row, center, center);
   width: 100%;
   border-bottom: 1px solid rgba($border, 0.5);
-  justify-content: center;
 }
 
 .tabItem {
@@ -31,7 +29,7 @@
   &:hover {
     opacity: 7;
   }
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -42,11 +40,11 @@
     background-color: $white;
     transition: width 0.3s ease;
   }
-  
+
   &.active {
     color: $white;
     opacity: 1;
-    
+
     &:after {
       width: 100%;
     }
@@ -92,7 +90,7 @@
   .tabItem {
     &.active {
       color: $yellow;
-      
+
       &:after {
         background-color: $yellow;
       }
@@ -102,11 +100,11 @@
 
 .fullWidth {
   width: 100%;
-  
+
   .tabsContainer {
     justify-content: space-between;
   }
-  
+
   .tabItem {
     flex: 1;
   }

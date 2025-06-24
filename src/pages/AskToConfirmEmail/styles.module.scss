@@ -2,8 +2,7 @@
 @import '@/styles/abstracts/mixins';
 
 .wrapper {
-  @include flex(column, center, center);
-  gap: 25px;
+  @include flex(column, center, center, nowrap, 25px);
   flex-grow: 1;
 }
 

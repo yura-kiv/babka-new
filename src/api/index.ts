@@ -14,13 +14,6 @@ const api = {
   multipliers: multipliersApi,
 };
 
-export {
-  publicApi,
-  privateApi,
-  authApi,
-  userApi,
-  gameApi,
-  multipliersApi,
-};
+export { publicApi, privateApi, authApi, userApi, gameApi, multipliersApi };
 
 export default api;

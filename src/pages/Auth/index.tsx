@@ -20,7 +20,7 @@ const Auth: React.FC = () => {
         options={tabOptions}
         activeId={activeTab}
         onChange={setActiveTab}
-        size="large"
+        size='large'
         fullWidth
       />
       {activeTab === 'login' ? <LoginForm /> : <RegisterForm />}

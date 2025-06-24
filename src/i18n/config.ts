@@ -9,7 +9,7 @@ import translationRU from './locales/ru.json';
 const resources = {
   en: translationEN,
   uk: translationUK,
-  ru: translationRU
+  ru: translationRU,
 };
 
 i18n
@@ -19,11 +19,11 @@ i18n
     resources,
     fallbackLng: 'uk',
     debug: import.meta.env.DEV,
-    
+
     interpolation: {
       escapeValue: false,
     },
-    
+
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],

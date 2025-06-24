@@ -1,5 +1,5 @@
 import React from 'react';
-import s from './PageTitle.module.scss';
+import s from './styles.module.scss';
 import classNames from 'classnames';
 
 interface PageTitleProps {
@@ -15,24 +15,28 @@ const PageTitle: React.FC<PageTitleProps> = ({
   subtitle,
   className = '',
   align = 'left',
-  as = 'h1'
+  as = 'h1',
 }) => {
   const HeadingTag = as;
-  
+
   const getSize = (): 'small' | 'medium' | 'large' => {
     switch (as) {
-      case 'h1': return 'large';
-      case 'h2': return 'medium';
-      case 'h3': 
+      case 'h1':
+        return 'large';
+      case 'h2':
+        return 'medium';
+      case 'h3':
       case 'h4':
       case 'h5':
-      case 'h6': return 'small';
-      default: return 'medium';
+      case 'h6':
+        return 'small';
+      default:
+        return 'medium';
     }
   };
-  
+
   const titleSize = getSize();
-  
+
   return (
     <div className={classNames(s.pageTitle, s[align], s[titleSize], className)}>
       <HeadingTag className={s.title}>{title}</HeadingTag>

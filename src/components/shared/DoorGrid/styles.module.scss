@@ -2,16 +2,14 @@
 @import '@/styles/abstracts/mixins';
 
 .grid {
-  @include flex(column-reverse, start, start);
+  @include flex(column-reverse, start, start, nowrap, 40px);
   margin: 0 auto;
-  gap: 40px;
   width: 100%;
   position: relative;
 }
 
 .row {
-  @include flex(row, space-around, center);
-  gap: 20px;
+  @include flex(row, space-around, center, nowrap, 20px);
   width: 100%;
   position: relative;
 

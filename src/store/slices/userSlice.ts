@@ -1,24 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { BalanceType, type UserState } from "@/types";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { BalanceType, type UserState } from '@/types';
 
 const initialUserState: UserState = {
-  isConfirmed: false,
   // auth
-  token: "",
+  token: '',
   userId: null,
   // profile
   username: null,
   balance: 0,
   email: null,
   avatarUrl: null,
+  demoBalance: 0,
   // demo balance
+  isConfirmed: false,
   selectedBalance: BalanceType.REAL,
-  demoBalance: 1000,
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: initialUserState,
   reducers: {
     logout: () => initialUserState,
@@ -34,5 +34,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout, setSelectedBalance, updateToken, setUser } = userSlice.actions;
+export const { logout, setSelectedBalance, updateToken, setUser } =
+  userSlice.actions;
 export default userSlice.reducer;

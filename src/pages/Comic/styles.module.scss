@@ -2,8 +2,7 @@
 @import '@/styles/abstracts/mixins';
 
 .cards {
-  @include flex(column, start, stretch);
-  gap: 30px;
+  @include flex(column, start, stretch, nowrap, 30px);
 }
 
 .playButton {

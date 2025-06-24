@@ -1,0 +1,12 @@
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+
+.flagIcon {
+  width: 24px;
+  height: 16px;
+  object-fit: cover;
+}
+
+.languageItem {
+  @include flex(row, start, center, nowrap, 10px);
+}

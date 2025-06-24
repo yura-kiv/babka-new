@@ -22,14 +22,22 @@ const BombDropdown: React.FC<BombDropdownProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const bombIcon = <img src="/imgs/game/bombIcon.svg" alt="bombIcon" className={s.bomb} />;
+  const bombIcon = (
+    <img src='/imgs/game/bombIcon.svg' alt='bombIcon' className={s.bomb} />
+  );
 
-  const renderTrigger = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) => (
+  const renderTrigger = ({
+    isOpen,
+    toggle,
+  }: {
+    isOpen: boolean;
+    toggle: () => void;
+  }) => (
     <Button
       fullWidth
-      size="large"
+      size='large'
       borderRadius='small'
-      variant="outline"
+      variant='outline'
       onClick={toggle}
       className={classNames(s.trigger, { [s.open]: isOpen })}
       disabled={disabled}
@@ -64,7 +72,7 @@ const BombDropdown: React.FC<BombDropdownProps> = ({
       renderContent={renderContent}
       className={s.dropdown}
       contentClassName={s.content}
-      placement="bottom-left"
+      placement='bottom-left'
       disabled={disabled}
     />
   );

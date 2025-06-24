@@ -21,8 +21,7 @@
   }
 
   .bombsCount {
-    @include flex(row, start, center);
-    gap: 10px;
+    @include flex(row, start, center, nowrap, 10px);
 
     .count {
       font-size: $font-size-xlarge;
@@ -36,9 +35,8 @@
   }
 
   .left {
-    @include flex(column, start, start);
+    @include flex(column, start, start, nowrap, 10px);
     width: 30%;
-    gap: 10px;
 
     @include respond-to(md) {
       width: 50%;
@@ -51,13 +49,12 @@
 }
 
 .prize {
-  @include flex(row, space-between, center);
+  @include flex(row, space-between, center, nowrap, 20px);
   padding: 0 15px;
   margin-bottom: 20px;
 
   .left {
-    @include flex(row, space-between, center);
-    gap: 20px;
+    @include flex(row, space-between, center, nowrap, 20px);
 
     .chest {
       width: 110px;
@@ -98,14 +95,12 @@
 .wonOverlay,
 .lostOverlay,
 .startGame {
+  @include flex(column, center, center, nowrap);
   position: absolute;
   top: -10px;
   bottom: -10px;
   left: 0px;
   right: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   backdrop-filter: blur(2px);
   opacity: 0;
   animation: fadeIn 0.5s ease-in forwards;

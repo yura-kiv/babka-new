@@ -34,7 +34,6 @@ export interface RegisterCredentials {
 export interface StartGameRequest {
   bet: number;
   bombsCount: number;
-  isDemo: boolean;
 }
 
 export enum BalanceType {
@@ -62,6 +61,7 @@ export interface LoginResponse {
     name: string;
     email: string;
     balance: string;
+    demoBalance: string;
     avatar: string | null;
   };
 }
@@ -194,6 +194,8 @@ export interface GameStateResponse {
   currentLevel: number;
   finalWin: number;
   board: BoardResponseState;
+  bombsCount: number;
+  bet: string;
 }
 
 export interface OpenCellLostResponse {

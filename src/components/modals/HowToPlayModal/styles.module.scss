@@ -2,21 +2,20 @@
 @import '@/styles/abstracts/mixins';
 
 .container {
-    @include flex(column, center, center);
-    width: 70%;
-    gap: 15px;
-    margin: 0 auto;
+  @include flex(column, center, center, nowrap, 15px);
+  width: 70%;
+  margin: 0 auto;
 
-    @include respond-to(md) {
-        width: 100%;
-    }
+  @include respond-to(md) {
+    width: 100%;
+  }
 }
 
 .checkbox {
-    width: fit-content;
+  width: fit-content;
 }
 
 .text {
-    font-size: $font-size-medium;
-    text-align: center;
+  font-size: $font-size-medium;
+  text-align: center;
 }

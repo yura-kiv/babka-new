@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
-import s from './NumberInput.module.scss';
-import { FaPlus, FaMinus } from "react-icons/fa";
+import s from './styles.module.scss';
+import { FaPlus, FaMinus } from 'react-icons/fa';
 
 interface NumberInputProps {
   value: number;
@@ -24,21 +24,24 @@ const NumberInput: React.FC<NumberInputProps> = ({
   disabled = false,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.replace(/[^0-9]/g, '');
-    
-    if (inputValue === '') {
-      onChange(min);
-      return;
-    }
-    
-    const numericValue = parseInt(inputValue, 10);
-    
-    if (!isNaN(numericValue)) {
-      const constrainedValue = Math.min(Math.max(numericValue, min), max);
-      onChange(constrainedValue);
-    }
-  }, [min, max, onChange]);
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const inputValue = e.target.value.replace(/[^0-9]/g, '');
+
+      if (inputValue === '') {
+        onChange(min);
+        return;
+      }
+
+      const numericValue = parseInt(inputValue, 10);
+
+      if (!isNaN(numericValue)) {
+        const constrainedValue = Math.min(Math.max(numericValue, min), max);
+        onChange(constrainedValue);
+      }
+    },
+    [min, max, onChange]
+  );
 
   const handleIncrement = useCallback(() => {
     const newValue = Math.min(max, value + step);
@@ -57,23 +60,25 @@ const NumberInput: React.FC<NumberInputProps> = ({
   }, [value, min, step, onChange]);
 
   return (
-    <div className={`${s.numberInput} ${disabled ? s.disabled : ''} ${className}`}>
-      <button 
-        className={s.decrementButton} 
+    <div
+      className={`${s.numberInput} ${disabled ? s.disabled : ''} ${className}`}
+    >
+      <button
+        className={s.decrementButton}
         onClick={handleDecrement}
         disabled={value <= min || disabled}
-        type="button"
-        aria-label="Decrease value"
+        type='button'
+        aria-label='Decrease value'
       >
         <FaMinus size={16} />
       </button>
-      
+
       <div className={s.inputWrapper}>
         <input
           ref={inputRef}
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
+          type='text'
+          inputMode='numeric'
+          pattern='[0-9]*'
           value={value}
           onChange={handleInputChange}
           className={s.input}
@@ -81,15 +86,15 @@ const NumberInput: React.FC<NumberInputProps> = ({
         />
         <span className={s.currency}>{currency}</span>
       </div>
-      
-      <button 
-        className={s.incrementButton} 
+
+      <button
+        className={s.incrementButton}
         onClick={handleIncrement}
         disabled={value >= max || disabled}
-        type="button"
-        aria-label="Increase value"
+        type='button'
+        aria-label='Increase value'
       >
-        <FaPlus size={16}/>
+        <FaPlus size={16} />
       </button>
     </div>
   );

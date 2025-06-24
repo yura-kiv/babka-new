@@ -35,8 +35,12 @@ const Loader: React.FC<LoaderProps> = ({
     <div className={containerClasses}>
       <div className={s.loader}>
         <div className={s.bombs}>
-          <img src='imgs/game/bombSad.svg' alt="bomb" className={s.bombSad} />
-          <img src='imgs/game/bombHappy.svg' alt="bomb" className={s.bombHappy} />
+          <img src='imgs/game/bombSad.svg' alt='bomb' className={s.bombSad} />
+          <img
+            src='imgs/game/bombHappy.svg'
+            alt='bomb'
+            className={s.bombHappy}
+          />
         </div>
         <span className={s.loading}>{t('loading')}</span>
       </div>
@@ -47,10 +51,12 @@ const Loader: React.FC<LoaderProps> = ({
     return loaderElement;
   }
 
-  return <>
-    {children}
-    {isLoading && loaderElement}
-  </>;
+  return (
+    <>
+      {children}
+      {isLoading && loaderElement}
+    </>
+  );
 };
 
 export default Loader;

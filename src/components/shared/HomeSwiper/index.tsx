@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
@@ -13,36 +13,40 @@ const slides = [
   {
     id: 1,
     img: '/imgs/mainSwiper/game-001.jpg',
-    alt: 'Game 1'
+    alt: 'Game 1',
   },
   {
     id: 2,
     img: '/imgs/mainSwiper/game-002.jpg',
-    alt: 'Game 2'
+    alt: 'Game 2',
   },
   {
     id: 3,
     img: '/imgs/mainSwiper/game-003.jpg',
-    alt: 'Game 3'
+    alt: 'Game 3',
   },
   {
     id: 4,
     img: '/imgs/mainSwiper/game-001.jpg',
-    alt: 'Game 1'
+    alt: 'Game 1',
   },
   {
     id: 5,
     img: '/imgs/mainSwiper/game-002.jpg',
-    alt: 'Game 2'
+    alt: 'Game 2',
   },
   {
     id: 6,
     img: '/imgs/mainSwiper/game-003.jpg',
-    alt: 'Game 3'
+    alt: 'Game 3',
   },
-]
+];
 
-const HomeSwiper: React.FC = () => {
+type HomeSwiperProps = {
+  className?: string;
+};
+
+const HomeSwiper: React.FC<HomeSwiperProps> = ({ className }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [swiper, setSwiper] = useState<SwiperInstance | null>(null);
   const paginationContainerRef = useRef<HTMLDivElement>(null);
@@ -53,7 +57,7 @@ const HomeSwiper: React.FC = () => {
   };
 
   return (
-    <div className={s.container}>
+    <div className={classNames(s.container, className)}>
       <div className={s.swiperContainer}>
         <Swiper
           spaceBetween={1}
@@ -70,26 +74,25 @@ const HomeSwiper: React.FC = () => {
           className={s.swiperWrapper}
         >
           {slides.map((slide) => (
-            <SwiperSlide 
-              key={slide.id} 
-              className={s.swiperSlide}
-            >
-              <div className={classNames(s.swiperSlideContent, {
-                [s.active]: activeSlide === (slide.id - 1) % 3,
-              })}>
+            <SwiperSlide key={slide.id} className={s.swiperSlide}>
+              <div
+                className={classNames(s.swiperSlideContent, {
+                  [s.active]: activeSlide === (slide.id - 1) % 3,
+                })}
+              >
                 <img src={slide.img} alt={slide.alt} />
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-        
+
         <div ref={paginationContainerRef} className={s.customPagination}>
           {[0, 1, 2].map((bullet) => (
             <div
               key={bullet}
               onClick={() => swiper?.slideToLoop(bullet)}
               className={classNames(s.paginationBullet, {
-                [s.paginationBulletActive]: (activeSlide % 3) === bullet,
+                [s.paginationBulletActive]: activeSlide % 3 === bullet,
               })}
             />
           ))}

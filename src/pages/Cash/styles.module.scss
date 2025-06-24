@@ -2,19 +2,18 @@
 @import '@/styles/abstracts/mixins';
 
 .wrapper {
-    @include flex(column, start, stretch);
-    gap: 30px;
+  @include flex(column, start, stretch, nowrap, 30px);
 }
 
 .tableWrapper {
 }
 
 .completed {
-    color: $green;
-    font-weight: $font-weight-medium;
+  color: $green;
+  font-weight: $font-weight-medium;
 }
 
 .pending {
-    color: $yellow;
-    font-weight: $font-weight-medium;
+  color: $yellow;
+  font-weight: $font-weight-medium;
 }

@@ -12,6 +12,7 @@ import {
   GameStatusFront,
   CellStatusResponse,
   CellTypeResponse,
+  BalanceType,
 } from '@/types';
 
 export type GameState = {
@@ -26,6 +27,7 @@ export type GameState = {
   progress: number;
   bomb: FlyingBombParams | null;
   multipliers: Partial<MultipliersResponse['data']>;
+  balanceType: BalanceType;
   currentAnimation: {
     loop: boolean;
     play: boolean;
@@ -119,6 +121,7 @@ export const initialGameState: GameState = {
     },
   },
   bomb: null,
+  balanceType: BalanceType.REAL,
   currentAnimation: {
     loop: true,
     play: true,
@@ -165,6 +168,10 @@ const convertBoardResToState = (
   return grid;
 };
 
+const getProgress = (level: RowNumber) => {
+  return (level / 3) * 100;
+};
+
 export const gameReducer = (
   state: GameState,
   action: GameAction
@@ -186,25 +193,29 @@ export const gameReducer = (
         },
       };
     case GameActionType.CONTINUE_GAME: {
-      const { board, currentLevel } = action.payload;
+      const { board, currentLevel, bet, bombsCount } = action.payload;
       const levelNumber = Number(currentLevel) as RowNumber;
       const gridState = convertBoardResToState(board, levelNumber);
+      const progress = getProgress(levelNumber);
       return {
         ...state,
         level: levelNumber,
         grid: gridState,
-        progress: 0, // to do
-        bet: 0, // to do
-        bombsCount: 0, // to do
+        progress,
+        bet: Number(bet),
+        bombsCount: Number(bombsCount) as BombsCount,
         status: GameStatusFront.IN_PROGRESS,
+        balanceType: BalanceType.REAL, // to do
       };
     }
     case GameActionType.OPEN_DOOR: {
       const { level, cellId, type, newLevel } = action.payload;
       if (newLevel && level !== newLevel) {
+        const progress = getProgress(newLevel);
         return {
           ...state,
           level: newLevel,
+          progress,
           grid: {
             ...state.grid,
             [level]: {

@@ -11,29 +11,29 @@ const marks = [
   {
     img: '/imgs/footerMarks/listing-001.svg',
     alt: 'listing-001',
-    href: 'https://bookmaker-ratings.by/ru/review/obzor-bukmekerskoj-kontory-1win'
+    href: 'https://bookmaker-ratings.by/ru/review/obzor-bukmekerskoj-kontory-1win',
   },
   {
     img: '/imgs/footerMarks/listing-002.png',
     alt: 'listing-002',
-    href: 'https://betraja.net/betting-sites/1win/'
+    href: 'https://betraja.net/betting-sites/1win/',
   },
   {
     img: '/imgs/footerMarks/listing-003.png',
     alt: 'listing-003',
-    href: 'https://casinomentor.com/reviews/1win-casino'
+    href: 'https://casinomentor.com/reviews/1win-casino',
   },
   {
     img: '/imgs/footerMarks/listing-004.png',
     alt: 'listing-004',
-    href: 'https://bookmaker-ratings.by/ru/review/obzor-bukmekerskoj-kontory-1win/'
+    href: 'https://bookmaker-ratings.by/ru/review/obzor-bukmekerskoj-kontory-1win/',
   },
   {
     img: '/imgs/footerMarks/listing-005.png',
     alt: 'listing-005',
-    href: 'https://www.bestbitcoincasino.com/review/1wincasino'
+    href: 'https://www.bestbitcoincasino.com/review/1wincasino',
   },
-]
+];
 
 const payments = [
   {
@@ -94,34 +94,53 @@ const Footer: React.FC = () => {
         <div className={s.information}>
           <p className={s.label}>{t('information')}:</p>
           <div className={s.actions}>
-            <Button variant="subtle" textColor="white" size='medium' padding={{ p: 0 }} onClick={() => setPrivacyPolicyOpen(true)}>
+            <Button
+              variant='subtle'
+              textColor='white'
+              size='medium'
+              padding={{ p: 0 }}
+              onClick={() => setPrivacyPolicyOpen(true)}
+            >
               {t('privacyPolicy')}
             </Button>
-            <Button variant="subtle" textColor="white" size='medium' padding={{ p: 0 }} onClick={() => setTermsOpen(true)}>
+            <Button
+              variant='subtle'
+              textColor='white'
+              size='medium'
+              padding={{ p: 0 }}
+              onClick={() => setTermsOpen(true)}
+            >
               {t('generalPosition')}
             </Button>
-            <Button variant="subtle" textColor="white" size='medium' padding={{ p: 0 }} external to='#'>
+            <Button
+              variant='subtle'
+              textColor='white'
+              size='medium'
+              padding={{ p: 0 }}
+              external
+              to='#'
+            >
               {t('affiliateProgram')}
             </Button>
           </div>
-          
-          <PrivacyPolicyModal 
-            isOpen={privacyPolicyOpen} 
-            onClose={() => setPrivacyPolicyOpen(false)} 
+
+          <PrivacyPolicyModal
+            isOpen={privacyPolicyOpen}
+            onClose={() => setPrivacyPolicyOpen(false)}
           />
-          
+
           <TermsAndConditionsModal
             isOpen={termsOpen}
             onClose={() => setTermsOpen(false)}
           />
         </div>
         <Divider noMargin />
-        <div className={s.payments}>
+        {/* <div className={s.payments}>
           {payments.map((payment, index) => (
             <img src={payment.img} alt={payment.alt} key={index} className={s.paymentImg} />
           ))}
-        </div>
-        <Divider noMargin />
+        </div> */}
+        {/* <Divider noMargin /> */}
         <div className={s.marks}>
           {marks.map((mark, index) => (
             <Button key={index} to={mark.href} variant='text' external>
@@ -140,13 +159,13 @@ const Footer: React.FC = () => {
         </div>
       </WidthWrapper>
       <div className={s.supportWrapper}>
-        <WidthWrapper className={s.support} >
+        <WidthWrapper className={s.support}>
           <p className={s.label}>24/7 {t('support')}</p>
           <Button
-            variant="green"
+            variant='green'
             padding={{ px: '30px' }}
-            size="small"
-            borderRadius="small"
+            size='small'
+            borderRadius='small'
             to='#'
             external
           >

@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,
@@ -8,23 +8,23 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
+} from 'redux-persist';
 
-import storage from "redux-persist/lib/storage";
+import storage from 'redux-persist/lib/storage';
 
-import userReducer from "@/store/slices/userSlice";
-import uiReducer from "@/store/slices/uiSlice";
+import userReducer from '@/store/slices/userSlice';
+import uiReducer from '@/store/slices/uiSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
-  ui: uiReducer
+  ui: uiReducer,
 });
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   version: 1,
   storage,
-  whitelist: ["user"],
+  whitelist: ['user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -43,4 +43,3 @@ export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type AppRootState = ReturnType<typeof store.getState>;
-

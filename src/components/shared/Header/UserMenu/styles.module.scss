@@ -2,8 +2,7 @@
 @import '@/styles/abstracts/mixins';
 
 .userMenu {
-  @include flex(row, center, center);
-  gap: 10px;
+  @include flex(row, center, center, nowrap, 10px);
 
   @include respond-to(md) {
     justify-content: space-between;
@@ -20,8 +19,7 @@
 }
 
 .userInfo {
-  @include flex(row, center, center);
-  gap: 10px;
+  @include flex(row, center, center, nowrap, 10px);
 }
 
 .avatar {

@@ -1,12 +1,13 @@
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import s from './styles.module.scss';
-import { Link } from "react-router-dom";
-import classNames from "classnames";
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import type { ReactNode, ButtonHTMLAttributes } from 'react';
 
 export type PlayButtonSize = 'small' | 'medium' | 'large';
 
-export interface PlayButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface PlayButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   to?: string;
   children?: ReactNode;
   className?: string;
@@ -27,30 +28,28 @@ const PlayButton: React.FC<PlayButtonProps> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
-  
+
   const buttonClasses = classNames(
     s.button,
     s[size],
     className,
     disabled && s.disabled
   );
-  
+
   const content = (
-    <div className={s.label}>
-      {children || text || t('play')}
-    </div>
+    <div className={s.label}>{children || text || t('play')}</div>
   );
-  
+
   const handleClick = () => {
     if (!disabled && onClick) {
       onClick();
     }
   };
-  
+
   if (!to) {
     return (
-      <button 
-        className={buttonClasses} 
+      <button
+        className={buttonClasses}
         onClick={handleClick}
         disabled={disabled}
         {...rest}
@@ -59,10 +58,10 @@ const PlayButton: React.FC<PlayButtonProps> = ({
       </button>
     );
   }
-  
+
   return (
-    <Link 
-      to={disabled ? '#' : to} 
+    <Link
+      to={disabled ? '#' : to}
       className={buttonClasses}
       onClick={disabled ? (e) => e.preventDefault() : handleClick}
     >

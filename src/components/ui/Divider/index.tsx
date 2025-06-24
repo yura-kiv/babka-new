@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import s from './Divider.module.scss';
+import s from './styles.module.scss';
 
 export interface DividerProps {
   className?: string;
@@ -30,7 +30,9 @@ const Divider: React.FC<DividerProps> = ({
   }
 
   if (thickness) {
-    dividerStyle[direction === 'horizontal' ? 'height' : 'width'] = `${thickness}px`;
+    dividerStyle[
+      direction === 'horizontal' ? 'height' : 'width'
+    ] = `${thickness}px`;
   }
 
   if (noMargin) {
@@ -44,13 +46,13 @@ const Divider: React.FC<DividerProps> = ({
   }
 
   return (
-    <div 
+    <div
       className={classNames(
-        s.divider, 
-        { 
+        s.divider,
+        {
           [s.horizontal]: direction === 'horizontal',
           [s.vertical]: direction === 'vertical',
-          [s.noMargin]: noMargin
+          [s.noMargin]: noMargin,
         },
         className
       )}

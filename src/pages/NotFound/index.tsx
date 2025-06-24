@@ -11,11 +11,7 @@ const NotFound: React.FC = () => {
     <div className={s.wrapper}>
       <h2 className={s.title}>404</h2>
       <p className={s.subtitle}>{t('pageNotFound')}</p>
-      <Button
-        to={Pages.Home}
-        variant="green"
-        size="large"
-      >
+      <Button to={Pages.Home} variant='green' size='large'>
         {t('backToHome')}
       </Button>
     </div>

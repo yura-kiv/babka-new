@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({
   contentClassName = '',
   overlayClassName = '',
   animation = 'scale',
-  maxWidth = '600px'
+  maxWidth = '600px',
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -108,18 +108,18 @@ const Modal: React.FC<ModalProps> = ({
         <motion.div
           className={classNames(s.overlay, overlayClassName)}
           variants={overlayVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
+          initial='hidden'
+          animate='visible'
+          exit='exit'
           onClick={handleOverlayClick}
         >
           <motion.div
             className={classNames(s.modal, className)}
             style={{ maxWidth }}
             variants={getAnimationVariants()}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
+            initial='hidden'
+            animate='visible'
+            exit='exit'
             ref={modalRef}
           >
             {(title || showCloseButton) && (
@@ -127,16 +127,18 @@ const Modal: React.FC<ModalProps> = ({
                 {title && <h2 className={s.title}>{title}</h2>}
                 {showCloseButton && (
                   <Button
-                    variant="text"
-                    textColor="white"
-                    size="large"
+                    variant='text'
+                    textColor='white'
+                    size='large'
                     onClick={onClose}
                     icon={<FaTimes size={24} />}
                   />
                 )}
               </div>
             )}
-            <div className={classNames(s.content, contentClassName)}>{children}</div>
+            <div className={classNames(s.content, contentClassName)}>
+              {children}
+            </div>
           </motion.div>
         </motion.div>
       )}

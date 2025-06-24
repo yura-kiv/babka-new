@@ -2,85 +2,74 @@
 @import '@/styles/abstracts/mixins';
 
 .footer {
-    padding-bottom: 75px;
+  margin-top: 80px;
+  padding-bottom: 75px;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  @include flex(column, start, stretch, nowrap, 20px);
 
-    .label {
-        @include flex(row, center, center);
-        gap: 20px;
-        font-size: $font-size-large;
-        font-weight: $font-weight-medium;
-        color: $white;
-        text-transform: uppercase;
-    }
+  .label {
+    @include flex(row, center, center, nowrap, 20px);
+    font-size: $font-size-large;
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+  }
 }
 
 .information {
-    @include flex(column, start, start);
-    gap: 10px;
+  @include flex(column, start, start, nowrap, 10px);
 
-    .label {
-        font-size: $font-size-large;
-        font-weight: $font-weight-light;
-        color: $white-light;
-        text-transform: uppercase;
+  .label {
+    font-size: $font-size-large;
+    font-weight: $font-weight-light;
+    color: $white-light;
+    text-transform: uppercase;
+  }
+
+  .actions {
+    @include flex(row, space-around, center, nowrap, 20px);
+    width: 100%;
+
+    @include respond-to(sm) {
+      @include flex(column, center, stretch);
     }
-
-    .actions {
-        @include flex(row, space-around, center);
-        width: 100%;
-        gap: 20px;
-
-        @include respond-to(sm) {
-            @include flex(column, center, stretch);
-        }
-    }
+  }
 }
 
 .supportWrapper {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background-color: $blue;
-    padding: 10px;
-    border-top: 1px solid $border;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 10px;
+  background-color: $blue;
+  border-top: 1px solid $border;
 }
 
 .support {
-    @include flex(row, space-between, center);
+  @include flex(row, space-between, center, nowrap, 20px);
 }
 
 .marks {
-    @include flex(row, start, center);
-    flex-wrap: wrap;
-    gap: 15px;
+  @include flex(row, start, center, nowrap, 15px);
 }
 
 .markImg {
-    height: 35px;
+  height: 35px;
 }
 
 .rights {
-    @include flex(row, center, bottom);
-    gap: 10px;
-    font-size: $font-size-small;
-    color: $white;
+  @include flex(row, center, bottom, nowrap, 10px);
+  font-size: $font-size-small;
+  color: $white;
 }
 
 .payments {
-    @include flex(row, center, center);
-    flex-wrap: wrap;
-    gap: 25px;
+  @include flex(row, center, center, nowrap, 25px);
 }
 
 .paymentImg {
-    height: 20px;
+  height: 20px;
 }
-

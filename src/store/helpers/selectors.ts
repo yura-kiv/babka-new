@@ -7,13 +7,16 @@ export const getUser = (state: AppRootState) => state.user;
 
 export const getUserToken = (state: AppRootState) => state.user.token;
 
-export const getUserIsConfirmed = (state: AppRootState) => state.user.isConfirmed;
+export const getUserIsConfirmed = (state: AppRootState) =>
+  state.user.isConfirmed;
 
-export const getUserSelectedBalance = (state: AppRootState) => state.user.selectedBalance;
+export const getUserSelectedBalance = (state: AppRootState) =>
+  state.user.selectedBalance;
 
 export const getUserBalance = createSelector(
   [(state: AppRootState) => state.user],
-  (user) => user.selectedBalance === BalanceType.DEMO ? user.demoBalance : user.balance
+  (user) =>
+    user.selectedBalance === BalanceType.DEMO ? user.demoBalance : user.balance
 );
 
 // --- UI SELECTORS ---

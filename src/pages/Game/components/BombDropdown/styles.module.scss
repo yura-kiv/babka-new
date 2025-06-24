@@ -38,17 +38,16 @@
 }
 
 .option {
-  @include flex(row, start, center);
+  @include flex(row, start, center, nowrap, 15px);
   padding: 10px 15px;
-  gap: 15px;
   cursor: pointer;
   font-size: $font-size-medium;
   transition: background-color 0.2s ease;
-  
+
   &:hover {
     background-color: $white-background-hover;
   }
-  
+
   &.active {
     background-color: $white-background-active;
   }

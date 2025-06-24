@@ -2,46 +2,45 @@
 @import '@/styles/abstracts/mixins';
 
 .pageTitle {
-  @include flex(column, start, stretch);
-  gap: 10px;
-  
+  @include flex(column, start, stretch, nowrap, 10px);
+
   &.left {
     text-align: left;
   }
-  
+
   &.center {
     text-align: center;
   }
-  
+
   &.right {
     text-align: right;
   }
-  
+
   &.small {
     .title {
       font-size: $font-size-medium;
     }
-    
+
     .subtitle {
       font-size: $font-size-small;
     }
   }
-  
+
   &.medium {
     .title {
       font-size: $font-size-large;
     }
-    
+
     .subtitle {
       font-size: $font-size-medium;
     }
   }
-  
+
   &.large {
     .title {
       font-size: $font-size-xlarge;
     }
-    
+
     .subtitle {
       font-size: $font-size-medium;
     }

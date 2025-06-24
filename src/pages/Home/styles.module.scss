@@ -1,5 +1,14 @@
+@import '@/styles/abstracts/mixins';
+
+.swiper {
+  margin-bottom: 20px;
+}
+
+.playButton {
+  margin-bottom: 60px;
+}
+
 .topButtons {
-  display: flex;
-  gap: 20px;
+  @include flex(row, stretch, center, nowrap, 20px);
   margin-bottom: 20px;
 }

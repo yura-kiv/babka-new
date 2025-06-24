@@ -4,13 +4,13 @@ import { useForm } from 'react-hook-form';
 import Modal from '@/components/ui/Modal';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
-import s from './ChangeUsernameModal.module.scss';
+import s from './styles.module.scss';
 import { FaUser } from 'react-icons/fa';
 import { userApi } from '@/api';
 import { notificationService } from '@/services/notification';
 import { setUserState } from '@/store/helpers/actions';
 import { useAppDispatch } from '@/store/hooks';
-import { userName as userNameValidation } from '@/utils/validations'
+import { userName as userNameValidation } from '@/utils/validations';
 
 interface ChangeUsernameModalProps {
   isOpen: boolean;
@@ -21,7 +21,10 @@ interface ChangeUsernameFormData {
   username: string;
 }
 
-const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({ isOpen, onClose }) => {
+const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({
+  isOpen,
+  onClose,
+}) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -30,11 +33,11 @@ const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({ isOpen, onClo
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<ChangeUsernameFormData>({
     defaultValues: {
-      username: ''
-    }
+      username: '',
+    },
   });
 
   const onSubmit = async (data: ChangeUsernameFormData) => {
@@ -43,15 +46,21 @@ const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({ isOpen, onClo
       const res = await userApi.changeUsername(data.username);
       const { message, data: username } = res.data;
 
-      dispatch(setUserState({
-        username: username || null,
-      }));
+      dispatch(
+        setUserState({
+          username: username || null,
+        })
+      );
 
       reset();
-      notificationService.success(t(message || 'notifications.user.changeUsernameSuccess'));
+      notificationService.success(
+        t(message || 'notifications.user.changeUsernameSuccess')
+      );
       onClose();
     } catch (error: any) {
-      const message = error?.response?.data?.message || t('notifications.user.changeUsernameError');
+      const message =
+        error?.response?.data?.message ||
+        t('notifications.user.changeUsernameError');
       console.error('Change username error:', error);
       notificationService.error(message);
     } finally {
@@ -69,7 +78,7 @@ const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({ isOpen, onClo
       isOpen={isOpen}
       onClose={handleClose}
       title={t('changeUsername.title')}
-      animation="scale"
+      animation='scale'
     >
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <Input
@@ -82,18 +91,10 @@ const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({ isOpen, onClo
         />
 
         <div className={s.actions}>
-          <Button
-            variant="outline"
-            onClick={handleClose}
-            type="button"
-          >
+          <Button variant='outline' onClick={handleClose} type='button'>
             {t('cancel')}
           </Button>
-          <Button
-            variant="green"
-            type="submit"
-            isLoading={isLoading}
-          >
+          <Button variant='green' type='submit' isLoading={isLoading}>
             {t('changeUsername.submit')}
           </Button>
         </div>

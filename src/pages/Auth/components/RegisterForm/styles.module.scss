@@ -2,15 +2,13 @@
 @import '@/styles/abstracts/mixins';
 
 .form {
-  display: flex;
-  flex-direction: column;
+  @include flex(column, start, stretch, nowrap, 15px);
+  flex: 1 1 0;
   width: 100%;
-  gap: 15px;
 }
 
 .termsLabel {
-  display: inline-flex;
-  gap: 5px;
+  @include flex(row, start, center, nowrap, 5px);
   flex-wrap: wrap;
 }
 
@@ -18,7 +16,7 @@
   color: $yellow;
   text-decoration: underline;
   transition: all 0.2s ease;
-  
+
   &:hover {
     color: lighten($yellow, 10%);
   }
@@ -27,4 +25,3 @@
 .submitButton {
   margin-top: 15px;
 }
-

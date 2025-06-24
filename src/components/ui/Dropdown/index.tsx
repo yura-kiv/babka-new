@@ -1,7 +1,15 @@
-import React, { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  type ReactNode,
+} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import classNames from 'classnames';
-import styles from './styles.module.scss';
+import s from './styles.module.scss';
+import WindowItem from './components/WindowItem';
+import TriggerButtonWithChevron from './components/TriggerButtonWithChevron';
 
 export interface DropdownProps {
   disabled?: boolean;
@@ -15,11 +23,21 @@ export interface DropdownProps {
   closeOnClickOutside?: boolean;
   onOpen?: () => void;
   onClose?: () => void;
-  renderTrigger?: (props: { isOpen: boolean; toggle: () => void; disabled?: boolean }) => React.ReactNode;
-  renderContent?: (props: { isOpen: boolean; close: () => void }) => React.ReactNode;
+  renderTrigger?: (props: {
+    isOpen: boolean;
+    toggle: () => void;
+    disabled?: boolean;
+  }) => React.ReactNode;
+  renderContent?: (props: {
+    isOpen: boolean;
+    close: () => void;
+  }) => React.ReactNode;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({
+const Dropdown: React.FC<DropdownProps> & {
+  TriggerButtonWithChevron: typeof TriggerButtonWithChevron;
+  WindowItem: typeof WindowItem;
+} = ({
   trigger,
   children,
   className = '',
@@ -35,58 +53,64 @@ const Dropdown: React.FC<DropdownProps> = ({
   renderContent,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const dropdownRef = useRef<HTMLDivElement>(null);
-  
+
   const open = useCallback(() => {
     setIsOpen(true);
     if (onOpen) onOpen();
   }, [onOpen]);
-  
+
   const close = useCallback(() => {
     setIsOpen(false);
     if (onClose) onClose();
   }, [onClose]);
-  
-  const toggle = useCallback((e?: React.MouseEvent) => {
-    if (e) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
-    
-    if (disabled) return;
-    
-    if (isOpen) {
-      close();
-    } else {
-      open();
-    }
-  }, [isOpen, open, close, disabled]);
-  
+
+  const toggle = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+
+      if (disabled) return;
+
+      if (isOpen) {
+        close();
+      } else {
+        open();
+      }
+    },
+    [isOpen, open, close, disabled]
+  );
+
   useEffect(() => {
     if (!isOpen || !closeOnClickOutside) return undefined;
-    
+
     const handleOutsideClick = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         close();
       }
     };
-    
+
     const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         close();
       }
     };
-    
+
     document.addEventListener('mousedown', handleOutsideClick);
     document.addEventListener('keydown', handleEscapeKey);
-    
+
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
       document.removeEventListener('keydown', handleEscapeKey);
     };
   }, [isOpen, closeOnClickOutside, close]);
-  
+
   const getAnimationVariants = () => {
     const baseVariants = {
       hidden: {
@@ -121,54 +145,54 @@ const Dropdown: React.FC<DropdownProps> = ({
   const getPlacementClass = () => {
     switch (placement) {
       case 'bottom-right':
-        return styles.bottomRight;
+        return s.bottomRight;
       case 'top-left':
-        return styles.topLeft;
+        return s.topLeft;
       case 'top-right':
-        return styles.topRight;
+        return s.topRight;
       case 'bottom-left':
       default:
-        return styles.bottomLeft;
+        return s.bottomLeft;
     }
   };
 
-  const triggerElement = renderTrigger 
-    ? renderTrigger({ isOpen, toggle, disabled })
-    : (
-        <div 
-          className={classNames(
-            styles.trigger, 
-            triggerClassName,
-            { [styles.disabled]: disabled }
-          )} 
-          onClick={toggle}
-          aria-disabled={disabled}
-        >
-          {trigger}
-        </div>
-      );
-  
+  const triggerElement = renderTrigger ? (
+    renderTrigger({ isOpen, toggle, disabled })
+  ) : (
+    <div
+      className={classNames(s.trigger, triggerClassName, {
+        [s.disabled]: disabled,
+      })}
+      onClick={toggle}
+      aria-disabled={disabled}
+    >
+      {trigger}
+    </div>
+  );
+
   const contentElement = renderContent
     ? renderContent({ isOpen, close })
     : children;
-  
+
   return (
-    <div 
-      className={classNames(
-        styles.dropdown, 
-        className,
-        { [styles.dropdownDisabled]: disabled }
-      )} 
+    <div
       ref={dropdownRef}
+      className={classNames(s.dropdown, className, {
+        [s.dropdownDisabled]: disabled,
+      })}
     >
       {triggerElement}
       <AnimatePresence>
         {isOpen && !disabled && (
           <motion.div
-            className={classNames(styles.content, getPlacementClass(), contentClassName)}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
+            className={classNames(
+              s.content,
+              getPlacementClass(),
+              contentClassName
+            )}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
             variants={getAnimationVariants()}
           >
             {contentElement}
@@ -178,5 +202,8 @@ const Dropdown: React.FC<DropdownProps> = ({
     </div>
   );
 };
+
+Dropdown.TriggerButtonWithChevron = TriggerButtonWithChevron;
+Dropdown.WindowItem = WindowItem;
 
 export default Dropdown;

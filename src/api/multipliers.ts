@@ -5,7 +5,7 @@ import { publicApi } from './axios';
 export const multipliersApi = {
   getMultipliers: (): Promise<AxiosResponse<MultipliersResponse>> => {
     return publicApi.get('/users/multipliers');
-  }
+  },
 };
 
 export default multipliersApi;

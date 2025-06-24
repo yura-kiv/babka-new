@@ -13,10 +13,7 @@ import { authApi } from '@/api/auth';
 import { setUserState } from '@/store/helpers/actions';
 import { useAppDispatch } from '@/store/hooks';
 import { BalanceType, type DecodedToken } from '@/types';
-import {
-  required,
-  email as emailValidation,
-} from '@/utils/validations'
+import { required, email as emailValidation } from '@/utils/validations';
 
 type FormData = {
   email: string;
@@ -29,19 +26,29 @@ const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { control, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormData>({
     defaultValues: {
       email: '',
-      password: ''
+      password: '',
     },
-    mode: 'onBlur'
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data: FormData) => {
     try {
       setIsLoading(true);
       const res = await authApi.login(data);
-      const { data: { accessToken }, message, status, userData } = res.data;
+      const {
+        data: { accessToken },
+        message,
+        status,
+        userData,
+      } = res.data;
       let tokenData = {} as Partial<DecodedToken>;
 
       try {
@@ -52,23 +59,28 @@ const LoginForm: React.FC = () => {
 
       const { email, exp, iat, id, username } = tokenData;
 
-      dispatch(setUserState({
-        isConfirmed: true,
-        token: accessToken,
-        userId: id || null,
-        username: username || null,
-        email: email || null,
-        balance: Number(userData.balance) || 0,
-        avatarUrl: userData.avatar || null,
-        selectedBalance: BalanceType.REAL,
-        demoBalance: 1000,
-      }));
+      dispatch(
+        setUserState({
+          isConfirmed: true,
+          token: accessToken,
+          userId: id || null,
+          username: username || null,
+          email: email || null,
+          balance: Number(userData.balance) || 0,
+          demoBalance: Number(userData.demoBalance) || 0,
+          avatarUrl: userData.avatar || null,
+          selectedBalance: BalanceType.REAL,
+        })
+      );
 
       reset();
-      notificationService.success(t(message || 'notifications.auth.loginSuccess'));
+      notificationService.success(
+        t(message || 'notifications.auth.loginSuccess')
+      );
       navigate(Pages.Home);
     } catch (error: any) {
-      const message = error?.response?.data?.message || t('notifications.auth.loginError');
+      const message =
+        error?.response?.data?.message || t('notifications.auth.loginError');
       console.error('Login error:', error);
       notificationService.error(message);
     } finally {
@@ -79,7 +91,7 @@ const LoginForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
       <Controller
-        name="email"
+        name='email'
         control={control}
         rules={emailValidation}
         render={({ field }) => (
@@ -89,14 +101,14 @@ const LoginForm: React.FC = () => {
             placeholder={t('auth.email')}
             leftIcon={<FaEnvelope />}
             errorMessage={errors.email?.message}
-            size="medium"
-            type="email"
+            size='medium'
+            type='email'
           />
         )}
       />
 
       <Controller
-        name="password"
+        name='password'
         control={control}
         rules={{ required }}
         render={({ field }) => (
@@ -106,16 +118,16 @@ const LoginForm: React.FC = () => {
             placeholder={t('auth.password')}
             leftIcon={<FaLock />}
             errorMessage={errors.password?.message}
-            size="medium"
+            size='medium'
           />
         )}
       />
 
       <Button
-        type="submit"
-        variant="yellow"
+        type='submit'
+        variant='yellow'
         fullWidth
-        size="large"
+        size='large'
         className={s.submitButton}
         isLoading={isLoading}
         disabled={isLoading}
@@ -123,7 +135,12 @@ const LoginForm: React.FC = () => {
         {t('auth.login')}
       </Button>
 
-      <Button variant="subtle" size="medium" to={Pages.ForgotPassword} className={s.forgotPassword}>
+      <Button
+        variant='subtle'
+        size='medium'
+        to={Pages.ForgotPassword}
+        className={s.forgotPassword}
+      >
         {t('auth.forgotPassword')}
       </Button>
     </form>

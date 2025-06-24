@@ -1,5 +1,5 @@
 import React from 'react';
-import s from './UserAvatar.module.scss';
+import s from './styles.module.scss';
 
 interface UserAvatarProps {
   name: string;
@@ -12,7 +12,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   name,
   avatar,
   className = '',
-  size = 'medium'
+  size = 'medium',
 }) => {
   return (
     <div className={`${s.userCell} ${s[size]} ${className}`}>

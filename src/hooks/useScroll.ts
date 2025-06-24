@@ -10,53 +10,74 @@ interface ScrollOptions {
 const useScroll = () => {
   const elementsRef = useRef<Record<string, HTMLElement | null>>({});
 
-  const registerElement = useCallback((key: string, element: HTMLElement | null) => {
-    if (element) {
-      elementsRef.current[key] = element;
-    }
-  }, []);
-
-  const scrollToElement = useCallback((element: HTMLElement | null, options: ScrollOptions = {}) => {
-    if (!element) return;
-
-    const { behavior = 'smooth', block = 'start', inline = 'nearest', offset = 0 } = options;
-
-    try {
-      if (offset) {
-        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-        window.scrollTo({
-          top: elementPosition - offset,
-          behavior,
-        });
-      } else {
-        element.scrollIntoView({
-          behavior,
-          block,
-          inline,
-        });
+  const registerElement = useCallback(
+    (key: string, element: HTMLElement | null) => {
+      if (element) {
+        elementsRef.current[key] = element;
       }
-    } catch (error) {
-      console.error('Error scrolling to element:', error);
-    }
-  }, []);
+    },
+    []
+  );
 
-  const scrollToRegisteredElement = useCallback((key: string, options: ScrollOptions = {}) => {
-    const element = elementsRef.current[key];
-    scrollToElement(element, options);
-  }, [scrollToElement]);
+  const scrollToElement = useCallback(
+    (element: HTMLElement | null, options: ScrollOptions = {}) => {
+      if (!element) return;
 
-  const scrollToId = useCallback((id: string, options: ScrollOptions = {}) => {
-    const element = document.getElementById(id);
-    scrollToElement(element, options);
-  }, [scrollToElement]);
+      const {
+        behavior = 'smooth',
+        block = 'start',
+        inline = 'nearest',
+        offset = 0,
+      } = options;
 
-  const scrollToPosition = useCallback((x: number, y: number, behavior: ScrollBehavior = 'smooth') => {
-    window.scrollTo({
-      left: x,
-      top: y,
-      behavior,
-    });
-  }, []);
+      try {
+        if (offset) {
+          const elementPosition =
+            element.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({
+            top: elementPosition - offset,
+            behavior,
+          });
+        } else {
+          element.scrollIntoView({
+            behavior,
+            block,
+            inline,
+          });
+        }
+      } catch (error) {
+        console.error('Error scrolling to element:', error);
+      }
+    },
+    []
+  );
+
+  const scrollToRegisteredElement = useCallback(
+    (key: string, options: ScrollOptions = {}) => {
+      const element = elementsRef.current[key];
+      scrollToElement(element, options);
+    },
+    [scrollToElement]
+  );
+
+  const scrollToId = useCallback(
+    (id: string, options: ScrollOptions = {}) => {
+      const element = document.getElementById(id);
+      scrollToElement(element, options);
+    },
+    [scrollToElement]
+  );
+
+  const scrollToPosition = useCallback(
+    (x: number, y: number, behavior: ScrollBehavior = 'smooth') => {
+      window.scrollTo({
+        left: x,
+        top: y,
+        behavior,
+      });
+    },
+    []
+  );
 
   const scrollToTop = useCallback((behavior: ScrollBehavior = 'smooth') => {
     window.scrollTo({

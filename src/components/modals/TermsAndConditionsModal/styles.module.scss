@@ -1,36 +1,44 @@
 @import '@/styles/abstracts/variables';
 @import '@/styles/abstracts/mixins';
 
-.policyContent {
+.termsContent {
   color: $white;
-  
+
   h3 {
     font-size: $font-size-large;
     font-weight: $font-weight-bold;
     margin-top: 20px;
     margin-bottom: 10px;
     color: $green-light;
-    
+
     &:first-child {
       margin-top: 0;
     }
   }
-  
+
+  h4 {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-bold;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: $white;
+  }
+
   p {
     margin-bottom: 15px;
     line-height: 1.6;
     font-size: $font-size-medium;
   }
-  
+
   ul {
     margin-bottom: 20px;
     padding-left: 20px;
-    
+
     li {
       margin-bottom: 10px;
       line-height: 1.5;
       position: relative;
-      
+
       &::before {
         content: '';
         position: absolute;

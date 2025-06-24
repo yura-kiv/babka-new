@@ -21,7 +21,7 @@ import {
   password as passwordValidation,
   email as emailValidation,
   userName as userNameValidation,
-} from '@/utils/validations'
+} from '@/utils/validations';
 
 type FormData = {
   username: string;
@@ -36,15 +36,21 @@ const RegisterForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { control, handleSubmit, watch, formState: { errors }, reset } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm<FormData>({
     defaultValues: {
       username: '',
       email: '',
       password: '',
       confirmPassword: '',
-      agreeToTerms: false
+      agreeToTerms: false,
     },
-    mode: 'onBlur'
+    mode: 'onBlur',
   });
 
   const password = watch('password');
@@ -66,22 +72,27 @@ const RegisterForm: React.FC = () => {
 
       const { email, exp, iat, id, username } = tokenData;
 
-      dispatch(setUserState({
-        isConfirmed: false,
-        token: accessToken,
-        userId: id || null,
-        username: username || null,
-        email: email || null,
-        selectedBalance: BalanceType.REAL,
-        demoBalance: 1000,
-      }));
+      dispatch(
+        setUserState({
+          isConfirmed: false,
+          token: accessToken,
+          userId: id || null,
+          username: username || null,
+          email: email || null,
+          selectedBalance: BalanceType.REAL,
+          demoBalance: 1000,
+        })
+      );
 
-      notificationService.info(t('notifications.auth.registerSuccessDescription'));
+      notificationService.info(
+        t('notifications.auth.registerSuccessDescription')
+      );
       notificationService.success(t('notifications.auth.registerSuccess'));
       reset();
-      navigate(Pages.AskToConfirmEmail);      
+      navigate(Pages.AskToConfirmEmail);
     } catch (error: any) {
-      const message = error?.response?.data?.message || t('notifications.auth.registerError');
+      const message =
+        error?.response?.data?.message || t('notifications.auth.registerError');
       console.error('Registration error:', error);
       notificationService.error(message);
     } finally {
@@ -92,7 +103,7 @@ const RegisterForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
       <Controller
-        name="username"
+        name='username'
         control={control}
         rules={userNameValidation}
         render={({ field }) => (
@@ -102,13 +113,13 @@ const RegisterForm: React.FC = () => {
             placeholder={t('auth.username')}
             leftIcon={<FaUser />}
             errorMessage={errors.username?.message}
-            size="medium"
+            size='medium'
           />
         )}
       />
 
       <Controller
-        name="email"
+        name='email'
         control={control}
         rules={emailValidation}
         render={({ field }) => (
@@ -118,14 +129,14 @@ const RegisterForm: React.FC = () => {
             placeholder={t('auth.email')}
             leftIcon={<FaEnvelope />}
             errorMessage={errors.email?.message}
-            size="medium"
-            type="email"
+            size='medium'
+            type='email'
           />
         )}
       />
 
       <Controller
-        name="password"
+        name='password'
         control={control}
         rules={passwordValidation}
         render={({ field }) => (
@@ -135,18 +146,18 @@ const RegisterForm: React.FC = () => {
             placeholder={t('auth.password')}
             leftIcon={<FaLock />}
             errorMessage={errors.password?.message}
-            size="medium"
+            size='medium'
           />
         )}
       />
 
       <Controller
-        name="confirmPassword"
+        name='confirmPassword'
         control={control}
         rules={{
           ...passwordValidation,
-          validate: value =>
-            value === password || t('validation.passwordMatch')
+          validate: (value) =>
+            value === password || t('validation.passwordMatch'),
         }}
         render={({ field }) => (
           <PasswordInput
@@ -155,13 +166,13 @@ const RegisterForm: React.FC = () => {
             placeholder={t('auth.repeatPassword')}
             leftIcon={<FaLock />}
             errorMessage={errors.confirmPassword?.message}
-            size="medium"
+            size='medium'
           />
         )}
       />
 
       <Controller
-        name="agreeToTerms"
+        name='agreeToTerms'
         control={control}
         rules={{ required }}
         render={({ field: { onChange, value, ref } }) => (
@@ -172,23 +183,23 @@ const RegisterForm: React.FC = () => {
             label={
               <span className={s.termsLabel}>
                 {t('auth.agreeToTerms')}
-                <a href="#" className={s.link}>
+                <a href='#' className={s.link}>
                   {t('auth.privacyPolicy')}
                 </a>
               </span>
             }
             error={!!errors.agreeToTerms}
             errorMessage={errors.agreeToTerms?.message}
-            size="medium"
+            size='medium'
           />
         )}
       />
 
       <Button
-        type="submit"
-        variant="yellow"
+        type='submit'
+        variant='yellow'
         fullWidth
-        size="large"
+        size='large'
         className={s.submitButton}
         isLoading={isLoading}
         disabled={isLoading}

@@ -93,7 +93,7 @@ export const router = createBrowserRouter([
         path: Pages.ResetPassword,
         element: <ResetPassword />,
       },
-    ],  
+    ],
   },
   {
     element: <AuthLayout />,
@@ -103,5 +103,5 @@ export const router = createBrowserRouter([
         element: <NotFound />,
       },
     ],
-  }
+  },
 ]);

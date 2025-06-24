@@ -2,9 +2,9 @@
 @import '@/styles/abstracts/mixins';
 
 .dropdown {
-  position: relative;
   @include flex(row, center, center);
-  
+  position: relative;
+
   &.dropdownDisabled {
     .trigger {
       cursor: not-allowed;
@@ -14,9 +14,9 @@
 }
 
 .trigger {
-  cursor: pointer;
   user-select: none;
-  
+  cursor: pointer;
+
   &.disabled {
     cursor: not-allowed;
     opacity: 0.6;
@@ -25,31 +25,32 @@
 }
 
 .content {
+  @include flex(column, center, stretch, nowrap, 5px);
+  padding: 10px;
   position: absolute;
   min-width: 200px;
   background-color: $blue;
   border: 1px solid $border;
-  border-radius: 4px;
+  border-radius: 5px;
   box-shadow: 0 4px 12px rgba($black, 0.15);
   z-index: 10;
   overflow: hidden;
-  
   max-height: 300px;
   overflow-y: auto;
-  
+
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: rgba($white, 0.05);
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: rgba($white, 0.2);
     border-radius: 3px;
   }
-  
+
   &::-webkit-scrollbar-thumb:hover {
     background: rgba($white, 0.3);
   }

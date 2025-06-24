@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
-import s from './styles.module.scss'
+import s from './styles.module.scss';
 import { useAudio } from '@/hooks/useAudio';
+import { SOUND_TYPE, BOMB_OVERLAY_ID } from '@/constants';
 
 export type FlyingBombParams = {
   from: { x: number; y: number };
   to: { x: number; y: number };
   onComplete?: () => void;
-}
+};
 
 interface FlyingBombProps {
   params: FlyingBombParams;
@@ -19,7 +20,13 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
   params,
   withSound = false,
 }) => {
-  const { isMuted, toggleMute, playSound, playBackgroundMusic, stopBackgroundMusic } = useAudio();
+  const {
+    isMuted,
+    toggleMute,
+    playSound,
+    playBackgroundMusic,
+    stopBackgroundMusic,
+  } = useAudio();
   const [explosion, setExplosion] = useState<{
     isActive: boolean;
     position: { x: number; y: number };
@@ -37,7 +44,7 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
       y: from.y,
       rotate: angle,
       scale: 1,
-      opacity: 1
+      opacity: 1,
     },
     animate: {
       x: to.x,
@@ -46,25 +53,25 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
       scale: [1, 1.2, 1, 1.2, 1],
       opacity: [1, 1, 1, 1, 0],
       transition: {
-        type: "spring",
+        type: 'spring',
         duration: 0.8,
         bounce: 0.25,
         scale: {
           duration: 0.8,
           times: [0, 0.25, 0.5, 0.75, 1],
-          repeat: 0
+          repeat: 0,
         },
         opacity: {
           duration: 0.8,
           times: [0, 0.7, 0.8, 0.9, 1],
-          ease: "easeOut"
-        }
-      }
-    }
+          ease: 'easeOut',
+        },
+      },
+    },
   };
 
   useEffect(() => {
-    withSound && !isMuted && playSound('throwBomb');
+    withSound && !isMuted && playSound(SOUND_TYPE.THROW_BOMB);
   }, []);
 
   const explosionVariants = {
@@ -72,7 +79,7 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
       x: to.x,
       y: to.y + 60,
       opacity: 0,
-      scale: 0.5
+      scale: 0.5,
     },
     animate: {
       x: to.x,
@@ -81,16 +88,16 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
       scale: 1.5,
       transition: {
         duration: 0.5,
-        ease: "easeOut"
-      }
-    }
+        ease: 'easeOut',
+      },
+    },
   };
 
   const handleBombAnimationComplete = () => {
-    withSound && !isMuted && playSound('bum');
+    withSound && !isMuted && playSound(SOUND_TYPE.BUM);
     setExplosion({
       isActive: true,
-      position: to
+      position: to,
     });
   };
 
@@ -99,7 +106,7 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
     onComplete?.();
   };
 
-  const bombOverlayElement = document.getElementById('bombOverlay');
+  const bombOverlayElement = document.getElementById(BOMB_OVERLAY_ID);
 
   if (!bombOverlayElement) return null;
 
@@ -107,15 +114,15 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
     <>
       <motion.div
         className={s.wrapper}
-        initial="initial"
-        animate="animate"
+        initial='initial'
+        animate='animate'
         variants={bombVariants}
         onAnimationComplete={handleBombAnimationComplete}
         style={{ rotate: angle }}
       >
         <img
-          src="/imgs/game/bombIcon.svg"
-          alt="Flying bomb"
+          src='/imgs/game/bombIcon.svg'
+          alt='Flying bomb'
           style={{ width: '100%', height: '100%' }}
         />
       </motion.div>
@@ -124,13 +131,13 @@ const FlyingBomb: React.FC<FlyingBombProps> = ({
         {explosion && explosion.isActive && (
           <motion.div
             className={s.explosion}
-            initial="initial"
-            animate="animate"
-            exit="exit"
+            initial='initial'
+            animate='animate'
+            exit='exit'
             variants={explosionVariants}
             onAnimationComplete={handleExplosionComplete}
           >
-            <img src="/imgs/game/bum.svg" alt="Explosion" />
+            <img src='/imgs/game/bum.svg' alt='Explosion' />
           </motion.div>
         )}
       </AnimatePresence>

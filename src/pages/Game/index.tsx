@@ -77,9 +77,8 @@ const Game: React.FC = () => {
     grid,
     multipliers,
     isProcessing,
+    balanceType,
   } = game;
-
-  const isDemo = selectedBalance === BalanceType.DEMO;
 
   const blockActions = () => {
     isActionBlocked.current = true;
@@ -184,7 +183,9 @@ const Game: React.FC = () => {
   const launchBomb = (door: HTMLElement, onComplete: () => void) => {
     // @ts-ignore
     const grandmaWrapper = lottieRef.current?.wrapper as HTMLElement;
+
     if (!grandmaWrapper) return;
+
     const { from, to } = getBombPoints(grandmaWrapper, door);
     const _onComplete = () => {
       setBomb(null);
@@ -214,7 +215,10 @@ const Game: React.FC = () => {
 
     const getStartGame = async () => {
       try {
-        const res = await gameApi.startGame({ bet, bombsCount, isDemo });
+        const res = await gameApi.startGame(
+          { bet, bombsCount },
+          selectedBalance
+        );
         const { data, status } = res;
 
         if (status === 200) {
@@ -242,8 +246,9 @@ const Game: React.FC = () => {
 
     const getStopGame = async () => {
       try {
-        const res = await gameApi.stopGame(level!);
+        const res = await gameApi.stopGame(level!, balanceType);
         const { data, status } = res;
+
         if (status === 200) {
           setStatus(GameStatusFront.STOPPED);
           stopBackgroundMusic();
@@ -292,7 +297,11 @@ const Game: React.FC = () => {
 
     const getOpenDoor = async () => {
       try {
-        const res = await gameApi.openCell(doorLevel + 1, doorCell + 1);
+        const res = await gameApi.openCell(
+          doorLevel + 1,
+          doorCell + 1,
+          balanceType
+        );
         const { data, status } = res;
 
         if (status === 200) {

@@ -2,38 +2,36 @@
 @import '@/styles/abstracts/mixins';
 
 .userCell {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  
+  @include flex(row, center, center, nowrap, 10px);
+
   &.small {
     .avatar {
       width: 28px;
       height: 28px;
     }
-    
+
     .username {
       font-size: $font-size-small;
     }
   }
-  
+
   &.medium {
     .avatar {
       width: 36px;
       height: 36px;
     }
-    
+
     .username {
       font-size: $font-size-medium;
     }
   }
-  
+
   &.large {
     .avatar {
       width: 48px;
       height: 48px;
     }
-    
+
     .username {
       font-size: $font-size-large;
     }
@@ -41,14 +39,12 @@
 }
 
 .avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex(row, center, center);
   flex-shrink: 0;
   border-radius: 50%;
   overflow: hidden;
   background: rgba($blue-dark, 0.5);
-  
+
   img {
     width: 100%;
     height: 100%;

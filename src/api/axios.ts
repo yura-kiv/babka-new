@@ -1,4 +1,8 @@
-import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
+import axios, {
+  type AxiosError,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+} from 'axios';
 import { API_BASE, Pages } from '@/constants';
 import { store } from '@/store';
 import i18n from '@/i18n/config';
@@ -50,7 +54,7 @@ const addLanguageToRequest = (config: InternalAxiosRequestConfig) => {
   } else {
     config.params = { lang: currentLanguage };
   }
-  
+
   return config;
 };
 
@@ -82,11 +86,15 @@ const refreshToken = async (): Promise<string | null> => {
   try {
     const token = getTokenFromStore();
     if (!token) return null;
-    const response = await refreshTokenApi.post<RefreshTokenResponse>('/auth/refresh', {}, {
-      headers: {
-        Authorization: `Bearer ${token}`
+    const response = await refreshTokenApi.post<RefreshTokenResponse>(
+      '/auth/refresh',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
+    );
     const newToken = response.data.data.accessToken;
     store.dispatch(updateUserToken(newToken));
     return newToken;
@@ -151,13 +159,18 @@ const responseInterceptor = (response: AxiosResponse) => response;
 const errorInterceptor = async (error: AxiosError) => {
   if (!error.response) {
     console.error('Network Error', error);
-    return Promise.reject(new Error('Network error. Please check your internet connection.'));
+    return Promise.reject(
+      new Error('Network error. Please check your internet connection.')
+    );
   }
   return Promise.reject(error);
 };
 
 publicApi.interceptors.response.use(responseInterceptor, errorInterceptor);
-refreshTokenApi.interceptors.response.use(responseInterceptor, errorInterceptor);
+refreshTokenApi.interceptors.response.use(
+  responseInterceptor,
+  errorInterceptor
+);
 privateApi.interceptors.response.use(responseInterceptor, errorInterceptor);
 
 export default {

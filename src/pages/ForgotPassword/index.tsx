@@ -12,8 +12,8 @@ import { Pages } from '@/constants';
 import PageTitle from '@/components/ui/PageTitle';
 import {
   password as passwordValidation,
-  email as emailValidation
- } from '@/utils/validations';
+  email as emailValidation,
+} from '@/utils/validations';
 
 type FormData = {
   email: string;
@@ -24,20 +24,26 @@ const ForgotPassword: React.FC = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
     defaultValues: {
-      email: ''
+      email: '',
     },
-    mode: 'onBlur'
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data: FormData) => {
     try {
       setIsSubmitting(true);
       await authApi.forgotPassword(data.email);
-      
-      notificationService.success(t('notifications.auth.forgotPasswordSuccess'));
-      
+
+      notificationService.success(
+        t('notifications.auth.forgotPasswordSuccess')
+      );
+
       setTimeout(() => {
         navigate('/');
       }, 3000);
@@ -51,10 +57,14 @@ const ForgotPassword: React.FC = () => {
 
   return (
     <div className={s.wrapper}>
-      <PageTitle title={t('forgotPassword.title')} as="h1" subtitle={t('forgotPassword.description')} />
+      <PageTitle
+        title={t('forgotPassword.title')}
+        as='h1'
+        subtitle={t('forgotPassword.description')}
+      />
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <Controller
-          name="email"
+          name='email'
           control={control}
           rules={emailValidation}
           render={({ field }) => (
@@ -64,28 +74,24 @@ const ForgotPassword: React.FC = () => {
               placeholder={t('auth.email')}
               leftIcon={<FaEnvelope />}
               errorMessage={errors.email?.message}
-              size="medium"
-              type="email"
+              size='medium'
+              type='email'
             />
           )}
         />
 
         <Button
-          type="submit"
-          variant="yellow"
+          type='submit'
+          variant='yellow'
           fullWidth
-          size="large"
+          size='large'
           className={s.submitButton}
           isLoading={isSubmitting}
         >
           {t('forgotPassword.submit')}
         </Button>
 
-        <Button
-          variant="subtle"
-          to={Pages.Auth}
-          className={s.backButton}
-        >
+        <Button variant='subtle' to={Pages.Auth} className={s.backButton}>
           {t('forgotPassword.backToLogin')}
         </Button>
       </form>

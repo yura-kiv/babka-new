@@ -1,121 +1,72 @@
 @import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
 
 .balance {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    justify-content: flex-end;
+  @include flex(row, center, flex-end, nowrap, 20px);
 }
 
 .right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+  @include flex(column, flex-end, flex-end);
 }
 
 .top {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  @include flex(row, center, center, nowrap, 5px);
 }
 
-.label {
-    font-size: $font-size-medium;
-    font-weight: $font-weight-medium;
-    color: $white;
+.label,
+.value {
+  font-size: $font-size-medium;
+  font-weight: $font-weight-medium;
 }
 
 .value {
-    font-size: $font-size-medium;
-    font-weight: $font-weight-medium;
-    color: $white;
+  &.real {
+    color: $green;
+  }
 
-    &.real {
-        color: $green;
-    }
-
-    &.demo {
-        color: $yellow;
-    }
-}
-
-.dropdownContent {
-    padding: 10px;
-    min-width: 240px;
-}
-
-.balanceOptions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  &.demo {
+    color: $yellow;
+  }
 }
 
 .balanceItem {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-
-    &:hover {
-        background-color: $white-background-hover;
-    }
-
-    &.active {
-        background-color: $white-background-active;
-      }
+  @include flex(row, space-between, center, nowrap, 20px);
 }
 
 .balanceItemLeft {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  @include flex(row, center, center, nowrap, 10px);
 }
 
 .circle {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid $white;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid $white;
 }
 
 .activeCircle {
-    border: 2px solid $green;
-    position: relative;
+  border: 2px solid $green;
+  position: relative;
 
-    &:after {
-        content: '';
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: $green;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+  &:after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: $green;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .balanceValue {
-    font-weight: bold;
-    font-size: 18px;
+  &.real {
+    color: $green;
+  }
 
-    &.real {
-        color: $green;
-    }
-
-    &.demo {
-        color: $yellow;
-    }
-}
-
-.arrow {
-    transition: transform 0.2s;
-}
-
-.open {
-    transform: rotate(180deg);
+  &.demo {
+    color: $yellow;
+  }
 }

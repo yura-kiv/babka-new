@@ -1,5 +1,10 @@
 import { toast } from 'react-toastify';
-import type { ToastOptions, ToastPosition, ToastContent, Theme } from 'react-toastify';
+import type {
+  ToastOptions,
+  ToastPosition,
+  ToastContent,
+  Theme,
+} from 'react-toastify';
 import type { ReactNode } from 'react';
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
@@ -49,7 +54,11 @@ class NotificationService {
     toast.dismiss();
   }
 
-  update(toastId: string | number, message: ReactNode, options?: NotificationOptions): void {
+  update(
+    toastId: string | number,
+    message: ReactNode,
+    options?: NotificationOptions
+  ): void {
     toast.update(toastId, {
       render: message,
       ...options,

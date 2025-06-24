@@ -23,7 +23,7 @@ const ResetPassword: React.FC = () => {
   const location = useLocation();
 
   const [token, setToken] = useState<string>('');
-  
+
   useEffect(() => {
     const tokenFromUrl = new URLSearchParams(location.search).get('token');
     if (tokenFromUrl) {
@@ -34,25 +34,30 @@ const ResetPassword: React.FC = () => {
     }
   }, [location.search]);
 
-  const { control, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    watch,
+  } = useForm<FormData>({
     defaultValues: {
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     },
-    mode: 'onBlur'
+    mode: 'onBlur',
   });
 
   const password = watch('password');
 
   const onSubmit = async (data: FormData) => {
-    try {      
+    try {
       if (!token) {
         notificationService.error('Invalid or missing reset token');
         return;
       }
       await authApi.resetPassword({
         password: data.password,
-        token
+        token,
       });
       notificationService.success(t('notifications.auth.resetPasswordSuccess'));
       setTimeout(() => {
@@ -66,14 +71,14 @@ const ResetPassword: React.FC = () => {
 
   return (
     <div className={s.wrapper}>
-      <PageTitle 
-        title={t('resetPassword.title')} 
-        subtitle={t('resetPassword.description')} 
-        as="h1"
+      <PageTitle
+        title={t('resetPassword.title')}
+        subtitle={t('resetPassword.description')}
+        as='h1'
       />
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <Controller
-          name="password"
+          name='password'
           control={control}
           rules={passwordValidation}
           render={({ field }) => (
@@ -83,18 +88,18 @@ const ResetPassword: React.FC = () => {
               placeholder={t('resetPassword.newPassword')}
               leftIcon={<FaLock />}
               errorMessage={errors.password?.message}
-              size="medium"
+              size='medium'
             />
           )}
         />
 
         <Controller
-          name="confirmPassword"
+          name='confirmPassword'
           control={control}
           rules={{
             ...passwordValidation,
-            validate: value => 
-              value === password || t('validation.passwordMatch')
+            validate: (value) =>
+              value === password || t('validation.passwordMatch'),
           }}
           render={({ field }) => (
             <PasswordInput
@@ -103,26 +108,22 @@ const ResetPassword: React.FC = () => {
               placeholder={t('resetPassword.confirmPassword')}
               leftIcon={<FaLock />}
               errorMessage={errors.confirmPassword?.message}
-              size="medium"
+              size='medium'
             />
           )}
         />
 
         <Button
-          type="submit"
-          variant="yellow"
+          type='submit'
+          variant='yellow'
           fullWidth
-          size="large"
+          size='large'
           isLoading={isSubmitting}
         >
           {t('resetPassword.submit')}
         </Button>
 
-        <Button
-          variant="subtle"
-          to={Pages.Auth}
-          className={s.backButton}
-        >
+        <Button variant='subtle' to={Pages.Auth} className={s.backButton}>
           {t('resetPassword.backToLogin')}
         </Button>
       </form>

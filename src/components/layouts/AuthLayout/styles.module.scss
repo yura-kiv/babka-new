@@ -2,62 +2,58 @@
 @import '@/styles/abstracts/mixins';
 
 .wrapper {
-    @include flex(column, start, stretch);
-    height: 100dvh;
-    gap: 20px;
+  @include flex(column, start, stretch, nowrap, 20px);
+  height: 100dvh;
 }
 
 .header {
-    border-bottom: 1px solid $border;
+  border-bottom: 1px solid $border;
 
-    .content {
-        @include flex(row, space-between, center);
-        gap: 20px;
-        padding: 10px 20px;
-    }
+  .content {
+    @include flex(row, space-between, center, nowrap, 20px);
+    padding: 10px 20px;
+  }
 }
 
 .footer {
-    color: $white;
-    font-size: $font-size-small;
-    border-top: 1px solid $border;
+  color: $white;
+  font-size: $font-size-small;
+  border-top: 1px solid $border;
 
-    .content {
-        @include flex(row, center, center);
-        gap: 10px;
-        padding: 20px;
-    }
+  .content {
+    @include flex(row, center, center, nowrap, 10px);
+    padding: 20px;
+  }
 }
 
 .logo {
-    font-size: $font-size-large;
-    font-weight: $font-weight-medium;
-    letter-spacing: 2px;
+  font-size: $font-size-large;
+  font-weight: $font-weight-medium;
+  letter-spacing: 2px;
 }
 
 .content {
-    @include flex(row, space-between, start);
-    flex: 1 1 0;
-    gap: 20px;
+  @include flex(row, space-between, start, nowrap, 20px);
+  flex: 1 1 0;
 }
 
 .left {
-    flex: 1 1 0;
-    @include flex(column, center, center);
-    align-self: center;
+  flex: 1 1 0;
+  @include flex(column, center, center);
+  align-self: center;
 
-    @include respond-to(md) {
-        display: none;
-    }
+  @include respond-to(md) {
+    display: none;
+  }
 }
 
 .img {
-    height: 60dvh;
-    filter: drop-shadow(0 0 10px rgba($white, 0.2));
+  height: 60dvh;
+  filter: drop-shadow(0 0 10px rgba($white, 0.2));
 }
 
 .right {
-    @include flex(column, start, stretch);
-    flex: 1 1 0;
-    height: 100%;
+  @include flex(column, start, stretch);
+  flex: 1 1 0;
+  height: 100%;
 }

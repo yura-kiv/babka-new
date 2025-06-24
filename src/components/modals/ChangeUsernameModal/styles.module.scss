@@ -2,12 +2,10 @@
 @import '@/styles/abstracts/mixins';
 
 .form {
-  @include flex(column, flex-start, stretch);
-  gap: 20px;
+  @include flex(column, flex-start, stretch, nowrap, 20px);
   width: 100%;
 }
 
 .actions {
-  @include flex(row, flex-end, center);
-  gap: 15px;
+  @include flex(row, flex-end, center, nowrap, 15px);
 }

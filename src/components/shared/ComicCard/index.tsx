@@ -29,19 +29,19 @@ const ComicCard: React.FC<ComicCardProps> = ({
   }, [controls, inView]);
 
   const variants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       x: align === 'center' ? 0 : align === 'left' ? -50 : 50,
-      y: align === 'center' ? 50 : 0
+      y: align === 'center' ? 50 : 0,
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
       y: 0,
-      transition: { 
-        duration: 0.6, 
-        ease: 'easeOut' 
-      } 
+      transition: {
+        duration: 0.6,
+        ease: 'easeOut',
+      },
     },
   };
 
@@ -49,13 +49,13 @@ const ComicCard: React.FC<ComicCardProps> = ({
     <motion.div
       ref={ref}
       className={classNames(s.card, s[align], className)}
-      initial="hidden"
+      initial='hidden'
       animate={controls}
       variants={variants}
     >
       {img && (
         <div className={s.imageContainer}>
-          <img src={img} alt="Comic illustration" className={s.image} />
+          <img src={img} alt='Comic illustration' className={s.image} />
         </div>
       )}
       {text && (
