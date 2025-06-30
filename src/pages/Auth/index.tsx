@@ -1,9 +1,9 @@
 import React from 'react';
-import s from './styles.module.scss';
+import { TabSwitch } from '@/components/ui';
+import { useTranslation } from 'react-i18next';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
-import TabSwitch from '@/components/ui/TabSwitch';
-import { useTranslation } from 'react-i18next';
+import s from './styles.module.scss';
 
 const Auth: React.FC = () => {
   const { t } = useTranslation();

@@ -1,9 +1,8 @@
-import RulesGameAnimation from '@/components/shared/RulesGameAnimation';
-import Checkbox from '@/components/ui/Checkbox';
-import Modal from '@/components/ui/Modal';
-import { useTranslation } from 'react-i18next';
-import s from './styles.module.scss';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { RulesGameAnimation } from '@/components/shared';
+import { Checkbox, Modal } from '@/components/ui';
+import s from './styles.module.scss';
 
 const STORAGE_KEY = 'hideHowToPlayModal';
 

@@ -5,15 +5,14 @@ import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { Pages } from '@/constants';
-import Input, { PasswordInput } from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
-import { notificationService } from '@/services/notification';
-import s from './styles.module.scss';
+import { Input, PasswordInput, Button } from '@/components/ui';
+import { notificationService } from '@/services';
 import { authApi } from '@/api/auth';
 import { setUserState } from '@/store/helpers/actions';
 import { useAppDispatch } from '@/store/hooks';
 import { BalanceType, type DecodedToken } from '@/types';
 import { required, email as emailValidation } from '@/utils/validations';
+import s from './styles.module.scss';
 
 type FormData = {
   email: string;

@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { UIState } from "@/types";
-import audioService from "@/services/audioService";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { UIState } from '@/types';
+import { audioService } from '@/services';
 
 const initialState: UIState = {
   isLoading: false,
@@ -9,7 +9,7 @@ const initialState: UIState = {
 };
 
 const uiSlice = createSlice({
-  name: "ui",
+  name: 'ui',
   initialState,
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -26,8 +26,5 @@ const uiSlice = createSlice({
   },
 });
 
-export const { 
-  setLoading, 
-  setMuted, 
-} = uiSlice.actions;
+export const { setLoading, setMuted } = uiSlice.actions;
 export default uiSlice.reducer;

@@ -1,18 +1,21 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Lottie from 'react-lottie-player';
 import { type AnimationItem } from 'lottie-web';
 import { ANIMATIONS } from '@/constants';
-import s from './styles.module.scss';
-import WidthWrapper from '@/components/ui/WidthWrapper';
-import DoorGrid, { RowState, DoorState } from '@/components/shared/DoorGrid';
-import FlyingBomb, {
-  type FlyingBombParams,
-} from '@/components/shared/FlyingBomb';
 import { getBombPoints } from '@/utils';
-import { useWindowSize } from '@/hooks/useWindowSize';
+import { useWindowSize } from '@/hooks';
 import { BREAKPOINT_SM } from '@/constants';
+import { WidthWrapper } from '@/components/ui';
+import {
+  DoorGrid,
+  RowState,
+  DoorState,
+  FlyingBomb,
+  type FlyingBombParams,
+} from '@/components/shared';
+import s from './styles.module.scss';
 
-const RulesGameAnimation = () => {
+const RulesGameAnimation: React.FC = () => {
   const windowSize = useWindowSize();
   const [doorStates, setDoorStates] = useState<DoorState[]>([
     DoorState.CLOSED,
@@ -29,7 +32,6 @@ const RulesGameAnimation = () => {
   const handleGrandmaAnimationComplete = () => {
     // @ts-ignore
     const grandmaRef = lottieRef.current?.wrapper;
-
     setAnimationStep(1);
     const { from, to } = getBombPoints(grandmaRef!, doorRefs.current[0]!);
     setBomb({ from, to });
@@ -52,6 +54,7 @@ const RulesGameAnimation = () => {
         setBomb({ from, to });
       }, 50);
     }
+
     if (animationStep === 2) {
       setBomb(null);
       setAnimationStep(3);
@@ -65,6 +68,7 @@ const RulesGameAnimation = () => {
         setBomb({ from, to });
       }, 50);
     }
+
     if (animationStep === 3) {
       setBomb(null);
       setAnimationStep(4);
@@ -88,6 +92,7 @@ const RulesGameAnimation = () => {
         });
       }, 1000);
     }
+
     if (animationStep === 5) {
       setTimeout(() => {
         setBomb(null);
@@ -98,6 +103,7 @@ const RulesGameAnimation = () => {
           DoorState.CLOSED,
           DoorState.CLOSED,
         ]);
+
         if (lottieRef.current) {
           setTimeout(() => {
             lottieRef.current?.goToAndPlay(0);
@@ -108,8 +114,6 @@ const RulesGameAnimation = () => {
   }, [animationStep]);
 
   const grandmaSize = windowSize.width < BREAKPOINT_SM ? '40vw' : '200px';
-
-  console.log(lottieRef);
 
   return (
     <WidthWrapper maxWidth={992} noPadding className={s.wrapper}>

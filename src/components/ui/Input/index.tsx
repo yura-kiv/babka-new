@@ -93,7 +93,7 @@ Input.displayName = 'Input';
 
 export interface PasswordInputProps extends Omit<InputProps, 'type'> {}
 
-export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
+const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   (props, ref) => {
     const [showPassword, setShowPassword] = useState(false);
 
@@ -136,4 +136,4 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
 
 PasswordInput.displayName = 'PasswordInput';
 
-export default Input;
+export { Input, PasswordInput };

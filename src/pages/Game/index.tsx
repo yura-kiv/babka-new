@@ -1,42 +1,42 @@
 import React, { useRef, useEffect, useReducer } from 'react';
-import useScroll from '@/hooks/useScroll';
-import { useWindowSize } from '@/hooks/useWindowSize';
 import Lottie from 'react-lottie-player';
 import { type AnimationItem } from 'lottie-web';
 import { useTranslation } from 'react-i18next';
-import ActivePlayersTable from '@/components/shared/ActivePlayersTable';
-import NumberInput from '@/components/ui/NumberInput';
-import Button from '@/components/ui/Button';
-import WidthWrapper from '@/components/ui/WidthWrapper';
-import PlayButton from '@/components/shared/PlayButton';
-import ProgressBar from '@/components/ui/ProgressBar';
-import DoorGrid, { DoorState, RowState } from '@/components/shared/DoorGrid';
-import HowToPlayModal from '@/components/modals/HowToPlayModal';
-import Loader from '@/components/ui/Loader';
-import BombDropdown from './components/BombDropdown';
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
-import { useAudio } from '@/hooks/useAudio';
+import { useAudio, useWindowSize, useScroll } from '@/hooks';
+import { notificationService } from '@/services';
 import { useAppSelector } from '@/store/hooks';
-import { notificationService } from '@/services/notification';
-import { initialGameState, gameReducer, GameActionType } from './utils';
+import { getBombPoints } from '@/utils';
+import { gameApi, multipliersApi } from '@/api';
 import {
   ANIMATIONS_TYPE,
   ANIMATIONS,
   SOUND_TYPE,
   BREAKPOINT_SM,
 } from '@/constants';
-import { getBombPoints } from '@/utils';
-import { gameApi, multipliersApi } from '@/api';
-import FlyingBomb, {
-  type FlyingBombParams,
-} from '@/components/shared/FlyingBomb';
 import {
   getUserBalance,
   getUserToken,
   getUserSelectedBalance,
 } from '@/store/helpers/selectors';
+import { HowToPlayModal } from '@/components/modals';
 import {
-  BalanceType,
+  Button,
+  WidthWrapper,
+  NumberInput,
+  ProgressBar,
+  Loader,
+} from '@/components/ui';
+import {
+  PlayButton,
+  DoorGrid,
+  DoorState,
+  RowState,
+  ActivePlayersTable,
+  FlyingBomb,
+  type FlyingBombParams,
+} from '@/components/shared';
+import {
   CellTypeResponse,
   GameResultResponse,
   GameStatusFront,
@@ -46,6 +46,8 @@ import {
   type MultipliersResponse,
   type RowNumber,
 } from '@/types';
+import { initialGameState, gameReducer, GameActionType } from './utils';
+import BombDropdown from './components/BombDropdown';
 
 import s from './styles.module.scss';
 

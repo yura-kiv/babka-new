@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button, WidthWrapper, Divider } from '@/components/ui';
+import {
+  PrivacyPolicyModal,
+  TermsAndConditionsModal,
+} from '@/components/modals';
 import s from './styles.module.scss';
-import Button from '@/components/ui/Button';
-import WidthWrapper from '@/components/ui/WidthWrapper';
-import Divider from '@/components/ui/Divider';
-import PrivacyPolicyModal from '@/components/modals/PrivacyPolicyModal';
-import TermsAndConditionsModal from '@/components/modals/TermsAndConditionsModal';
 
 const marks = [
   {

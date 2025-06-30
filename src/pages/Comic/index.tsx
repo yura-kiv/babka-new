@@ -1,11 +1,12 @@
-import WidthWrapper from '@/components/ui/WidthWrapper';
-import PageTitle from '@/components/ui/PageTitle';
 import { useTranslation } from 'react-i18next';
-import ComicCard from '@/components/shared/ComicCard';
-import s from './styles.module.scss';
-import PlayButton from '@/components/shared/PlayButton';
 import { Pages } from '@/constants';
-import { type ComicCardProps } from '@/components/shared/ComicCard';
+import { WidthWrapper, PageTitle } from '@/components/ui';
+import {
+  PlayButton,
+  ComicCard,
+  type ComicCardProps,
+} from '@/components/shared';
+import s from './styles.module.scss';
 
 const cards: ComicCardProps[] = [
   {

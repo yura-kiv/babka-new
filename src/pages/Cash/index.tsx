@@ -1,9 +1,6 @@
-import WidthWrapper from '@/components/ui/WidthWrapper';
-import PageTitle from '@/components/ui/PageTitle';
 import { useTranslation } from 'react-i18next';
-import Divider from '@/components/ui/Divider';
+import { Table, Divider, PageTitle, WidthWrapper } from '@/components/ui';
 import s from './styles.module.scss';
-import Table from '@/components/ui/Table';
 
 const paymentHistory = [
   {

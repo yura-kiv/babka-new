@@ -185,4 +185,5 @@ class AudioService {
 }
 
 const audioService = new AudioService();
+
 export default audioService;

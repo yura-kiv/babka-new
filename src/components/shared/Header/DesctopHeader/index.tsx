@@ -1,14 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-
-import s from './styles.module.scss';
-import Button from '@/components/ui/Button';
 import { Pages } from '@/constants';
-import WidthWrapper from '@/components/ui/WidthWrapper';
-import LanguageSwitcher from '@/components/shared/LanguageSwitcher';
-import Balance from '@/components/shared/Balance';
-import UserMenu from '@/components/shared/Header/UserMenu';
+import { Button, WidthWrapper } from '@/components/ui';
+import { Balance, LanguageSwitcher } from '@/components/shared';
+import UserMenu from '../UserMenu';
+import s from './styles.module.scss';
 
 const navigation = [
   {

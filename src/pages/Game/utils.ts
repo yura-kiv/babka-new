@@ -1,7 +1,6 @@
-import { DoorState } from '@/components/shared/DoorGrid';
 import { type AnimationSegment } from 'lottie-web';
+import { DoorState, type FlyingBombParams } from '@/components/shared';
 import { ANIMATIONS_TYPE } from '@/constants';
-import { type FlyingBombParams } from '@/components/shared/FlyingBomb';
 import {
   type MultipliersResponse,
   type BombsCount,

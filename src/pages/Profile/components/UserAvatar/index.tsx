@@ -1,14 +1,14 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { FaCamera } from 'react-icons/fa';
 import type { AppDispatch } from '@/store';
-import s from './styles.module.scss';
-import Button from '@/components/ui/Button';
-import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui';
 import classNames from 'classnames';
 import { userApi } from '@/api/user';
-import { notificationService } from '@/services/notification';
+import { notificationService } from '@/services';
 import { setUserState } from '@/store/helpers/actions';
+import s from './styles.module.scss';
 
 interface UserAvatarProps {
   avatarUrl: string | null;

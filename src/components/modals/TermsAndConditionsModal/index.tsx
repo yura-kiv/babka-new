@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Modal from '@/components/ui/Modal';
+import { Modal } from '@/components/ui';
 import s from './styles.module.scss';
 
 interface TermsAndConditionsModalProps {

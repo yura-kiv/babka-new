@@ -21,6 +21,38 @@ const AccessGuard: React.FC<AccessGuardProps> = ({
   const isToken = useAppSelector(getUserToken);
   const isConfirmed = useAppSelector(getUserIsConfirmed);
 
+  if (withAuth && withoutAuth) {
+    console.error(
+      'AccessGuard: Conflicting conditions - withAuth and withoutAuth cannot be used together'
+    );
+    return <Navigate to={Pages.Home} replace />;
+  }
+
+  if (withConfirmed && withoutConfirmed) {
+    console.error(
+      'AccessGuard: Conflicting conditions - withConfirmed and withoutConfirmed cannot be used together'
+    );
+    return <Navigate to={Pages.Home} replace />;
+  }
+
+  if (withAuth && !isToken) {
+    return <Navigate to={Pages.Auth} replace state={{ from: location }} />;
+  }
+
+  if (withoutAuth && isToken) {
+    return <Navigate to={Pages.Home} replace />;
+  }
+
+  if (isToken) {
+    if (withConfirmed && !isConfirmed) {
+      return <Navigate to={Pages.AskToConfirmEmail} replace />;
+    }
+
+    if (withoutConfirmed && isConfirmed) {
+      return <Navigate to={Pages.Home} replace />;
+    }
+  }
+
   return <Outlet />;
 };
 

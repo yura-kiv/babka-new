@@ -3,10 +3,8 @@ import classNames from 'classnames';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import type { Swiper as SwiperInstance } from 'swiper';
-
 // @ts-ignore
 import 'swiper/css';
-
 import s from './styles.module.scss';
 
 const slides = [

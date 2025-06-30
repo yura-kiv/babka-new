@@ -1,11 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Dropdown from '@/components/ui/Dropdown';
-import classNames from 'classnames';
-import { FaChevronDown } from 'react-icons/fa';
+import { Dropdown } from '@/components/ui';
+import { type BombsCount } from '@/types';
 import s from './styles.module.scss';
-import Button from '@/components/ui/Button';
-import type { BombsCount } from '@/types';
 
 interface BombDropdownProps {
   value: BombsCount;

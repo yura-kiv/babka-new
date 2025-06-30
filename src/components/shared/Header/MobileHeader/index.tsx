@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { Pages } from '@/constants';
-import LanguageSwitcher from '@/components/shared/LanguageSwitcher';
-import Balance from '@/components/shared/Balance';
-import Button from '@/components/ui/Button';
-import UserMenu from '@/components/shared/Header/UserMenu';
-import s from './styles.module.scss';
-import Divider from '@/components/ui/Divider';
-import classNames from 'classnames';
+import { Button, Divider } from '@/components/ui';
+import { Balance, LanguageSwitcher } from '@/components/shared';
 import { useAppSelector } from '@/store/hooks';
 import { getUserToken } from '@/store/helpers/selectors';
+import UserMenu from '../UserMenu';
+
+import s from './styles.module.scss';
 
 const navigation = [
   {

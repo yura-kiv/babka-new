@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui';
 import { Pages } from '@/constants';
 import s from './styles.module.scss';
 

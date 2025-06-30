@@ -1,13 +1,12 @@
-import { Pages } from '@/constants';
-import Button from '@/components/ui/Button';
 import { useTranslation } from 'react-i18next';
-import Dropdown from '@/components/ui/Dropdown';
 import classNames from 'classnames';
-import s from './styles.module.scss';
+import { Pages } from '@/constants';
+import { Button, Dropdown } from '@/components/ui';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { getUser } from '@/store/helpers/selectors';
 import { changeSelectedBalance } from '@/store/helpers/actions';
 import { BalanceType } from '@/types';
+import s from './styles.module.scss';
 
 interface BalanceOption {
   id: BalanceType;

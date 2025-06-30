@@ -1,10 +1,7 @@
-import { useEffect } from 'react';
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import Header from '@/components/shared/Header';
-import Footer from '@/components/shared/Footer';
-import useScroll from '@/hooks/useScroll';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, Outlet } from 'react-router-dom';
+import { useScroll } from '@/hooks';
+import { Header, Footer } from '@/components/shared';
 
 const MainLayout: React.FC = () => {
   const { scrollToTop } = useScroll();

@@ -2,13 +2,9 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
-import Input from '@/components/ui/Input';
-import { PasswordInput } from '@/components/ui/Input';
-import Checkbox from '@/components/ui/Checkbox';
-import Button from '@/components/ui/Button';
+import { Input, PasswordInput, Checkbox, Button } from '@/components/ui';
 import { authApi } from '@/api/auth';
-import { notificationService } from '@/services/notification';
-import s from './styles.module.scss';
+import { notificationService } from '@/services';
 import { jwtDecode } from 'jwt-decode';
 import type { DecodedToken } from '@/types';
 import { useAppDispatch } from '@/store/hooks';
@@ -22,6 +18,7 @@ import {
   email as emailValidation,
   userName as userNameValidation,
 } from '@/utils/validations';
+import s from './styles.module.scss';
 
 type FormData = {
   username: string;

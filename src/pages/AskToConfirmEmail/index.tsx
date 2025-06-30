@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import s from './styles.module.scss';
-import Button from '@/components/ui/Button';
+import { Button, PageTitle, WidthWrapper } from '@/components/ui';
 import { authApi } from '@/api/auth';
-import { notificationService } from '@/services/notification';
-import WidthWrapper from '@/components/ui/WidthWrapper';
+import { notificationService } from '@/services';
 import { FaEnvelope } from 'react-icons/fa';
-import PageTitle from '@/components/ui/PageTitle';
+import s from './styles.module.scss';
 
 const AskToConfirmEmail: React.FC = () => {
   const { t } = useTranslation();

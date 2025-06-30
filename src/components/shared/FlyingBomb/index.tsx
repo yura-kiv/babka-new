@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
-import s from './styles.module.scss';
-import { useAudio } from '@/hooks/useAudio';
+import { useAudio } from '@/hooks';
 import { SOUND_TYPE, BOMB_OVERLAY_ID } from '@/constants';
+import s from './styles.module.scss';
 
 export type FlyingBombParams = {
   from: { x: number; y: number };

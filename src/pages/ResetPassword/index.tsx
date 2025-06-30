@@ -3,14 +3,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import { FaLock } from 'react-icons/fa';
-import { PasswordInput } from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
-import PageTitle from '@/components/ui/PageTitle';
+import { PageTitle, Button, PasswordInput } from '@/components/ui';
 import { authApi } from '@/api/auth';
-import { notificationService } from '@/services/notification';
+import { notificationService } from '@/services';
 import { Pages } from '@/constants';
-import s from './styles.module.scss';
 import { password as passwordValidation } from '@/utils/validations';
+import s from './styles.module.scss';
 
 type FormData = {
   password: string;

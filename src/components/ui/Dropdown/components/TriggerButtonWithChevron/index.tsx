@@ -1,7 +1,7 @@
 import React from 'react';
-import Button, { type ButtonProps } from '@/components/ui/Button';
-import { FaChevronDown } from 'react-icons/fa';
 import classNames from 'classnames';
+import { Button, type ButtonProps } from '@/components/ui';
+import { FaChevronDown } from 'react-icons/fa';
 import s from './styles.module.scss';
 
 const TriggerButtonWithChevron: React.FC<ButtonProps & { isOpen: boolean }> = ({

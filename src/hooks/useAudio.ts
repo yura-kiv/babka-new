@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
-import audioService from '@/services/audioService';
+import { audioService } from '@/services';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { getUiState } from '@/store/helpers/selectors';
 import { setUiMuted } from '@/store/helpers/actions';
 import { SOUND_TYPE } from '@/constants';
 
-export const useAudio = () => {
+const useAudio = () => {
   const dispatch = useAppDispatch();
   const { isMuted } = useAppSelector(getUiState);
 
@@ -69,3 +69,5 @@ export const useAudio = () => {
       audioService.getCurrentBackgroundMusic.bind(audioService),
   };
 };
+
+export default useAudio;

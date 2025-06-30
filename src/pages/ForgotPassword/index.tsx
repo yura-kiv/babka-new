@@ -3,17 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import { FaEnvelope } from 'react-icons/fa';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
+import { Input, Button, PageTitle } from '@/components/ui';
 import { authApi } from '@/api/auth';
-import { notificationService } from '@/services/notification';
-import s from './styles.module.scss';
+import { notificationService } from '@/services';
 import { Pages } from '@/constants';
-import PageTitle from '@/components/ui/PageTitle';
-import {
-  password as passwordValidation,
-  email as emailValidation,
-} from '@/utils/validations';
+import { email as emailValidation } from '@/utils/validations';
+import s from './styles.module.scss';
 
 type FormData = {
   email: string;
@@ -61,7 +56,6 @@ const ForgotPassword: React.FC = () => {
         title={t('forgotPassword.title')}
         as='h1'
         subtitle={t('forgotPassword.description')}
-        removeOffset
       />
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <Controller

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, memo } from 'react';
-import s from './styles.module.scss';
-import { useTranslation } from 'react-i18next';
-import Table from '@/components/ui/Table';
-import UserAvatar from '@/components/ui/UserAvatar';
-import PulseCircle from '@/assets/icons/onlineCircle.svg';
-import { userNames, userAvatars } from '@/constants';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
+import { Table, UserAvatar } from '@/components/ui';
+import { userNames, userAvatars } from '@/constants';
+import PulseCircle from '@/assets/icons/onlineCircle.svg';
+import s from './styles.module.scss';
+
+const FIXED_ROW_COUNT = 10;
 
 type PlayerStatus = 'active' | 'lost' | 'pending';
 
@@ -69,7 +70,7 @@ type Props = {
 const ActivePlayersTable: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
   const [rows, setRows] = useState<PlayerData[]>(() =>
-    Array.from({ length: 10 }, createRow)
+    Array.from({ length: FIXED_ROW_COUNT }, createRow)
   );
 
   useEffect(() => {
@@ -77,26 +78,30 @@ const ActivePlayersTable: React.FC<Props> = ({ className }) => {
 
     function update() {
       setRows((prevRows) => {
-        const filtered = prevRows.filter((row) => row.status !== 'lost');
-        const newRows = [...filtered];
+        let newRows = [...prevRows];
 
-        const added = Array.from(
-          { length: prevRows.length - filtered.length },
-          createRow
-        );
-        newRows.push(...added);
+        const randomIndex = Math.floor(Math.random() * FIXED_ROW_COUNT);
+        const updatedRow = createRow();
+        newRows[randomIndex] = updatedRow;
 
-        if (newRows.length > 0) {
-          const randomIndex = Math.floor(Math.random() * newRows.length);
-          const updatedRow = createRow();
-          newRows[randomIndex] = { ...newRows[randomIndex], ...updatedRow };
-        }
+        const lostIndices = newRows.reduce((indices, row, index) => {
+          if (row.status === 'lost') indices.push(index);
+          return indices;
+        }, [] as number[]);
 
-        return [...newRows].sort((a, b) => {
-          if (a.status === 'pending' && b.status !== 'pending') return 1;
-          if (a.status !== 'pending' && b.status === 'pending') return -1;
-          return b.spent - a.spent;
+        lostIndices.forEach((index) => {
+          if (index !== randomIndex) {
+            newRows[index] = createRow();
+          }
         });
+
+        return [...newRows]
+          .sort((a, b) => {
+            if (a.status === 'pending' && b.status !== 'pending') return 1;
+            if (a.status !== 'pending' && b.status === 'pending') return -1;
+            return b.spent - a.spent;
+          })
+          .slice(0, FIXED_ROW_COUNT);
       });
 
       if (!isCancelled) {

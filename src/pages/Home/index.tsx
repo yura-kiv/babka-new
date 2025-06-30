@@ -1,12 +1,15 @@
 import React from 'react';
-import HomeSwiper from '@/components/shared/HomeSwiper';
-import TopPlayersButton from '@/components/shared/TopPlayersButton';
-import HowToPlayButton from '@/components/shared/HowToPlayButton';
-import PlayButton from '@/components/shared/PlayButton';
-import s from './styles.module.scss';
-import WidthWrapper from '@/components/ui/WidthWrapper';
-import ActivePlayersTable from '@/components/shared/ActivePlayersTable';
 import { Pages } from '@/constants';
+import { WidthWrapper } from '@/components/ui';
+import {
+  HomeSwiper,
+  TopPlayersButton,
+  HowToPlayButton,
+  PlayButton,
+  ActivePlayersTable,
+} from '@/components/shared';
+
+import s from './styles.module.scss';
 
 const Home: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Dropdown, { type DropdownProps } from '@/components/ui/Dropdown';
+import { Dropdown, type DropdownProps } from '@/components/ui';
 
 import ukFlagSrc from '@/assets/icons/ukFlag.svg';
 import uaFlagSrc from '@/assets/icons/uaFlag.svg';

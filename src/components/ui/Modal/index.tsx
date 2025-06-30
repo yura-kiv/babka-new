@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { FaTimes } from 'react-icons/fa';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui';
 import classNames from 'classnames';
 import s from './Modal.module.scss';
 

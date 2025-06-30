@@ -1,13 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FaDoorOpen, FaSignOutAlt } from 'react-icons/fa';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui';
 import { Pages } from '@/constants';
 import s from './styles.module.scss';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { getUser } from '@/store/helpers/selectors';
 import { logoutUser } from '@/store/helpers/actions';
-import { useNavigate } from 'react-router-dom';
 
 interface UserMenuProps {
   onLogout?: () => void;

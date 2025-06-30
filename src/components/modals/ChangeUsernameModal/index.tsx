@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import Modal from '@/components/ui/Modal';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
-import s from './styles.module.scss';
+import { Modal, Input, Button } from '@/components/ui';
 import { FaUser } from 'react-icons/fa';
 import { userApi } from '@/api';
-import { notificationService } from '@/services/notification';
+import { notificationService } from '@/services';
 import { setUserState } from '@/store/helpers/actions';
 import { useAppDispatch } from '@/store/hooks';
 import { userName as userNameValidation } from '@/utils/validations';
+import s from './styles.module.scss';
 
 interface ChangeUsernameModalProps {
   isOpen: boolean;

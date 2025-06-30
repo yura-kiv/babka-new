@@ -1,7 +1,7 @@
-import PageTitle from '@/components/ui/PageTitle';
-import WidthWrapper from '@/components/ui/WidthWrapper';
 import { useTranslation } from 'react-i18next';
-import RulesGameAnimation from '@/components/shared/RulesGameAnimation';
+import { WidthWrapper, PageTitle } from '@/components/ui';
+import { RulesGameAnimation } from '@/components/shared';
+
 import s from './styles.module.scss';
 
 const Rules: React.FC = () => {

@@ -1,11 +1,10 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import WidthWrapper from '@/components/ui/WidthWrapper';
-import Button from '@/components/ui/Button';
-import LanguageSwitcher from '@/components/shared/LanguageSwitcher';
-import { Pages } from '@/constants';
-import s from './styles.module.scss';
 import { Outlet } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Pages } from '@/constants';
+import { Button, WidthWrapper } from '@/components/ui';
+import { LanguageSwitcher } from '@/components/shared';
+import s from './styles.module.scss';
 
 interface AuthLayoutProps {}
 

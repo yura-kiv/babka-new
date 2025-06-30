@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import WidthWrapper from '@/components/ui/WidthWrapper';
-import PageTitle from '@/components/ui/PageTitle';
-import Button from '@/components/ui/Button';
-import ChangeUsernameModal from '@/components/modals/ChangeUsernameModal';
+import { WidthWrapper, PageTitle, Button } from '@/components/ui';
+import { ChangeUsernameModal } from '@/components/modals';
 import UserAvatar from './components/UserAvatar';
-import s from './styles.module.scss';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { useAppSelector } from '@/store/hooks';
 import { getUser } from '@/store/helpers/selectors';
 import { authApi } from '@/api/auth';
-import { notificationService } from '@/services/notification';
+import { notificationService } from '@/services';
+import s from './styles.module.scss';
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
