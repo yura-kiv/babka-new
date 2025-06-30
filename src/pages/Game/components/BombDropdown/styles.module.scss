@@ -15,15 +15,6 @@
   &.open {
     border: 1px solid $yellow;
     background-color: $white-background-hover;
-
-    .chevron {
-      rotate: 180deg;
-    }
-  }
-
-  .chevron {
-    flex-shrink: 0;
-    transition: rotate 0.2s ease;
   }
 }
 
@@ -39,16 +30,5 @@
 
 .option {
   @include flex(row, start, center, nowrap, 15px);
-  padding: 10px 15px;
-  cursor: pointer;
   font-size: $font-size-medium;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: $white-background-hover;
-  }
-
-  &.active {
-    background-color: $white-background-active;
-  }
 }

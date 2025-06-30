@@ -2,7 +2,7 @@
 @import '@/styles/abstracts/mixins';
 
 .wrapper {
-  @include flex(column, flex-start, center, nowrap, 15px);
+  @include flex(column, start, center, nowrap, 15px);
 }
 
 .changeAvatarButton {

@@ -28,7 +28,7 @@ const TabSwitch: React.FC<TabSwitchProps> = ({
   fullWidth = false,
 }) => {
   return (
-    <div 
+    <div
       className={classNames(
         s.tabSwitch,
         s[size],
@@ -41,10 +41,9 @@ const TabSwitch: React.FC<TabSwitchProps> = ({
         {options.map((option) => (
           <div
             key={option.id}
-            className={classNames(
-              s.tabItem,
-              { [s.active]: activeId === option.id }
-            )}
+            className={classNames(s.tabItem, {
+              [s.active]: activeId === option.id,
+            })}
             onClick={() => onChange(option.id)}
           >
             {option.label}

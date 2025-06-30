@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './styles.module.scss';
+import classNames from 'classnames';
 
 interface UserAvatarProps {
   name: string;
@@ -15,7 +16,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   size = 'medium',
 }) => {
   return (
-    <div className={`${s.userCell} ${s[size]} ${className}`}>
+    <div className={classNames(s.user, s[size], className)}>
       <div className={s.avatar}>
         <img src={avatar} alt={name} />
       </div>

@@ -38,7 +38,7 @@ const AskToConfirmEmail: React.FC = () => {
   return (
     <WidthWrapper className={s.wrapper}>
       <FaEnvelope size={50} className={s.icon} />
-      <PageTitle title={t('emailConfirmation.title')} />
+      <PageTitle title={t('emailConfirmation.title')} removeOffset />
 
       <div className={s.text}>
         <p className={s.description}>{t('emailConfirmation.description')}</p>

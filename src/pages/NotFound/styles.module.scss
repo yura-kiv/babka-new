@@ -3,7 +3,7 @@
 
 .wrapper {
   flex: 1 1 0;
-  @include flex(column, center, center);
+  @include flex(column, center, center, nowrap, 40px);
 }
 
 .title {
@@ -19,5 +19,4 @@
   font-size: $font-size-medium;
   color: $white;
   text-align: center;
-  margin-bottom: 20px;
 }

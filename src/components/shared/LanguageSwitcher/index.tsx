@@ -25,13 +25,13 @@ const languages: Language[] = [
   {
     code: 'uk',
     shortName: 'Ua',
-    name: 'Ukrainian',
+    name: 'Українська',
     flag: uaFlagSrc,
   },
   {
     code: 'ru',
     shortName: 'Ru',
-    name: 'Russian',
+    name: 'Русский',
     flag: ruFlagSrc,
   },
 ];

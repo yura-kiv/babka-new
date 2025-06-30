@@ -14,7 +14,7 @@
 }
 
 .modal {
-  @include flex(column, center, center);
+  @include flex(column, stretch, stretch);
   background-color: $blue;
   border-radius: 10px;
   border: 1px solid $border;

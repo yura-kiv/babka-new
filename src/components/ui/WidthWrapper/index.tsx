@@ -13,27 +13,29 @@ interface WidthWrapperProps {
   as?: React.ElementType;
 }
 
-const WidthWrapper: React.FC<WidthWrapperProps> = ({ 
-  children, 
+const WidthWrapper: React.FC<WidthWrapperProps> = ({
+  children,
   className = '',
   noPadding = false,
   fullHeight = false,
   centered = false,
   maxWidth,
   relative = false,
-  as: Component = 'div'
+  as: Component = 'div',
 }) => {
-  const style = maxWidth ? { maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth } : {};
-  
+  const style = maxWidth
+    ? { maxWidth: typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth }
+    : {};
+
   return (
-    <Component 
+    <Component
       className={classNames(
         s.widthWrapper,
         {
           [s.noPadding]: noPadding,
           [s.fullHeight]: fullHeight,
           [s.centered]: centered,
-          [s.relative]: relative
+          [s.relative]: relative,
         },
         className
       )}

@@ -8,7 +8,6 @@ export interface LoaderProps {
   children?: ReactNode;
   type?: 'fixed' | 'absolute' | 'replace';
   size?: 'small' | 'medium' | 'large';
-  className?: string;
   containerClassName?: string;
 }
 
@@ -17,7 +16,6 @@ const Loader: React.FC<LoaderProps> = ({
   children,
   type = 'absolute',
   size = 'medium',
-  className,
   containerClassName,
 }) => {
   const { t } = useTranslation();

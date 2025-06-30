@@ -75,6 +75,7 @@ const ResetPassword: React.FC = () => {
         title={t('resetPassword.title')}
         subtitle={t('resetPassword.description')}
         as='h1'
+        removeOffset
       />
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <Controller

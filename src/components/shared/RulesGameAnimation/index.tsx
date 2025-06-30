@@ -9,8 +9,11 @@ import FlyingBomb, {
   type FlyingBombParams,
 } from '@/components/shared/FlyingBomb';
 import { getBombPoints } from '@/utils';
+import { useWindowSize } from '@/hooks/useWindowSize';
+import { BREAKPOINT_SM } from '@/constants';
 
 const RulesGameAnimation = () => {
+  const windowSize = useWindowSize();
   const [doorStates, setDoorStates] = useState<DoorState[]>([
     DoorState.CLOSED,
     DoorState.CLOSED,
@@ -104,22 +107,24 @@ const RulesGameAnimation = () => {
     }
   }, [animationStep]);
 
+  const grandmaSize = windowSize.width < BREAKPOINT_SM ? '40vw' : '200px';
+
+  console.log(lottieRef);
+
   return (
     <WidthWrapper maxWidth={992} noPadding className={s.wrapper}>
       <DoorGrid>
         {[[0, 1, 2, 3]].map((row, rowIndex) => (
           <DoorGrid.Row key={`row-${rowIndex}`} state={RowState.DEMO}>
             {row.map((cellId) => (
-              <div
+              <DoorGrid.Door
                 key={`cell-${cellId}`}
-                className={s.doorWrapper}
+                state={doorStates[cellId]}
                 ref={(ref: HTMLDivElement | null) => {
                   doorRefs.current[cellId] = ref;
                   return undefined;
                 }}
-              >
-                <DoorGrid.Door state={doorStates[cellId]} />
-              </div>
+              />
             ))}
           </DoorGrid.Row>
         ))}
@@ -128,7 +133,7 @@ const RulesGameAnimation = () => {
       <Lottie
         ref={lottieRef}
         path={ANIMATIONS.GRANDMA}
-        style={{ height: '220px', width: '220px', margin: '0 auto' }}
+        style={{ height: grandmaSize, width: grandmaSize, margin: '0 auto' }}
         loop={false}
         onComplete={handleGrandmaAnimationComplete}
         play

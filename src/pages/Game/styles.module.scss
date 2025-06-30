@@ -5,6 +5,15 @@
   position: relative;
 }
 
+.gameWrapper {
+  position: relative;
+
+  .loaderContainer {
+    left: -10px;
+    right: -10px;
+  }
+}
+
 .top {
   @include flex(row, space-between, center);
   width: 100%;
@@ -12,11 +21,11 @@
   border: 1px solid $border;
   border-radius: 20px;
   padding: 15px;
+  margin-bottom: 30px;
 
   .label {
     font-size: $font-size-medium;
     font-weight: $font-weight-medium;
-    color: $white;
     white-space: nowrap;
   }
 
@@ -26,7 +35,6 @@
     .count {
       font-size: $font-size-xlarge;
       font-weight: $font-weight-medium;
-      color: $white;
     }
 
     .bomb {
@@ -51,13 +59,17 @@
 .prize {
   @include flex(row, space-between, center, nowrap, 20px);
   padding: 0 15px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 
   .left {
     @include flex(row, space-between, center, nowrap, 20px);
 
     .chest {
-      width: 110px;
+      width: 112px;
+
+      @include respond-to(sm) {
+        width: 88px;
+      }
     }
 
     .prizeValue {
@@ -72,7 +84,6 @@
       .value {
         font-size: $font-size-large;
         font-weight: $font-weight-medium;
-        color: $white;
       }
     }
   }
@@ -86,6 +97,7 @@
   border: 1px solid $border;
   padding: 15px;
   border-radius: 20px;
+  margin-bottom: 30px;
 
   @include respond-to(md) {
     grid-template-columns: repeat(1, 1fr);
@@ -94,72 +106,57 @@
 
 .wonOverlay,
 .lostOverlay,
-.startGame {
+.startGameOverlay {
   @include flex(column, center, center, nowrap);
   position: absolute;
   top: -10px;
   bottom: -10px;
-  left: 0px;
-  right: 0px;
+  left: -10px;
+  right: -10px;
   backdrop-filter: blur(2px);
   opacity: 0;
   animation: fadeIn 0.5s ease-in forwards;
   animation-delay: 1.5s;
+
+  .label {
+    font-size: $font-size-xxlarge;
+    font-weight: $font-weight-bold;
+    letter-spacing: 2px;
+    transform-origin: center;
+    text-align: center;
+    text-shadow: 0 5px 10px rgba($white, 0.6);
+    animation: floatingText 2s ease-in-out infinite;
+
+    @include respond-to(sm) {
+      font-size: $font-size-xlarge;
+    }
+  }
 }
 
-.startGame {
+.startGameOverlay {
   animation-delay: 0s;
 }
 
 .lostOverlay {
   .label {
-    font-size: $font-size-xxlarge;
-    font-weight: $font-weight-bold;
     color: $red;
-    text-shadow: 0 0 5px rgba($red, 0.7), 0 0 10px rgba($red, 0.5),
-      0 0 15px rgba(white, 0.3), 0 0 20px rgba($red, 0.3);
-    letter-spacing: 2px;
-    animation: floatingText 2s ease-in-out infinite;
     background: linear-gradient(to bottom, lighten($red, 10%), $red);
     background-clip: text;
     -webkit-background-clip: text;
-    transform-origin: center;
-    text-align: center;
   }
 }
 
-.wonOverlay {
+.wonOverlay,
+.startGameOverlay {
   .label {
-    font-size: $font-size-xxlarge;
-    font-weight: $font-weight-bold;
     color: $green;
-    text-shadow: 0 0 5px rgba($green, 0.7), 0 0 10px rgba($green, 0.5),
-      0 0 15px rgba(white, 0.3), 0 0 20px rgba($green, 0.3);
-    letter-spacing: 2px;
-    animation: floatingText 2s ease-in-out infinite;
     background: linear-gradient(to bottom, lighten($green, 10%), $green);
     background-clip: text;
     -webkit-background-clip: text;
-    transform-origin: center;
-    text-align: center;
   }
 }
 
-.startGame {
-  .label {
-    font-size: $font-size-xxlarge;
-    font-weight: $font-weight-bold;
-    color: $green;
-    text-shadow: 0 0 5px rgba($green, 0.7), 0 0 10px rgba($green, 0.5),
-      0 0 15px rgba(white, 0.3), 0 0 20px rgba($green, 0.3);
-    letter-spacing: 2px;
-    animation: floatingText 2s ease-in-out infinite;
-    background: linear-gradient(to bottom, lighten($green, 10%), $green);
-    background-clip: text;
-    -webkit-background-clip: text;
-    transform-origin: center;
-    text-align: center;
-  }
+.activePlayersTable {
 }
 
 @keyframes fadeIn {
@@ -179,7 +176,4 @@
   50% {
     transform: translateY(-10px);
   }
-}
-
-.activePlayersTable {
 }

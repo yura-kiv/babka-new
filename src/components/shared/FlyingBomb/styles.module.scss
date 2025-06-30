@@ -1,4 +1,5 @@
 @import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
 
 .wrapper {
   position: absolute;
@@ -8,6 +9,13 @@
   height: 40px;
   filter: drop-shadow(0 0 5px $red-lighter);
 
+  @include respond-to(sm) {
+    width: 35px;
+    height: 35px;
+    top: -17px;
+    left: -17px;
+  }
+
   img {
     width: 100%;
     height: 100%;
@@ -16,12 +24,19 @@
 }
 
 .explosion {
-  position: absolute ;
+  position: absolute;
   top: -80px;
   left: -40px;
   width: 80px;
   height: 80px;
-  
+
+  @include respond-to(sm) {
+    width: 60px;
+    height: 60px;
+    top: -60px;
+    left: -30px;
+  }
+
   img {
     width: 100%;
     height: 100%;

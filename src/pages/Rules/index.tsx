@@ -1,7 +1,6 @@
 import PageTitle from '@/components/ui/PageTitle';
 import WidthWrapper from '@/components/ui/WidthWrapper';
 import { useTranslation } from 'react-i18next';
-import DoorGrid from '@/components/shared/DoorGrid';
 import RulesGameAnimation from '@/components/shared/RulesGameAnimation';
 import s from './styles.module.scss';
 
@@ -9,7 +8,7 @@ const Rules: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <WidthWrapper>
+    <WidthWrapper className={s.wrapper}>
       <PageTitle
         title={t('gameRules')}
         subtitle={t('generalRules')}

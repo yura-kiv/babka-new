@@ -2,6 +2,11 @@ export const API_BASE = 'http://localhost:3000';
 
 export const BOMB_OVERLAY_ID = 'bombOverlay';
 
+export const BREAKPOINT_SM = 576;
+export const BREAKPOINT_MD = 768;
+export const BREAKPOINT_LG = 992;
+export const BREAKPOINT_XL = 1200;
+
 export enum Pages {
   Home = '/',
   Game = '/game',

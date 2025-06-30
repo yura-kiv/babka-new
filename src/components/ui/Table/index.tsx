@@ -102,22 +102,24 @@ const Table: React.FC<TableProps> & {
 
 const TableHeader: React.FC<TableHeaderProps> = ({ className, children }) => {
   const { variant } = useTableContext();
-  
+
   return (
-    <thead className={classNames(s.tableHeader, s[`header-${variant}`], className)}>
+    <thead
+      className={classNames(s.tableHeader, s[`header-${variant}`], className)}
+    >
       <tr>{children}</tr>
     </thead>
   );
 };
 
-const TableBody: React.FC<TableBodyProps> = ({ 
-  className, 
-  children, 
+const TableBody: React.FC<TableBodyProps> = ({
+  className,
+  children,
   loading = false,
-  emptyText = 'No data available'
+  emptyText = 'No data available',
 }) => {
   const isEmpty = React.Children.count(children) === 0;
-  
+
   return (
     <tbody className={classNames(s.tableBody, className)}>
       {loading ? (
@@ -142,20 +144,24 @@ const TableBody: React.FC<TableBodyProps> = ({
   );
 };
 
-const TableRow: React.FC<TableRowProps> = ({ 
-  className, 
-  children, 
+const TableRow: React.FC<TableRowProps> = ({
+  className,
+  children,
   active = false,
   disabled = false,
-  onClick
+  onClick,
 }) => {
   return (
-    <tr 
-      className={classNames(s.tableRow, {
-        [s.activeRow]: active,
-        [s.disabledRow]: disabled,
-        [s.clickableRow]: !!onClick,
-      }, className)}
+    <tr
+      className={classNames(
+        s.tableRow,
+        {
+          [s.activeRow]: active,
+          [s.disabledRow]: disabled,
+          [s.clickableRow]: !!onClick,
+        },
+        className
+      )}
       onClick={!disabled ? onClick : undefined}
     >
       {children}
@@ -163,14 +169,14 @@ const TableRow: React.FC<TableRowProps> = ({
   );
 };
 
-const TableCell: React.FC<TableCellProps> = ({ 
-  className, 
+const TableCell: React.FC<TableCellProps> = ({
+  className,
   children,
   align = 'left',
-  width
+  width,
 }) => {
   return (
-    <td 
+    <td
       className={classNames(s.tableCell, s[`align-${align}`], className)}
       style={width ? { width } : undefined}
     >

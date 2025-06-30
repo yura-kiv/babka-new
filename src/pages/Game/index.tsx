@@ -1,4 +1,6 @@
 import React, { useRef, useEffect, useReducer } from 'react';
+import useScroll from '@/hooks/useScroll';
+import { useWindowSize } from '@/hooks/useWindowSize';
 import Lottie from 'react-lottie-player';
 import { type AnimationItem } from 'lottie-web';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +19,12 @@ import { useAudio } from '@/hooks/useAudio';
 import { useAppSelector } from '@/store/hooks';
 import { notificationService } from '@/services/notification';
 import { initialGameState, gameReducer, GameActionType } from './utils';
-import { ANIMATIONS_TYPE, ANIMATIONS, SOUND_TYPE } from '@/constants';
+import {
+  ANIMATIONS_TYPE,
+  ANIMATIONS,
+  SOUND_TYPE,
+  BREAKPOINT_SM,
+} from '@/constants';
 import { getBombPoints } from '@/utils';
 import { gameApi, multipliersApi } from '@/api';
 import FlyingBomb, {
@@ -41,13 +48,13 @@ import {
 } from '@/types';
 
 import s from './styles.module.scss';
-import useScroll from '@/hooks/useScroll';
 
 const bombImg = 'imgs/game/bombHappy.svg';
 const chestImg = 'imgs/game/chest.svg';
 
 const Game: React.FC = () => {
   const { t } = useTranslation();
+  const windowSize = useWindowSize();
   const token = useAppSelector(getUserToken);
   const selectedBalance = useAppSelector(getUserSelectedBalance);
   const balance = useAppSelector(getUserBalance);
@@ -79,6 +86,8 @@ const Game: React.FC = () => {
     isProcessing,
     balanceType,
   } = game;
+
+  const grandmaSize = windowSize.width < BREAKPOINT_SM ? '40vw' : '200px';
 
   const blockActions = () => {
     isActionBlocked.current = true;
@@ -434,8 +443,12 @@ const Game: React.FC = () => {
 
   return (
     <WidthWrapper>
-      <WidthWrapper maxWidth={992} noPadding relative>
-        <Loader isLoading={isLoading} type='absolute'>
+      <WidthWrapper maxWidth={992} noPadding relative className={s.gameWrapper}>
+        <Loader
+          isLoading={isLoading}
+          containerClassName={s.loaderContainer}
+          type='absolute'
+        >
           <div ref={topRef} className={s.top}>
             <div className={s.left}>
               <span className={s.label}>{t('maximumPrizeProgress')}</span>
@@ -492,7 +505,7 @@ const Game: React.FC = () => {
             )}
 
             {!isLoading && status === GameStatusFront.INITIAL && (
-              <div className={s.startGame}>
+              <div className={s.startGameOverlay}>
                 <span className={s.label}>{t('startGameToPlay')}</span>
               </div>
             )}
@@ -504,7 +517,11 @@ const Game: React.FC = () => {
             loop={currentAnimation.loop}
             play={currentAnimation.play}
             segments={currentAnimation.segment || undefined}
-            style={{ height: '200px', width: '200px', margin: '0 auto' }}
+            style={{
+              height: grandmaSize,
+              width: grandmaSize,
+              margin: '0 auto',
+            }}
           />
 
           {bomb && <FlyingBomb withSound params={bomb} />}

@@ -2,7 +2,7 @@
 @import '@/styles/abstracts/mixins';
 
 .inputWrapper {
-  @include flex(column, center, center, nowrap, 5px);
+  @include flex(column, start, start, nowrap, 5px);
   position: relative;
   width: 100%;
 }

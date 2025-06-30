@@ -6,10 +6,12 @@ import './NotificationContainer.scss';
 
 interface NotificationContainerProps extends Partial<ToastContainerProps> {}
 
-export const NotificationContainer: FC<NotificationContainerProps> = (props) => {
+export const NotificationContainer: FC<NotificationContainerProps> = (
+  props
+) => {
   return (
     <ToastContainer
-      position="top-right"
+      position='top-right'
       autoClose={3000}
       hideProgressBar={false}
       newestOnTop
@@ -18,7 +20,7 @@ export const NotificationContainer: FC<NotificationContainerProps> = (props) => 
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme="dark"
+      theme='dark'
       {...props}
     />
   );

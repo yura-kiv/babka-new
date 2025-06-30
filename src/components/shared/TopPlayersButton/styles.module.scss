@@ -6,7 +6,7 @@
   width: 100%;
   padding: 0px 20px;
   height: 55px;
-  color: $black;
+  color: $white;
   position: relative;
   border-radius: 10px;
   background-image: linear-gradient(280deg, $yellow 30%, $yellow-light 130%);
@@ -34,7 +34,6 @@
   }
 
   &:hover {
-    color: $black;
     box-shadow: 0 8px 20px rgba(255, 217, 19, 0.6);
 
     &::before {

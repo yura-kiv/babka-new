@@ -1,8 +1,8 @@
 @import '@/styles/abstracts/variables';
 @import '@/styles/abstracts/mixins';
 
-.userCell {
-  @include flex(row, center, center, nowrap, 10px);
+.user {
+  @include flex(row, start, center, nowrap, 10px);
 
   &.small {
     .avatar {

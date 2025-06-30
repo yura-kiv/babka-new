@@ -12,24 +12,25 @@ import { FaSpinner } from 'react-icons/fa';
 import s from './styles.module.scss';
 
 export type ButtonVariant =
-  // Solid colored buttons
+  // Solid colored
   | 'green'
   | 'yellow'
   | 'red'
 
-  // Transparent buttons
+  // Transparent
   | 'outline'
   | 'ghost'
 
-  // Text-only buttons
+  // Text-only
   | 'text'
 
-  // Link-like styles
+  // Link-like
   | 'simple' // Basic link with hover opacity
   | 'underline' // Link with underline animation
   | 'subtle' // Subtle link with color change
   | 'tab' // Tab-like navigation link
   | 'bordered'; // Bordered link
+
 export type TextButtonColor =
   | 'white'
   | 'black'
@@ -37,7 +38,9 @@ export type TextButtonColor =
   | 'yellow'
   | 'red'
   | 'blue';
+
 export type ButtonSize = 'small' | 'medium' | 'large';
+
 export type BorderRadiusType = 'small' | 'large' | 'none';
 
 export type PaddingProps = {
@@ -77,6 +80,7 @@ type ButtonAsLinkProps = BaseButtonProps &
     to: string;
     external?: false;
   };
+
 type ButtonAsAnchorProps = BaseButtonProps &
   AnchorHTMLAttributes<HTMLAnchorElement> & {
     to: string;

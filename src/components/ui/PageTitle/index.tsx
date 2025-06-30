@@ -8,6 +8,7 @@ interface PageTitleProps {
   className?: string;
   align?: 'left' | 'center' | 'right';
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  removeOffset?: boolean;
 }
 
 const PageTitle: React.FC<PageTitleProps> = ({
@@ -16,6 +17,7 @@ const PageTitle: React.FC<PageTitleProps> = ({
   className = '',
   align = 'left',
   as = 'h1',
+  removeOffset = false,
 }) => {
   const HeadingTag = as;
 
@@ -38,7 +40,11 @@ const PageTitle: React.FC<PageTitleProps> = ({
   const titleSize = getSize();
 
   return (
-    <div className={classNames(s.pageTitle, s[align], s[titleSize], className)}>
+    <div
+      className={classNames(s.pageTitle, s[align], s[titleSize], className, {
+        [s.removeOffset]: removeOffset,
+      })}
+    >
       <HeadingTag className={s.title}>{title}</HeadingTag>
       {subtitle && <p className={s.subtitle}>{subtitle}</p>}
     </div>

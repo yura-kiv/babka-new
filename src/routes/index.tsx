@@ -4,7 +4,7 @@ import { Pages } from '@/constants';
 
 import MainLayout from '@/components/layouts/MainLayout';
 import AuthLayout from '@/components/layouts/AuthLayout';
-import AuthGuard from '@/components/layouts/AuthGuard';
+import AccessGuard from '@/components/layouts/AccessGuard';
 
 import Home from '@/pages/Home';
 import Game from '@/pages/Game';
@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
         element: <Comic />,
       },
       {
-        element: <AuthGuard withAuth />,
+        element: <AccessGuard withAuth />,
         children: [
           {
             path: Pages.Profile,
@@ -64,7 +64,7 @@ export const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        element: <AuthGuard withoutAuth />,
+        element: <AccessGuard withoutAuth />,
         children: [
           {
             path: Pages.Auth,
@@ -77,7 +77,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        element: <AuthGuard withAuth withoutConfirmed />,
+        element: <AccessGuard withAuth withoutConfirmed />,
         children: [
           {
             path: Pages.AskToConfirmEmail,

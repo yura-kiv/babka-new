@@ -17,6 +17,8 @@
   }
 
   &.small {
+    margin-bottom: 15px;
+
     .title {
       font-size: $font-size-medium;
     }
@@ -27,6 +29,8 @@
   }
 
   &.medium {
+    margin-bottom: 20px;
+
     .title {
       font-size: $font-size-large;
     }
@@ -37,6 +41,8 @@
   }
 
   &.large {
+    margin-bottom: 30px;
+
     .title {
       font-size: $font-size-xlarge;
     }
@@ -45,12 +51,19 @@
       font-size: $font-size-medium;
     }
   }
+
+  &.small,
+  &.medium,
+  &.large {
+    &.removeOffset {
+      margin: 0;
+    }
+  }
 }
 
 .title {
   color: $white;
   font-weight: $font-weight-bold;
-  line-height: 1.2;
 }
 
 .subtitle {

@@ -1,9 +1,5 @@
 const ConfirmEmail = () => {
-  return (
-    <div>
-      <h1>Confirm Email</h1>
-    </div>
-  );
+  return <div>Confirm Email</div>;
 };
 
 export default ConfirmEmail;

@@ -61,6 +61,7 @@ const ForgotPassword: React.FC = () => {
         title={t('forgotPassword.title')}
         as='h1'
         subtitle={t('forgotPassword.description')}
+        removeOffset
       />
       <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
         <Controller

@@ -59,27 +59,36 @@ const MobileHeader: React.FC = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const menuButton = <Button
-    variant="text"
-    textColor="white"
-    className={s.menuButton}
-    onClick={toggleMenu}
-    icon={<FaBars size={24} />}
-  />
+  const menuButton = (
+    <Button
+      variant='text'
+      textColor='white'
+      className={s.menuButton}
+      onClick={toggleMenu}
+      icon={<FaBars size={24} />}
+    />
+  );
 
-  const logo = <Button to={Pages.Home} variant="simple" size='large' className={s.logo}>
-    GMSPLAY.PRO
-  </Button>
+  const logo = (
+    <Button to={Pages.Home} variant='simple' size='large' className={s.logo}>
+      GMSPLAY.PRO
+    </Button>
+  );
 
   return (
     <header className={s.header}>
       <div className={s.headerContent}>
         <div className={s.leftSection}>
           {logo}
+          <Divider noMargin className={s.divider} />
           {menuButton}
         </div>
-        <div className={classNames(s.rightSection, { [s.notAuthenticated]: !isToken })}>
-          <Divider noMargin />
+        <div
+          className={classNames(s.rightSection, {
+            [s.notAuthenticated]: !isToken,
+          })}
+        >
+          <Divider noMargin className={s.divider} />
           <Balance />
           {menuButton}
         </div>
@@ -104,8 +113,8 @@ const MobileHeader: React.FC = () => {
               <div className={s.menuHeader}>
                 {logo}
                 <Button
-                  variant="text"
-                  textColor="white"
+                  variant='text'
+                  textColor='white'
                   className={s.closeButton}
                   onClick={toggleMenu}
                   icon={<FaTimes size={24} />}
@@ -117,7 +126,7 @@ const MobileHeader: React.FC = () => {
                     <Button
                       key={item.path}
                       to={item.path}
-                      variant="underline"
+                      variant='underline'
                       fullWidth
                       isActive={location.pathname === item.path}
                       padding={{ py: '0px' }}

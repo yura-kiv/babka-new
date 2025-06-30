@@ -4,16 +4,18 @@ import { Pages } from '@/constants';
 import { useAppSelector } from '@/store/hooks';
 import { getUserIsConfirmed, getUserToken } from '@/store/helpers/selectors';
 
-interface AuthGuardProps {
+interface AccessGuardProps {
   withAuth?: boolean;
   withoutAuth?: boolean;
   withConfirmed?: boolean;
   withoutConfirmed?: boolean;
 }
 
-const AuthGuard: React.FC<AuthGuardProps> = ({
+const AccessGuard: React.FC<AccessGuardProps> = ({
   withAuth = false,
   withoutAuth = false,
+  withConfirmed = false,
+  withoutConfirmed = false,
 }) => {
   const location = useLocation();
   const isToken = useAppSelector(getUserToken);
@@ -22,4 +24,4 @@ const AuthGuard: React.FC<AuthGuardProps> = ({
   return <Outlet />;
 };
 
-export default AuthGuard;
+export default AccessGuard;

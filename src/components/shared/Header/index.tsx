@@ -2,13 +2,12 @@ import React from 'react';
 import DesctopHeader from './DesctopHeader';
 import MobileHeader from './MobileHeader';
 import { useWindowSize } from '@/hooks/useWindowSize';
-
-const MOBILE_BREAKPOINT = 992;
+import { BREAKPOINT_LG } from '@/constants';
 
 const Header: React.FC = () => {
   const windowSize = useWindowSize();
-  
-  const isMobile = windowSize.width < MOBILE_BREAKPOINT;
+
+  const isMobile = windowSize.width < BREAKPOINT_LG;
 
   return isMobile ? <MobileHeader /> : <DesctopHeader />;
 };

@@ -20,16 +20,21 @@
   }
 
   .leftSection {
-    .menuButton {
+    .menuButton,
+    .divider {
       display: none;
     }
 
     @include respond-to(sm) {
-      @include flex(row, space-between, center);
+      @include flex(row, space-between, center, nowrap, 15px);
       width: 100%;
 
       .menuButton {
         display: flex;
+      }
+
+      .divider {
+        display: block;
       }
     }
   }
@@ -68,7 +73,7 @@
   right: 0;
   bottom: 0;
   background-color: $black-light;
-  z-index: 110;
+  z-index: 1100;
 }
 
 .sideMenu {
@@ -77,7 +82,7 @@
   right: 0;
   height: 100%;
   background-color: $blue;
-  z-index: 111;
+  z-index: 1110;
   box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
   @include flex(column, flex-start, stretch);
   width: 350px;

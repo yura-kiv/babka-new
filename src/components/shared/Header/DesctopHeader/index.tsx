@@ -37,7 +37,13 @@ const DesctopHeader: React.FC = () => {
     <header className={s.header}>
       <WidthWrapper className={s.wrapper}>
         <div className={s.left}>
-          <Button to={Pages.Home} variant="simple" className={s.logo} padding={{ p: 0 }} size='large'>
+          <Button
+            to={Pages.Home}
+            variant='simple'
+            className={s.logo}
+            padding={{ p: 0 }}
+            size='large'
+          >
             GMSPLAY.PRO
           </Button>
           <LanguageSwitcher />
@@ -48,7 +54,7 @@ const DesctopHeader: React.FC = () => {
               size='large'
               key={item.path}
               to={item.path}
-              variant="underline"
+              variant='underline'
               isActive={location.pathname === item.path}
               padding={{ py: '0px' }}
             >

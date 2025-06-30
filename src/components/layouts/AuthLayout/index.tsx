@@ -7,8 +7,7 @@ import { Pages } from '@/constants';
 import s from './styles.module.scss';
 import { Outlet } from 'react-router-dom';
 
-interface AuthLayoutProps {
-}
+interface AuthLayoutProps {}
 
 const AuthLayout: React.FC<AuthLayoutProps> = () => {
   const { t } = useTranslation();
@@ -18,15 +17,21 @@ const AuthLayout: React.FC<AuthLayoutProps> = () => {
     <div className={s.wrapper}>
       <header className={s.header}>
         <WidthWrapper className={s.content}>
-          <Button to={Pages.Home} variant="simple" size="large" padding={{ p: 0 }} className={s.logo}>
+          <Button
+            to={Pages.Home}
+            variant='simple'
+            size='large'
+            padding={{ p: 0 }}
+            className={s.logo}
+          >
             GMSPLAY.PRO
           </Button>
-          <LanguageSwitcher />
+          <LanguageSwitcher dropdownProps={{ placement: 'bottom-right' }} />
         </WidthWrapper>
       </header>
       <WidthWrapper maxWidth={992} className={s.content}>
         <div className={s.left}>
-          <img src="imgs/auth/grandma.svg" alt="grandma" className={s.img} />
+          <img src='imgs/auth/grandma.svg' alt='grandma' className={s.img} />
         </div>
         <div className={s.right}>
           <Outlet />

@@ -31,10 +31,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
 
   if (!token) {
     return (
-      <Button 
-        size='large' 
-        to={Pages.Auth} 
-        variant="simple" 
+      <Button
+        size='large'
+        to={Pages.Auth}
+        variant='simple'
         icon={<FaDoorOpen />}
         padding={{ py: '0px' }}
         className={s.loginButton}
@@ -46,29 +46,29 @@ const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
 
   return (
     <div className={s.userMenu}>
-      <Button 
-        to={Pages.Profile} 
-        variant="simple"
+      <Button
+        to={Pages.Profile}
+        variant='simple'
         className={s.profileButton}
         size='large'
         padding={{ p: '0px' }}
       >
         <div className={s.userInfo}>
-          <img 
-            src={displayAvatarUrl} 
-            alt={username || 'User'} 
-            className={s.avatar} 
+          <img
+            src={displayAvatarUrl}
+            alt={username || 'User'}
+            className={s.avatar}
           />
-          <span className={s.username}>{username || "Username"}</span>
+          <span className={s.username}>{username || 'Username'}</span>
         </div>
       </Button>
-      
-      <Button 
-        variant="simple" 
-        size="medium" 
+
+      <Button
+        variant='simple'
+        size='medium'
         onClick={handleLogout}
         icon={<FaSignOutAlt />}
-        iconPosition="right"
+        iconPosition='right'
         padding={{ py: '0px' }}
       >
         {t('logout')}
