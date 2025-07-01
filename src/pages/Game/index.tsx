@@ -387,6 +387,7 @@ const Game: React.FC = () => {
               playSound(SOUND_TYPE.COINS);
               stopBackgroundMusic();
               setOpenDoor(doorLevel, doorCell, CellTypeResponse.PRIZE);
+              setProgress(100);
               setStatus(GameStatusFront.WON);
               continueProcessing();
               updateBalance();
