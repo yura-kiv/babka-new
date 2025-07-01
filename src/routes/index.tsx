@@ -16,7 +16,6 @@ import {
   ForgotPassword,
   ResetPassword,
   AskToConfirmEmail,
-  ConfirmEmail,
 } from '@/pages';
 
 export const router = createBrowserRouter([
@@ -76,15 +75,11 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        element: <AccessGuard withAuth withoutConfirmed />,
+        element: <AccessGuard withAuth withoutActivated />,
         children: [
           {
             path: Pages.AskToConfirmEmail,
             element: <AskToConfirmEmail />,
-          },
-          {
-            path: Pages.ConfirmEmail,
-            element: <ConfirmEmail />,
           },
         ],
       },

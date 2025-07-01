@@ -3,6 +3,8 @@ import { store } from '@/store';
 import {
   logout,
   setSelectedBalance,
+  setDemoBalance,
+  setBalance,
   setUser,
   updateToken,
 } from '@/store/slices/userSlice';
@@ -23,6 +25,12 @@ export const updateUserToken = (token: string) =>
 // -- BALANCE --
 export const changeSelectedBalance = (balance: BalanceType) =>
   store.dispatch(setSelectedBalance(balance));
+
+export const changeDemoBalance = (balance: number) =>
+  store.dispatch(setDemoBalance(balance));
+
+export const changeBalance = (balance: number) =>
+  store.dispatch(setBalance(balance));
 
 // UI
 export const setUiLoading = (isLoading: boolean) =>

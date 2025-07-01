@@ -5,9 +5,10 @@ import { FaDoorOpen, FaSignOutAlt } from 'react-icons/fa';
 import { Button } from '@/components/ui';
 import { Pages } from '@/constants';
 import s from './styles.module.scss';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
 import { getUser } from '@/store/helpers/selectors';
 import { logoutUser } from '@/store/helpers/actions';
+import { authApi } from '@/api/auth';
 
 interface UserMenuProps {
   onLogout?: () => void;
@@ -15,7 +16,6 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const { username, avatarUrl, token } = useAppSelector(getUser);
 
   const defaultAvatarUrl = '/imgs/grandma/avatar.svg';
@@ -23,10 +23,16 @@ const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
 
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate(Pages.Auth);
-    dispatch(logoutUser());
-    onLogout?.();
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch (error: any) {
+      console.error('Logout error:', error);
+    } finally {
+      navigate(Pages.Auth);
+      logoutUser();
+      onLogout?.();
+    }
   };
 
   if (!token) {

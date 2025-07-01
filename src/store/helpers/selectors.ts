@@ -7,8 +7,7 @@ export const getUser = (state: AppRootState) => state.user;
 
 export const getUserToken = (state: AppRootState) => state.user.token;
 
-export const getUserIsConfirmed = (state: AppRootState) =>
-  state.user.isConfirmed;
+export const getUserIsActivated = (state: AppRootState) => state.user.isActived;
 
 export const getUserSelectedBalance = (state: AppRootState) =>
   state.user.selectedBalance;

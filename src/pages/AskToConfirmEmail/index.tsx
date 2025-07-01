@@ -51,10 +51,12 @@ const AskToConfirmEmail: React.FC = () => {
         disabled={cooldown > 0 || isLoading}
         icon={<FaEnvelope />}
       >
-        {cooldown > 0
-          ? t('emailConfirmation.resendWait', { seconds: cooldown })
-          : t('emailConfirmation.resend')}
+        {t('emailConfirmation.resend')}
       </Button>
+
+      {cooldown > 0
+        ? t('emailConfirmation.resendWait', { seconds: cooldown })
+        : null}
     </WidthWrapper>
   );
 };

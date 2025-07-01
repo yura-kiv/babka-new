@@ -5,6 +5,7 @@ import {
   type MultipliersResponse,
   type BombsCount,
   type GameStateResponse,
+  type StartGameResponse,
   type CellNumber,
   type RowNumber,
   type BoardResponseState,
@@ -51,11 +52,12 @@ export enum GameActionType {
   SET_ANIMATION = 'SET_ANIMATION',
   RESET_GAME = 'RESET_GAME',
   SET_MULTIPLIERS = 'SET_MULTIPLIERS',
+  SET_BALANCE_TYPE = 'SET_BALANCE_TYPE',
 }
 
 export type GameAction =
   | { type: GameActionType.SET_IS_OK; payload: boolean }
-  | { type: GameActionType.START_GAME }
+  | { type: GameActionType.START_GAME; payload: StartGameResponse }
   | { type: GameActionType.CONTINUE_GAME; payload: GameStateResponse }
   | { type: GameActionType.SET_BET; payload: number }
   | { type: GameActionType.SET_BOMBS_COUNT; payload: BombsCount }
@@ -87,6 +89,10 @@ export type GameAction =
   | {
       type: GameActionType.SET_MULTIPLIERS;
       payload: MultipliersResponse['data'];
+    }
+  | {
+      type: GameActionType.SET_BALANCE_TYPE;
+      payload: BalanceType;
     };
 
 export const initialGameState: GameState = {
@@ -176,11 +182,16 @@ export const gameReducer = (
   action: GameAction
 ): GameState => {
   switch (action.type) {
-    case GameActionType.START_GAME:
+    case GameActionType.START_GAME: {
+      const {
+        gameInfo: { isDemo },
+      } = action.payload.data;
       return {
         ...state,
         level: 0,
         status: GameStatusFront.IN_PROGRESS,
+        progress: getProgress(0),
+        balanceType: isDemo ? BalanceType.DEMO : BalanceType.REAL,
         grid: {
           ...initialGameState.grid,
           [0]: {
@@ -191,8 +202,9 @@ export const gameReducer = (
           },
         },
       };
+    }
     case GameActionType.CONTINUE_GAME: {
-      const { board, currentLevel, bet, bombsCount } = action.payload;
+      const { board, currentLevel, bet, bombsCount, isDemo } = action.payload;
       const levelNumber = Number(currentLevel) as RowNumber;
       const gridState = convertBoardResToState(board, levelNumber);
       const progress = getProgress(levelNumber);
@@ -204,7 +216,7 @@ export const gameReducer = (
         bet: Number(bet),
         bombsCount: Number(bombsCount) as BombsCount,
         status: GameStatusFront.IN_PROGRESS,
-        balanceType: BalanceType.REAL, // to do
+        balanceType: isDemo ? BalanceType.DEMO : BalanceType.REAL,
       };
     }
     case GameActionType.OPEN_DOOR: {
@@ -294,6 +306,11 @@ export const gameReducer = (
       };
     case GameActionType.RESET_GAME:
       return initialGameState;
+    case GameActionType.SET_BALANCE_TYPE:
+      return {
+        ...state,
+        balanceType: action.payload,
+      };
     default:
       return state;
   }

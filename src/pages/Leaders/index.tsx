@@ -3,37 +3,37 @@ import { useTranslation } from 'react-i18next';
 import { PageTitle, Table, UserAvatar, WidthWrapper } from '@/components/ui';
 import { userAvatars } from '@/constants';
 import s from './styles.module.scss';
+import { getMoneyView } from '@/utils';
 
 const Leaders: React.FC = () => {
   const { t } = useTranslation();
 
   const leaderData = useMemo(() => {
-    const specificNames = [
-      'NNikola',
-      'Jora77',
-      'Гоша',
-      'Oner02',
-      'УБTraf',
-      'Race',
-      '7GAME',
-      'НикНет',
-      'PiРусні',
-      '350',
+    const leaderItems = [
+      { name: 'NNikola', prize: 1119, spent: 332, bombs: 3 },
+      { name: 'Jora77', prize: 998, spent: 305, bombs: 3 },
+      { name: 'Гоша', prize: 812, spent: 225, bombs: 3 },
+      { name: 'Oner02', prize: 516, spent: 125, bombs: 2 },
+      { name: 'УБTraf', prize: 324, spent: 228, bombs: 3 },
+      { name: 'Race', prize: 256, spent: 144, bombs: 2 },
+      { name: '7GAME', prize: 232, spent: 151, bombs: 2 },
+      { name: 'НикНет', prize: 212, spent: 166, bombs: 3 },
+      { name: 'PiРусні', prize: 198, spent: 148, bombs: 2 },
+      { name: 'Ivan', prize: 184, spent: 133, bombs: 2 },
     ];
 
-    return specificNames.map((name, index) => {
-      const spent = Math.floor(Math.random() * 900) + 40;
-      const bombs = Math.floor(Math.random() * 20) + 1;
-      const prize = Math.floor(Math.random() * 3000) + 300;
-      const spentFormatted = name === '350' ? '350' : `${spent}$`;
-      const prizeFormatted = `${prize}$`;
+    const avatars = userAvatars.slice(0, leaderItems.length);
+
+    return leaderItems.map((item, index) => {
+      const spentFormatted = getMoneyView(item.spent);
+      const prizeFormatted = getMoneyView(item.prize);
 
       return {
         id: index + 1,
-        name,
-        avatar: userAvatars[Math.floor(Math.random() * userAvatars.length)],
+        name: item.name,
+        avatar: avatars[index],
         spent: spentFormatted,
-        bombs: bombs,
+        bombs: item.bombs,
         prize: prizeFormatted,
       };
     });

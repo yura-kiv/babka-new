@@ -10,7 +10,6 @@ import Comic from './Comic';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 import AskToConfirmEmail from './AskToConfirmEmail';
-import ConfirmEmail from './ConfirmEmail';
 
 export {
   Home,
@@ -25,5 +24,4 @@ export {
   ForgotPassword,
   ResetPassword,
   AskToConfirmEmail,
-  ConfirmEmail,
 };

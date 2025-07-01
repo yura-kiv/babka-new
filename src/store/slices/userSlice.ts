@@ -7,13 +7,12 @@ const initialUserState: UserState = {
   token: '',
   userId: null,
   // profile
+  isActived: false,
   username: null,
   balance: 0,
   email: null,
   avatarUrl: null,
   demoBalance: 0,
-  // demo balance
-  isConfirmed: false,
   selectedBalance: BalanceType.REAL,
 };
 
@@ -25,6 +24,12 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<Partial<UserState>>) => {
       Object.assign(state, action.payload);
     },
+    setBalance: (state, action: PayloadAction<number>) => {
+      state.balance = action.payload;
+    },
+    setDemoBalance: (state, action: PayloadAction<number>) => {
+      state.demoBalance = action.payload;
+    },
     setSelectedBalance: (state, action: PayloadAction<BalanceType>) => {
       state.selectedBalance = action.payload;
     },
@@ -34,6 +39,12 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout, setSelectedBalance, updateToken, setUser } =
-  userSlice.actions;
+export const {
+  logout,
+  setSelectedBalance,
+  updateToken,
+  setUser,
+  setDemoBalance,
+  setBalance,
+} = userSlice.actions;
 export default userSlice.reducer;

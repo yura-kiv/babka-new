@@ -13,7 +13,6 @@ import {
   FlyingBomb,
   type FlyingBombParams,
 } from '@/components/shared';
-import s from './styles.module.scss';
 
 const RulesGameAnimation: React.FC = () => {
   const windowSize = useWindowSize();
@@ -116,7 +115,7 @@ const RulesGameAnimation: React.FC = () => {
   const grandmaSize = windowSize.width < BREAKPOINT_SM ? '40vw' : '200px';
 
   return (
-    <WidthWrapper maxWidth={992} noPadding className={s.wrapper}>
+    <WidthWrapper maxWidth={992} noPadding>
       <DoorGrid>
         {[[0, 1, 2, 3]].map((row, rowIndex) => (
           <DoorGrid.Row key={`row-${rowIndex}`} state={RowState.DEMO}>

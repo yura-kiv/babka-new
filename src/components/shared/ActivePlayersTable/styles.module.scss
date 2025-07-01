@@ -4,6 +4,9 @@
 .wrapper {
 }
 
+.table {
+}
+
 .top {
   @include flex(row, center, center, nowrap, 15px);
   margin-bottom: 20px;
@@ -45,8 +48,6 @@
 }
 
 .active {
-  animation: fadeIn 0.5s ease-in-out;
-
   .spentCell {
     background-color: $green;
   }
@@ -57,8 +58,6 @@
 }
 
 .lost {
-  animation: fadeIn 0.5s ease-in-out;
-
   .spentCell {
     background-color: $red;
   }
@@ -69,9 +68,6 @@
 }
 
 .pending {
-  animation: fadeInPending 0.5s ease-in-out;
-  opacity: 0.6;
-
   .spentCell {
     background-color: $white-lighter;
   }
@@ -79,6 +75,15 @@
   .prizeCell {
     color: $white-lighter;
   }
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.fadeInPending {
+  animation: fadeInPending 0.5s ease-in-out;
+  opacity: 0.6;
 }
 
 @keyframes fadeIn {

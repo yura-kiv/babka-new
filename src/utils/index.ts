@@ -1,3 +1,5 @@
+import i18n from 'i18next';
+
 export const getBombPoints = (from: HTMLElement, to: HTMLElement) => {
   const scrollY = window.scrollY;
 
@@ -18,4 +20,20 @@ export const getBombPoints = (from: HTMLElement, to: HTMLElement) => {
     from: fromCenter,
     to: toBottom,
   };
+};
+
+export const getMoneyView = (money: number) => {
+  const lang = i18n.language;
+
+  if (lang === 'uk' || lang === 'ru') {
+    return `${money.toLocaleString(lang, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    })} $`;
+  }
+
+  return `$ ${money.toLocaleString('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  })}`;
 };

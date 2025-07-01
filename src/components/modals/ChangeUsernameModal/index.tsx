@@ -6,7 +6,6 @@ import { FaUser } from 'react-icons/fa';
 import { userApi } from '@/api';
 import { notificationService } from '@/services';
 import { setUserState } from '@/store/helpers/actions';
-import { useAppDispatch } from '@/store/hooks';
 import { userName as userNameValidation } from '@/utils/validations';
 import s from './styles.module.scss';
 
@@ -25,7 +24,6 @@ const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -44,11 +42,9 @@ const ChangeUsernameModal: React.FC<ChangeUsernameModalProps> = ({
       const res = await userApi.changeUsername(data.username);
       const { message, data: username } = res.data;
 
-      dispatch(
-        setUserState({
-          username: username || null,
-        })
-      );
+      setUserState({
+        username: username || null,
+      });
 
       reset();
       notificationService.success(

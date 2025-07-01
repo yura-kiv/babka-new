@@ -6,14 +6,15 @@ import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
 import { useAudio, useWindowSize, useScroll } from '@/hooks';
 import { notificationService } from '@/services';
 import { useAppSelector } from '@/store/hooks';
-import { getBombPoints } from '@/utils';
-import { gameApi, multipliersApi } from '@/api';
+import { getBombPoints, getMoneyView } from '@/utils';
+import { gameApi, multipliersApi, userApi } from '@/api';
 import {
   ANIMATIONS_TYPE,
   ANIMATIONS,
   SOUND_TYPE,
   BREAKPOINT_SM,
 } from '@/constants';
+import { setUserState } from '@/store/helpers/actions';
 import {
   getUserBalance,
   getUserToken,
@@ -45,6 +46,7 @@ import {
   type GameStateResponse,
   type MultipliersResponse,
   type RowNumber,
+  type StartGameResponse,
 } from '@/types';
 import { initialGameState, gameReducer, GameActionType } from './utils';
 import BombDropdown from './components/BombDropdown';
@@ -58,8 +60,8 @@ const Game: React.FC = () => {
   const { t } = useTranslation();
   const windowSize = useWindowSize();
   const token = useAppSelector(getUserToken);
-  const selectedBalance = useAppSelector(getUserSelectedBalance);
-  const balance = useAppSelector(getUserBalance);
+  const appBalanceType = useAppSelector(getUserSelectedBalance);
+  const appBalance = useAppSelector(getUserBalance);
   const [game, dispatch] = useReducer(gameReducer, initialGameState);
   const lottieRef = useRef<AnimationItem | null>(null);
   const isActionBlocked = useRef(false);
@@ -135,8 +137,8 @@ const Game: React.FC = () => {
     playSound(SOUND_TYPE.VICTORY);
   };
 
-  const setStartGame = () => {
-    dispatch({ type: GameActionType.START_GAME });
+  const setStartGame = (data: StartGameResponse) => {
+    dispatch({ type: GameActionType.START_GAME, payload: data });
   };
 
   const setBombsCount = (count: BombsCount) => {
@@ -173,6 +175,18 @@ const Game: React.FC = () => {
 
   const setStatus = (value: GameStatusFront) => {
     dispatch({ type: GameActionType.SET_STATUS, payload: value });
+  };
+
+  const updateBalance = async () => {
+    try {
+      const res = await userApi.getBalance();
+      const {
+        data: { demo = 0, realbalance = 0 },
+      } = res.data;
+      setUserState({ balance: Number(realbalance), demoBalance: Number(demo) });
+    } catch (error) {
+      console.error('Error updating balance:', error);
+    }
   };
 
   const setOpenDoor = (
@@ -219,7 +233,7 @@ const Game: React.FC = () => {
       return;
     }
 
-    if (Number(balance) < bet) {
+    if (Number(appBalance) < bet) {
       notificationService.warning(t('notifications.game.notEnoughBalance'));
       return;
     }
@@ -228,12 +242,19 @@ const Game: React.FC = () => {
       try {
         const res = await gameApi.startGame(
           { bet, bombsCount },
-          selectedBalance
+          appBalanceType
         );
         const { data, status } = res;
 
         if (status === 200) {
-          setStartGame();
+          const {
+            data: { balance = 0, userDemoBalance = 0 },
+          } = data;
+          setUserState({
+            demoBalance: Number(userDemoBalance),
+            balance: Number(balance),
+          });
+          setStartGame(data);
           playGrandma();
           scrollToElement(topRef.current);
         }
@@ -259,15 +280,21 @@ const Game: React.FC = () => {
       try {
         const res = await gameApi.stopGame(level!, balanceType);
         const { data, status } = res;
+        const { finalWin, balance = 0, userdemoBalance = 0 } = data;
 
         if (status === 200) {
           setStatus(GameStatusFront.STOPPED);
           stopBackgroundMusic();
 
-          if (data.finalWin > bet) {
+          if (finalWin > bet) {
             playPrize();
             playSound(SOUND_TYPE.COINS);
           }
+
+          setUserState({
+            demoBalance: Number(userdemoBalance),
+            balance: Number(balance),
+          });
         }
       } catch (error) {
         notificationService.error(t('notifications.game.stopGameError'));
@@ -325,6 +352,7 @@ const Game: React.FC = () => {
                 setOpenDoor(doorLevel, doorCell, cellType);
                 continueProcessing();
               }
+
               if (cellType === CellTypeResponse.PRIZE) {
                 playSound(SOUND_TYPE.VICTORY);
                 setTimeout(() => {
@@ -348,6 +376,7 @@ const Game: React.FC = () => {
               setStatus(GameStatusFront.LOST);
               playLoser();
               continueProcessing();
+              updateBalance();
             });
           }
 
@@ -360,6 +389,7 @@ const Game: React.FC = () => {
               setOpenDoor(doorLevel, doorCell, CellTypeResponse.PRIZE);
               setStatus(GameStatusFront.WON);
               continueProcessing();
+              updateBalance();
             });
           }
         }
@@ -394,6 +424,7 @@ const Game: React.FC = () => {
       const getGameState = async () => {
         try {
           const res = await gameApi.getState();
+
           if (res.status === 200) {
             setContinueGame(res.data);
             playGrandma();
@@ -409,6 +440,7 @@ const Game: React.FC = () => {
       };
 
       if (_isOk) await getMultipliers();
+
       if (_isOk && token) await getGameState();
 
       if (!_isOk) {
@@ -534,13 +566,9 @@ const Game: React.FC = () => {
               <div className={s.prizeValue}>
                 <span className={s.label}>{t('maximumPrize')}:</span>
                 <span className={s.value}>
-                  {(
+                  {getMoneyView(
                     bet * (bombsCount ? multipliers?.[bombsCount]?.[3] || 1 : 1)
-                  ).toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}{' '}
-                  $
+                  )}
                 </span>
               </div>
             </div>

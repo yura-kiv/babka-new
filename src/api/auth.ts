@@ -54,7 +54,7 @@ export const authApi = {
   resendActivationEmail: (): Promise<
     AxiosResponse<ResendActivationEmailResponse>
   > => {
-    return publicApi.post<ResendActivationEmailResponse>(
+    return privateApi.post<ResendActivationEmailResponse>(
       '/auth/resendActivationEmail'
     );
   },

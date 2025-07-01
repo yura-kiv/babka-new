@@ -1,14 +1,14 @@
 export interface UserState {
-  isConfirmed: boolean;
+  isActived: boolean;
   token: string;
   userId: string | null;
   username: string | null;
   balance: number;
+  demoBalance: number;
   email: string | null;
   avatarUrl: string | null;
   // front additional fields
   selectedBalance: BalanceType;
-  demoBalance: number;
 }
 
 export interface UIState {
@@ -88,6 +88,7 @@ export interface RefreshTokenResponse {
 }
 
 export interface LogoutResponse {
+  status: number;
   message: string;
 }
 
@@ -173,12 +174,18 @@ export type BoardResponseState = CellResponse[][];
 
 export interface StartGameResponse {
   message: string;
-  bet: number;
-  bombsCount: number;
-  currentLevel: string;
-  result: GameResultResponse;
-  finalWin: number;
-  isDemo?: boolean;
+  data: {
+    gameInfo: {
+      bet: number;
+      bombsCount: number;
+      currentLevel: string;
+      result: GameResultResponse;
+      finalWin: number;
+      isDemo: boolean;
+    };
+    balance?: string;
+    userDemoBalance?: string;
+  };
 }
 
 export interface StopGameResponse {
@@ -186,6 +193,8 @@ export interface StopGameResponse {
   gameStatus: GameResultResponse;
   finalWin: number;
   gameEnd: string; // ISO date string
+  balance?: string;
+  userdemoBalance?: string;
 }
 
 export interface GameStateResponse {
@@ -196,6 +205,7 @@ export interface GameStateResponse {
   board: BoardResponseState;
   bombsCount: number;
   bet: string;
+  isDemo: boolean;
 }
 
 export interface OpenCellLostResponse {
@@ -219,4 +229,30 @@ export interface OpenCellWonResponse {
   gameStatus: GameResultResponse.WON;
   finalWin: number;
   gameEnd: string; // ISO date string
+}
+
+export interface UserBalanceResponseData {
+  demo: number;
+  realbalance: number;
+}
+
+export interface GetBalanceResponse {
+  status: number;
+  message: string;
+  data: UserBalanceResponseData;
+}
+
+export interface UserInfoData {
+  email: string;
+  name: string;
+  image: string;
+  isActived: boolean;
+  lang: string;
+  avatarUrl: string;
+}
+
+export interface UserInfoResponse {
+  status: number;
+  message: string;
+  data: UserInfoData;
 }

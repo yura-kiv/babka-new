@@ -7,7 +7,6 @@ import { authApi } from '@/api/auth';
 import { notificationService } from '@/services';
 import { jwtDecode } from 'jwt-decode';
 import type { DecodedToken } from '@/types';
-import { useAppDispatch } from '@/store/hooks';
 import { setUserState } from '@/store/helpers/actions';
 import { BalanceType } from '@/types';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +29,6 @@ type FormData = {
 
 const RegisterForm: React.FC = () => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -67,26 +65,26 @@ const RegisterForm: React.FC = () => {
         console.error('Error decoding token:', decodeError);
       }
 
-      const { email, exp, iat, id, username } = tokenData;
+      const { email, id, username } = tokenData;
 
-      dispatch(
-        setUserState({
-          isConfirmed: false,
-          token: accessToken,
-          userId: id || null,
-          username: username || null,
-          email: email || null,
-          selectedBalance: BalanceType.REAL,
-          demoBalance: 1000,
-        })
-      );
+      setUserState({
+        isActived: false,
+        token: accessToken,
+        userId: id || null,
+        username: username || null,
+        email: email || null,
+        selectedBalance: BalanceType.REAL,
+      });
 
       notificationService.info(
         t('notifications.auth.registerSuccessDescription')
       );
       notificationService.success(t('notifications.auth.registerSuccess'));
       reset();
-      navigate(Pages.AskToConfirmEmail);
+
+      setTimeout(() => {
+        navigate(Pages.AskToConfirmEmail);
+      }, 0);
     } catch (error: any) {
       const message =
         error?.response?.data?.message || t('notifications.auth.registerError');

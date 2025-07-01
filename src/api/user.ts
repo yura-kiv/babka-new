@@ -1,6 +1,11 @@
 import { privateApi } from './axios';
 import type { AxiosResponse } from 'axios';
-import type { ChangeUsernameResponse, ChangeAvatarResponse } from '@/types';
+import type {
+  ChangeUsernameResponse,
+  ChangeAvatarResponse,
+  GetBalanceResponse,
+  UserInfoResponse,
+} from '@/types';
 
 export const userApi = {
   changeUsername: (
@@ -19,6 +24,14 @@ export const userApi = {
         'Content-Type': 'multipart/form-data',
       },
     });
+  },
+
+  getBalance: (): Promise<AxiosResponse<GetBalanceResponse>> => {
+    return privateApi.get('/user/balance');
+  },
+
+  getUserInfo: (): Promise<AxiosResponse<UserInfoResponse>> => {
+    return privateApi.get('/user/info');
   },
 };
 

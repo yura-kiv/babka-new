@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
 import { audioService } from '@/services';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
 import { getUiState } from '@/store/helpers/selectors';
 import { setUiMuted } from '@/store/helpers/actions';
 import { SOUND_TYPE } from '@/constants';
 
 const useAudio = () => {
-  const dispatch = useAppDispatch();
   const { isMuted } = useAppSelector(getUiState);
 
   const playSound = useCallback((type: SOUND_TYPE) => {
@@ -33,15 +32,12 @@ const useAudio = () => {
   }, []);
 
   const toggleMute = useCallback(() => {
-    dispatch(setUiMuted(!isMuted));
-  }, [dispatch, isMuted]);
+    setUiMuted(!isMuted);
+  }, [isMuted]);
 
-  const setMute = useCallback(
-    (muted: boolean) => {
-      dispatch(setUiMuted(muted));
-    },
-    [dispatch]
-  );
+  const setMute = useCallback((muted: boolean) => {
+    setUiMuted(muted);
+  }, []);
 
   const setVolume = useCallback((type: SOUND_TYPE, volume: number) => {
     audioService.setVolume(type, volume);

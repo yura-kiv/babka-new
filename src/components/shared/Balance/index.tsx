@@ -2,11 +2,12 @@ import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { Pages } from '@/constants';
 import { Button, Dropdown } from '@/components/ui';
-import { useAppSelector, useAppDispatch } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
 import { getUser } from '@/store/helpers/selectors';
 import { changeSelectedBalance } from '@/store/helpers/actions';
 import { BalanceType } from '@/types';
 import s from './styles.module.scss';
+import { getMoneyView } from '@/utils';
 
 interface BalanceOption {
   id: BalanceType;
@@ -17,9 +18,8 @@ interface BalanceOption {
 
 const Balance: React.FC = () => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const user = useAppSelector(getUser);
-  const { token, isConfirmed, balance, selectedBalance, demoBalance } = user;
+  const { token, isActived, balance, selectedBalance, demoBalance } = user;
 
   const balanceOptions: BalanceOption[] = [
     {
@@ -65,7 +65,7 @@ const Balance: React.FC = () => {
         className={s.balanceItem}
         onClick={() => {
           close();
-          dispatch(changeSelectedBalance(option.id));
+          changeSelectedBalance(option.id);
         }}
       >
         <div className={s.balanceItemLeft}>
@@ -77,12 +77,12 @@ const Balance: React.FC = () => {
           <span>{option.name}</span>
         </div>
         <span className={classNames(s.balanceValue, s[option.id])}>
-          {option.value}$
+          {getMoneyView(option.value)}
         </span>
       </Dropdown.WindowItem>
     ));
 
-  if (!token || !isConfirmed) {
+  if (!token || !isActived) {
     return null;
   }
 
@@ -92,7 +92,7 @@ const Balance: React.FC = () => {
         <div className={s.top}>
           <div className={s.label}>{t('balance')}:</div>
           <div className={classNames(s.value, s[currentOption.id])}>
-            {currentOption.value}$
+            {getMoneyView(currentOption.value)}
           </div>
         </div>
         <Dropdown

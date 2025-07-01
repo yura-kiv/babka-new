@@ -9,6 +9,7 @@ import i18n from '@/i18n/config';
 import { logoutUser, updateUserToken } from '@/store/helpers/actions';
 import { jwtDecode } from 'jwt-decode';
 import { type DecodedToken, type RefreshTokenResponse } from '@/types';
+import authApi from './auth';
 
 export const publicApi = axios.create({
   baseURL: API_BASE,
@@ -33,6 +34,10 @@ const refreshTokenApi = axios.create({
   },
   withCredentials: true,
 });
+
+const logout = () => {
+  store.dispatch(logoutUser());
+};
 
 const addLanguageToRequest = (config: InternalAxiosRequestConfig) => {
   const currentLanguage = i18n.language;
@@ -100,7 +105,8 @@ const refreshToken = async (): Promise<string | null> => {
     return newToken;
   } catch (error) {
     console.error('Error refreshing token:', error);
-    store.dispatch(logoutUser());
+    await authApi.logout();
+    logout();
     return null;
   }
 };

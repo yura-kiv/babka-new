@@ -5,10 +5,16 @@ import { Table, UserAvatar } from '@/components/ui';
 import { userNames, userAvatars } from '@/constants';
 import PulseCircle from '@/assets/icons/onlineCircle.svg';
 import s from './styles.module.scss';
+import { getMoneyView } from '@/utils';
 
-const FIXED_ROW_COUNT = 10;
+const FIXED_PLAYERS_COUNT = 10;
+const rows = Array.from({ length: FIXED_PLAYERS_COUNT }).map((_, idx) => idx);
 
-type PlayerStatus = 'active' | 'lost' | 'pending';
+enum PlayerStatus {
+  ACTIVE = 'active',
+  LOST = 'lost',
+  PENDING = 'pending',
+}
 
 interface PlayerData {
   id: string;
@@ -35,7 +41,7 @@ function generateUniqueId(): string {
   return `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 }
 
-function createRow(): PlayerData {
+function createPlayer(): PlayerData {
   const name = userNames[Math.floor(Math.random() * userNames.length)];
   const avatar = userAvatars[Math.floor(Math.random() * userAvatars.length)];
   const values = generateRandomValues();
@@ -43,14 +49,14 @@ function createRow(): PlayerData {
   const prize = values.isWin
     ? Math.floor(values.spent * values.bombs)
     : values.isLost
-    ? -values.spent
-    : '...';
+      ? -values.spent
+      : '...';
 
   const status: PlayerStatus = values.isWin
-    ? 'active'
+    ? PlayerStatus.ACTIVE
     : values.isLost
-    ? 'lost'
-    : 'pending';
+      ? PlayerStatus.LOST
+      : PlayerStatus.PENDING;
 
   return {
     id: generateUniqueId(),
@@ -69,39 +75,54 @@ type Props = {
 
 const ActivePlayersTable: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
-  const [rows, setRows] = useState<PlayerData[]>(() =>
-    Array.from({ length: FIXED_ROW_COUNT }, createRow)
-  );
+  const [players, setPlayers] = useState<{
+    curr: PlayerData[];
+    prev: PlayerData[];
+  }>(() => {
+    const _players = Array.from({ length: FIXED_PLAYERS_COUNT }, createPlayer);
+    return { curr: _players, prev: _players };
+  });
 
   useEffect(() => {
     let isCancelled = false;
 
     function update() {
-      setRows((prevRows) => {
-        let newRows = [...prevRows];
+      setPlayers((prevPlayers) => {
+        let newPlayers = [...prevPlayers.curr];
 
-        const randomIndex = Math.floor(Math.random() * FIXED_ROW_COUNT);
-        const updatedRow = createRow();
-        newRows[randomIndex] = updatedRow;
+        const randomIndex = Math.floor(Math.random() * FIXED_PLAYERS_COUNT);
+        const updatedPlayer = createPlayer();
+        newPlayers[randomIndex] = updatedPlayer;
 
-        const lostIndices = newRows.reduce((indices, row, index) => {
-          if (row.status === 'lost') indices.push(index);
+        const lostIndices = newPlayers.reduce((indices, player, index) => {
+          if (player.status === PlayerStatus.LOST) indices.push(index);
           return indices;
         }, [] as number[]);
 
         lostIndices.forEach((index) => {
           if (index !== randomIndex) {
-            newRows[index] = createRow();
+            newPlayers[index] = createPlayer();
           }
         });
 
-        return [...newRows]
-          .sort((a, b) => {
-            if (a.status === 'pending' && b.status !== 'pending') return 1;
-            if (a.status !== 'pending' && b.status === 'pending') return -1;
-            return b.spent - a.spent;
-          })
-          .slice(0, FIXED_ROW_COUNT);
+        return {
+          prev: [...prevPlayers.curr],
+          curr: [...newPlayers]
+            .sort((a, b) => {
+              if (
+                a.status === PlayerStatus.PENDING &&
+                b.status !== PlayerStatus.PENDING
+              )
+                return 1;
+              if (
+                a.status !== PlayerStatus.PENDING &&
+                b.status === PlayerStatus.PENDING
+              )
+                return -1;
+              return b.spent - a.spent;
+            })
+            .slice(0, FIXED_PLAYERS_COUNT),
+        };
       });
 
       if (!isCancelled) {
@@ -132,24 +153,42 @@ const ActivePlayersTable: React.FC<Props> = ({ className }) => {
           <Table.Cell align='center'>{t('prize')}</Table.Cell>
         </Table.Header>
         <Table.Body>
-          {rows.map((player) => (
-            <Table.Row key={player.id} className={s[player.status]}>
-              <Table.Cell>
-                <UserAvatar name={player.name} avatar={player.avatar} />
-              </Table.Cell>
-              <Table.Cell align='center'>
-                <div className={s.spentCell}>{player.spent}$</div>
-              </Table.Cell>
-              <Table.Cell align='center'>{player.bombs}</Table.Cell>
-              <Table.Cell align='center'>
-                <div className={s.prizeCell}>
-                  {typeof player.prize === 'number'
-                    ? `${player.prize}$`
-                    : player.prize}
-                </div>
-              </Table.Cell>
-            </Table.Row>
-          ))}
+          {rows.map((row) => {
+            const player = players.curr[row];
+            const isPending = player?.status === PlayerStatus.PENDING;
+            const isInPrev = players.prev.some(
+              (prevPlayer) => prevPlayer.id === player.id
+            );
+            const animation = !isInPrev
+              ? isPending
+                ? s.fadeInPending
+                : s.fadeIn
+              : undefined;
+
+            return (
+              <Table.Row
+                key={row}
+                className={classNames(s[player?.status], animation)}
+              >
+                <Table.Cell width='30%'>
+                  <UserAvatar name={player?.name} avatar={player?.avatar} />
+                </Table.Cell>
+                <Table.Cell align='center'>
+                  <div className={s.spentCell}>
+                    {player?.spent ? getMoneyView(player.spent) : '...'}
+                  </div>
+                </Table.Cell>
+                <Table.Cell align='center'>{player?.bombs}</Table.Cell>
+                <Table.Cell align='center'>
+                  <div className={s.prizeCell}>
+                    {typeof player?.prize === 'number'
+                      ? getMoneyView(player?.prize)
+                      : player?.prize}
+                  </div>
+                </Table.Cell>
+              </Table.Row>
+            );
+          })}
         </Table.Body>
       </Table>
     </div>

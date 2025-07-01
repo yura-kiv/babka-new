@@ -9,7 +9,6 @@ import { Input, PasswordInput, Button } from '@/components/ui';
 import { notificationService } from '@/services';
 import { authApi } from '@/api/auth';
 import { setUserState } from '@/store/helpers/actions';
-import { useAppDispatch } from '@/store/hooks';
 import { BalanceType, type DecodedToken } from '@/types';
 import { required, email as emailValidation } from '@/utils/validations';
 import s from './styles.module.scss';
@@ -22,7 +21,6 @@ type FormData = {
 const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const {
@@ -56,26 +54,24 @@ const LoginForm: React.FC = () => {
         console.error('Error decoding token:', decodeError);
       }
 
-      const { email, exp, iat, id, username } = tokenData;
+      const { email, id, username } = tokenData;
 
-      dispatch(
-        setUserState({
-          isConfirmed: true,
-          token: accessToken,
-          userId: id || null,
-          username: username || null,
-          email: email || null,
-          balance: Number(userData.balance) || 0,
-          demoBalance: Number(userData.demoBalance) || 0,
-          avatarUrl: userData.avatar || null,
-          selectedBalance: BalanceType.REAL,
-        })
-      );
+      setUserState({
+        isActived: true,
+        token: accessToken,
+        userId: id || null,
+        username: username || null,
+        email: email || null,
+        balance: Number(userData.balance) || 0,
+        demoBalance: Number(userData.demoBalance) || 0,
+        avatarUrl: userData.avatar || null,
+        selectedBalance: BalanceType.REAL,
+      });
 
       reset();
-      notificationService.success(
-        t(message || 'notifications.auth.loginSuccess')
-      );
+      // notificationService.success(
+      //   t(message || 'notifications.auth.loginSuccess')
+      // );
       navigate(Pages.Home);
     } catch (error: any) {
       const message =
